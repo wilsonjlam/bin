@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+python -mSimpleHTTPServer 8081

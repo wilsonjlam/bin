@@ -1,0 +1,1 @@
+git co master && git br --merged | grep -v "release\|master" | xargs -n 1 git br -d
