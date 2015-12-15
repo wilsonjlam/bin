@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+git co - >/dev/null
+lastBranch=$(git rev-parse --abbrev-ref HEAD)
+git co - >/dev/null
+branch=$(git rev-parse --abbrev-ref HEAD)
+git co master >/dev/null
+git diff --name-only ...$branch | open_coverage
+git co $lastBranch >/dev/null
+git co $branch >/dev/null
