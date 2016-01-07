@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+git co -
+lastBranch=$(git rev-parse --abbrev-ref HEAD)
+git co -
+branch=$(git rev-parse --abbrev-ref HEAD)
+git co master
+git diff ...$branch $@
+git co $lastBranch
+git co $branch
