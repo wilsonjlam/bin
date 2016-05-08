@@ -5,7 +5,7 @@
 ##
 
 username=tjbearse
-private=true
+private=false
 
 usage() {
 	echo "usage: `basename $0` <github/bitbucket> [repo_name]"
@@ -28,12 +28,12 @@ if [ $1 = "bitbucket" ]
 then
 	curl -X POST -v -u $username -H "Content-Type: application/json" \
 		https://api.bitbucket.org/2.0/repositories/$username/$repo_name \
-		-d '{"scm": "git", "is_private": "'$private'", "fork_policy": "no_public_forks" }'
+		-d '{"scm": "git", "is_private": "\"$private\"", "fork_policy": "no_public_forks" }'
 	echo "ssh clone url: git@bitbucket.org:$username/${repo_name}.git"
 elif [ $1 = "github" ]
 then
 	curl -v -u $username https://api.github.com/user/repos \
-		-d '{"name":"'$repo_name'", "private":"'$private'"}'
+		-d '{"name":"'$repo_name'"}'
 	echo "ssh clone url: git@github.com:$username/${repo_name}.git"
 else
 	usage
