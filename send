@@ -1,0 +1,13 @@
+#!/bin/bash
+PARAMS=""
+re=' '
+for PARAM in "$@"
+do
+	if [[ $PARAM =~ $re ]]; then
+		PARAMS="${PARAMS} \"${PARAM}\""
+	else
+		PARAMS="${PARAMS} ${PARAM}"
+	fi
+done
+# ensure session exists (sleep is hack since tmux new is async
+(tmux ls >/dev/null 2>/dev/null || (tmux new -d && sleep 1)) && tmux send "(cd $(pwd) && ${PARAMS} )" enter

@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-git co master && git br --merged | grep -v "release\|master" | xargs -n 1 git br -d
+git checkout master && git branch --merged | grep -v "release\|master" | xargs -n 1 git branch -d
