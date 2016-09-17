@@ -12,15 +12,17 @@ set shiftwidth=4
 set tabstop=4
 set noexpandtab
 
+set ignorecase
+set smartcase
 set hlsearch " makes highlight show up on search
 set list
 set listchars=tab:·\ ,trail:«"makes tabs show as "·    "
 
 syntax on
-set number
 " line numbers are relative to current line, not absolute
 " http://vim.wikia.com/wiki/Display_line_numbers
 set relativenumber
+set number
 
 set laststatus=2
 
@@ -29,7 +31,7 @@ map _ 10<C-w>+
 map = 10<C-w><
 map + 10<C-w>>
 
-set nocompatible " be iMproved, required
+set nocompatible " be iMproved, required (doesn't try backwards compatability with vi)
 filetype off " required
 
 set autoread
@@ -40,6 +42,10 @@ au BufRead *.txt setlocal spell
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
+Plugin 'VundleVim/Vundle.vim'
+
+"Indent context aware pasting
+Bundle 'sickill/vim-pasta'
 
 Plugin 'NLKNguyen/papercolor-theme'
 
@@ -48,8 +54,9 @@ Plugin 'kien/ctrlp.vim'
 if executable('ag')
   let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
 endif
-let g:ctrlp_max_depth=10
+let g:ctrlp_max_depth=50
 let g:ctrlp_max_files=300
+let g:ctrlp_working_path_mode="r"
 
 "file explorer
 Plugin 'scrooloose/nerdtree'
@@ -58,6 +65,7 @@ Plugin 'scrooloose/nerdtree'
 Plugin 'rking/ag.vim'
 " don't take over buffer with first result
 ca Ag Ag!
+let g:ag_working_path_mode="r"
 
 "Plugin 'MattesGroeger/vim-bookmarks'
 
@@ -98,7 +106,7 @@ Plugin 'terryma/vim-multiple-cursors'
 " binds to <C-n>, use v after selection
 
 " this works well but auto line wraps
-"Plugin 'jiangmiao/auto-pairs'
+Plugin 'jiangmiao/auto-pairs'
 " unmatched close jumps to next close, <c-v>} will avoid
 let g:AutoPairsFlyMode = 0 " this works when you don't want it to
 " let g:AutoPairsShortcutBackInsert = '<M-b>' "this doesn't work in macVim,
@@ -128,12 +136,13 @@ Bundle 'ervandew/supertab'
 
 " this is not playing nice with YMC
 Plugin 'SirVer/ultisnips'
-"Plugin 'honza/vim-snippets' " bring these in one at a time
-"Plugin 'matthewsimo/angular-vim-snippets'
+Plugin 'honza/vim-snippets' " bring these in one at a time
+Plugin 'matthewsimo/angular-vim-snippets'
 let g:UltiSnipsEditSplit="vertical"
 let g:UltiSnipsExpandTrigger = "<tab>"
 let g:UltiSnipsJumpForwardTrigger = "<tab>"
 let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
+let g:UltiSnipsSnippetDir = "~/.vim/bundle/ultisnips/snippetsdir"
 
 " autocomplete
 Plugin 'Valloric/YouCompleteMe'
@@ -170,7 +179,7 @@ hi SpecialKey ctermfg=darkgray guifg=gray35
 
 " Macros
 " define these commands on a repo basis
-let @b=":Build"
-let @t=":Test"
+let @b=":Build"
+let @t=":Test"
 
 let @r=":! %"

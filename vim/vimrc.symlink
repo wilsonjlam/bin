@@ -1,4 +1,10 @@
 set nocompatible
 filetype off
 
+let g:ctrlp_custom_ignore = {'dir': '\v([\/]\.(git|hg|svn)|dist|bower_components|node_modules|coverage)$','file': '\v\.(exe|so|dll)|templates.js|.js.html$'}
+
+"Set a column ruler at 100 char
+set colorcolumn=100
+set ff=unix
+
 source ~/.vimrc_ext
