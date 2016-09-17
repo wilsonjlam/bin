@@ -1,11 +1,11 @@
 [user]
-	email = bearse.thomas@gmail.com
-	name = TJ Bearse
+	email = wilson.j.lam@gmail.com
+	name = Wilson Lam 
 [push]
 	default = simple
 [core]
 	editor = vim
-	excludesfile = /Users/ThomasB/.gitignore_global
+	excludesfile = ~/.gitignore_global
 [color]
 	ui = true
 [difftool "sourcetree"]

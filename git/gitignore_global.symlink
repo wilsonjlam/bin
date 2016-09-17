@@ -1,8 +1,10 @@
 # global git ignore
 
 *.swp
+*.swo
 *.vim
 .agignore
+*.tern-project
 
 *.txt
 
