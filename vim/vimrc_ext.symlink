@@ -136,13 +136,13 @@ Bundle 'ervandew/supertab'
 
 " this is not playing nice with YMC
 Plugin 'SirVer/ultisnips'
-Plugin 'honza/vim-snippets' " bring these in one at a time
-Plugin 'matthewsimo/angular-vim-snippets'
+"Plugin 'honza/vim-snippets' " bring these in one at a time
+"Plugin 'matthewsimo/angular-vim-snippets'
 let g:UltiSnipsEditSplit="vertical"
 let g:UltiSnipsExpandTrigger = "<tab>"
 let g:UltiSnipsJumpForwardTrigger = "<tab>"
 let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
-let g:UltiSnipsSnippetDir = "~/.vim/bundle/ultisnips/snippetsdir"
+let g:UltiSnipsSnippetDir = "~/.vim/bundle/ultisnips"
 
 " autocomplete
 Plugin 'Valloric/YouCompleteMe'
