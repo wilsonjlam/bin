@@ -1,0 +1,72 @@
+#iterm only loads bash_profile when it opens
+source ~/.bash_rc
+
+export QUALTRICSHOSTNAME=ops.b1-prv.local.wilsonl
+export CLICOLOR=1
+
+#LSCOLORS (bold is just capital letters)
+#LSCOLORS: check `man ls` and grep for colors
+ls_black='a'
+ls_red='b'
+ls_green='c'
+ls_brown='d'
+ls_blue='e'
+ls_magenta='f'
+ls_cyan='g'
+ls_light_grey='h'
+ls_default_background='x'
+
+#for cyan/orange/red solarized dark
+#LSCOLORS=hxBxhxDxExhxhxhxhxcxcx
+
+#for blue/green/light_red hybrid
+LSCOLORS=HxBxhxDxFxhxhxhxhxcxcx
+export LSCOLORS
+
+black="\[\e[30m\]"
+blue="\[\e[34m\]"
+cyan="\[\e[36m\]"
+gray="\[\e[0m\]"
+green="\[\e[32m\]"
+purple="\[\e[35m\]"
+red="\[\e[31m\]"
+yellow="\[\e[33m\]"  #orange
+white="\[\e[37m\]"
+
+light_black="\[\e[90m\]"
+light_blue="\[\e[94m\]"
+light_cyan="\[\e[96m\]"
+light_gray="\[\e[0m\]"
+light_green="\[\e[92m\]"
+light_purple="\[\e[95m\]"
+light_red="\[\e[91m\]"
+light_yellow="\[\e[93m\]"
+light_white="\[\e[97m\]"
+
+export PS1="$blue\$(trim_hostname)#$green\$(parent_working_directory)$light_red\$(parse_git_branch):$light_gray\$$gray"
+
+parent_working_directory() {
+    pwd | awk '{n = split($0, a, "/"); printf "%s/%s", a[n-1], a[n]}'
+}
+
+trim_hostname() {
+    hostname | awk '{split($0, array, "."); print substr(array[1], 0, 15)}'
+}
+
+parse_git_branch() {
+    git branch 2>/dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/' \
+    | sed -e 's/^[ \t]*//'
+}
+
+up() {
+	path=$(git rev-parse --show-toplevel);
+	if [ $? == 0 ]; then
+		cd $path
+	fi
+}
+
+if [ -f $(brew --prefix)/etc/bash_completion ]; then
+    . $(brew --prefix)/etc/bash_completion
+fi
+
+test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
