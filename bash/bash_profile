@@ -1,7 +1,6 @@
 #iterm only loads bash_profile when it opens
 source ~/.bash_rc
 
-export QUALTRICSHOSTNAME=ops.b1-prv.local.wilsonl
 export CLICOLOR=1
 
 #LSCOLORS (bold is just capital letters)
