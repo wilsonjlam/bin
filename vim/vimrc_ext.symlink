@@ -69,6 +69,7 @@ let g:ctrlp_working_path_mode="rw"
 
 "file explorer
 Plugin 'scrooloose/nerdtree'
+let NERDTreeShowHidden=1
 
 "search
 Plugin 'rking/ag.vim'
