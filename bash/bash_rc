@@ -5,4 +5,4 @@ alias subl="open -a /Applications/Sublime\ Text.app"
 alias vimrc="vim ~/.vimrc_ext"
 alias ulti="cd ~/.vim/bundle/ultisnips/Ultisnips"
 alias vg="vagrant"
-
+alias wk="cd ~/workspace"
