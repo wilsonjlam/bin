@@ -20,3 +20,5 @@
 	ci = commit
 	st = status
 	cm = commit
+	stdiff = diff --staged
+	pushup = push -u origin HEAD

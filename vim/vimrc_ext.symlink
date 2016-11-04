@@ -47,7 +47,11 @@ Plugin 'VundleVim/Vundle.vim'
 "Indent context aware pasting
 Bundle 'sickill/vim-pasta'
 
+"ColorSchemes
 Plugin 'NLKNguyen/papercolor-theme'
+Plugin 'fugalh/desert.vim'
+Plugin 'w0ng/vim-hybrid'
+let g:hybrid_custom_term_colors=1
 
 "fuzzy file searcher
 Plugin 'kien/ctrlp.vim'
@@ -56,7 +60,7 @@ if executable('ag')
 endif
 let g:ctrlp_max_depth=50
 let g:ctrlp_max_files=300
-let g:ctrlp_working_path_mode="r"
+let g:ctrlp_working_path_mode="rw"
 
 "file explorer
 Plugin 'scrooloose/nerdtree'
@@ -136,19 +140,21 @@ Bundle 'ervandew/supertab'
 
 " this is not playing nice with YMC
 Plugin 'SirVer/ultisnips'
-Plugin 'honza/vim-snippets' " bring these in one at a time
-Plugin 'matthewsimo/angular-vim-snippets'
+"Plugin 'honza/vim-snippets' " bring these in one at a time
+"Plugin 'matthewsimo/angular-vim-snippets'
 let g:UltiSnipsEditSplit="vertical"
 let g:UltiSnipsExpandTrigger = "<tab>"
-let g:UltiSnipsJumpForwardTrigger = "<tab>"
+let g:UltiSnipsJumpForwardTrigger = "<leader><tab>"
 let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
-let g:UltiSnipsSnippetDir = "~/.vim/bundle/ultisnips/snippetsdir"
+let g:UltiSnipsSnippetDir = "~/.vim/bundle/ultisnips/UltiSnips"
 
 " autocomplete
 Plugin 'Valloric/YouCompleteMe'
 " make YCM compatible with UltiSnips (using supertab)
 let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
 let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
+let g:ycm_autoclose_preview_window_after_completion = 1
+let g:ycm_autoclose_preview_indow_after_insertion = 1
 let g:SuperTabDefaultCompletionType = '<C-n>'
 
 " figure out indent settings
@@ -171,7 +177,8 @@ call vundle#end()            " required vundle
 filetype plugin indent on    " required vundle
 
 set background=dark
-colorscheme PaperColor
+"colorscheme PaperColor
+colorscheme hybrid
 hi LineNr term=bold cterm=NONE ctermfg=DarkGrey ctermbg=NONE gui=NONE guifg=DarkGrey guibg=NONE " http://vim.wikia.com/wiki/Display_line_numbers
 hi Folded guibg=grey10 guifg=grey50
 hi SpecialKey ctermfg=darkgray guifg=gray35
