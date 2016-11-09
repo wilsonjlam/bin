@@ -1,6 +1,6 @@
 [user]
 	email = wilson.j.lam@gmail.com
-	name = Wilson Lam 
+	name = Wilson Lam
 [push]
 	default = simple
 [core]
@@ -10,7 +10,7 @@
 	ui = true
 [difftool "sourcetree"]
 	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	path = 
+	path =
 [mergetool "sourcetree"]
 	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
 	trustExitCode = true

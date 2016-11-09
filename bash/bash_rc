@@ -4,21 +4,5 @@ export BASH_CONF="basrc"
 alias subl="open -a /Applications/Sublime\ Text.app"
 alias vimrc="vim ~/.vimrc_ext"
 alias ulti="cd ~/.vim/bundle/ultisnips/Ultisnips"
-alias locally="cd ~/webhome/src/monolith-locally"
-alias cpui="cd ~/webhome/src/cp-ui-app"
-alias core="cd ~/webhome/src/core"
-alias proj="cd ~/webhome/src/my-projects-app"
-alias myproj="cd ~/webhome/src/my-projects-app"
-alias rsw="cd ~/webhome/src/research-suite-wrapper"
-alias distrib="cd ~/webhome/src/cp-distribution-ui"
 alias vg="vagrant"
 
-build() {
-	grunt build:dev
-}
-
-ttest() {
-	if [[ $PWD == *"/Users/WilsonL/webhome/src/cp-ui-app"* ]]; then
-		grunt karma:unit
-	fi
-}
