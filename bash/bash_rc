@@ -18,7 +18,5 @@ build() {
 }
 
 ttest() {
-	if [[ $PWD == *"/Users/WilsonL/webhome/src/cp-ui-app"* ]]; then
-		grunt karma:unit
-	fi
+	grunt karma:unit
 }
