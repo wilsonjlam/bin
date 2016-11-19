@@ -55,6 +55,12 @@ Plugin 'VundleVim/Vundle.vim'
 "Indent context aware pasting
 Bundle 'sickill/vim-pasta'
 
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
+Plugin 'powerline/powerline'
+let g:airline_theme = 'base16'
+let g:airline_powerline_fonts = 1
+
 "ColorSchemes
 Plugin 'NLKNguyen/papercolor-theme'
 Plugin 'fugalh/desert.vim'
