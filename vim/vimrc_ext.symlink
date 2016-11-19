@@ -1,10 +1,15 @@
 filetype plugin indent on
 
+let mapleader=" "
+
 inoremap jj <Esc>
+noremap <F5> <C-d>
+noremap <F6> <C-u>
+noremap <leader>d <C-d>
+noremap <leader>u <C-u>
 
 noremap j gj
 noremap k gk
-let mapleader=" "
 set backspace=indent,eol,start
 
 " indents

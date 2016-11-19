@@ -1,6 +1,7 @@
 export EDITOR=/usr/local/bin/vim
 export BASH_CONF="basrc"
 
+alias utility="cd ~/utility"
 alias subl="open -a /Applications/Sublime\ Text.app"
 alias macvim="open -a /Applications/Macvim.app"
 alias vimrc="vim ~/.vimrc_ext"
