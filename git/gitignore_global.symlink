@@ -5,6 +5,7 @@
 *.vim
 .agignore
 *.tern-project
+yarn.lock
 
 *.txt
 
