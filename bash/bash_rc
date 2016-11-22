@@ -11,7 +11,7 @@ alias core="cd ~/webhome/src/core"
 alias proj="cd ~/webhome/src/my-projects-app"
 alias myproj="cd ~/webhome/src/my-projects-app"
 alias rsw="cd ~/webhome/src/research-suite-wrapper"
-alias distrib="cd ~/webhome/src/cp-distribution-ui"
+alias lang="cd ~/webhome/src/language"
 alias vg="vagrant"
 
 build() {
@@ -20,4 +20,8 @@ build() {
 
 ttest() {
 	grunt karma:unit
+}
+
+beaut() {
+	grunt jsbeautifier
 }
