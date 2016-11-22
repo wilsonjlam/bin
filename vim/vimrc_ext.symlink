@@ -61,7 +61,7 @@ Plugin 'powerline/powerline'
 let g:airline_theme = 'base16'
 let g:airline_powerline_fonts = 1
 if has ('gui_running')
-  set guifont=Meslo\ LG\ M\ for\ Powerline:h11
+  set guifont=Meslo\ LG\ M\ Regular\ for\ Powerline:h11
 endif
 
 "ColorSchemes
