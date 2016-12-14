@@ -2,6 +2,8 @@
 source ~/.bash_rc
 
 export QUALTRICSHOSTNAME=ops.b1-prv.local.wilsonl
+export GOPATH=$HOME/qualtrics/global-wrapper-service
+export PATH=$PATH:/usr/local/opt/go/libexec/bin
 export CLICOLOR=1
 
 #LSCOLORS (bold is just capital letters)

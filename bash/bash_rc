@@ -1,27 +1,41 @@
 export EDITOR=/usr/local/bin/vim
-export BASH_CONF="basrc"
+export BASH_CONF="bashrc"
 
-alias utility="cd ~/utility"
+#General
 alias subl="open -a /Applications/Sublime\ Text.app"
-alias vimrc="vim ~/.vimrc_ext"
 alias ulti="cd ~/.vim/bundle/ultisnips/Ultisnips"
-alias locally="cd ~/webhome/src/monolith-locally"
-alias cpui="cd ~/webhome/src/cp-ui-app"
-alias core="cd ~/webhome/src/core"
-alias proj="cd ~/webhome/src/my-projects-app"
-alias myproj="cd ~/webhome/src/my-projects-app"
-alias rsw="cd ~/webhome/src/research-suite-wrapper"
-alias lang="cd ~/webhome/src/language"
+alias utility="cd ~/utility"
+alias vimrc="vim ~/.vimrc_ext"
+alias wk="cd ~/workspace"
+alias bashrc="vim ~/.bash_rc"
+alias bashprofile="vim ~/.bash_profile"
+
+#####################################################
+#Work################################################
+#####################################################
+
+#Directories
+alias Q="cd ~/qualtrics"
+alias core="cd ~/qualtrics/core"
+alias cpui="cd ~/qualtrics/cp-ui-app"
+alias gws="cd ~/qualtrics/global-wrapper-service"
+alias lang="cd ~/qualtrics/language"
+alias locally="cd ~/qualtrics/monolith-locally"
+alias myproj="cd ~/qualtrics/my-projects-app"
+alias proj="cd ~/qualtrics/my-projects-app"
+alias rsw="cd ~/qualtrics/research-suite-wrapper"
+
+#Commands
 alias vg="vagrant"
+alias beaut="grunt jsbeautifier"
+alias ttest="grunt karma:unit"
+alias repos="~/utility/update-all-repos.sh"
 
 build() {
-	grunt build:dev
-}
-
-ttest() {
-	grunt karma:unit
-}
-
-beaut() {
-	grunt jsbeautifier
+	if [[ "`pwd`" =~ "research-suite-wrapper" ]]
+	then
+		grunt build
+	else
+		grunt build:dev
+	fi
 }
