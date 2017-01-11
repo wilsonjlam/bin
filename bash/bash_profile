@@ -3,6 +3,8 @@ source ~/.bash_rc
 
 export CLICOLOR=1
 export PATH="/usr/local/sbin:$PATH"
+export GOPATH=$HOME/workspace/Go
+export PATH=$PATH:$GOPATH/bin
 
 #LSCOLORS (bold is just capital letters)
 #LSCOLORS: check `man ls` and grep for colors
