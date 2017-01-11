@@ -22,3 +22,4 @@ run pull_config.sh to setup root tracking with git info in folder
 		-selection should be c5c8c6
 		-selected text should be 1562c3
 	-airline
+		-this requires installing the powerline-fonts
