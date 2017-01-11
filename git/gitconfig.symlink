@@ -8,12 +8,6 @@
 	excludesfile = ~/.gitignore_global
 [color]
 	ui = true
-[difftool "sourcetree"]
-	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	path =
-[mergetool "sourcetree"]
-	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
-	trustExitCode = true
 [alias]
 	co = checkout
 	br = branch
@@ -22,3 +16,6 @@
 	cm = commit
 	stdiff = diff --staged
 	pushup = push -u origin HEAD
+	tree     = log --graph --decorate --color --all --date=short --abbrev-commit \
+				   --pretty=format:'%C(bold white)%h - %ad - %ar%C(bold yellow)%d %n%C(reset) %s - %an'
+	graph    = log --graph --oneline --abbrev-commit --decorate --color
