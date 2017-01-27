@@ -1,6 +1,20 @@
 #!/bin/bash
-
+#idea: when soemthing fails, have a "skip this one and output it as a failed repo"
 dryrun=$1
+declare -a failedRepos
+
+handleFailure() {
+	cmd=$1
+	err=$2
+	repo=$3
+
+	if [ $err -ne 0 ]; then
+		echo >&2 "$cmd failed with status $err"
+		failedRepos+=("$repo")
+		continue
+	fi
+}
+
 if [ $dryrun ]; then
 	echo "Test catching failure y/n?"
 	read testFailure
@@ -36,7 +50,7 @@ for directory in $WORKSPACE/*/ ; do
 	dirty=0
 	current_branch="$(git symbolic-ref --short HEAD)"
 	echo -e "\nCurrently in ${directory} on branch ${current_branch}"
-	if [  -n "$(git status --short -u no 2> /dev/null | tail -n1)" ]; then
+	if [  -n "$(git status --short -uno 2> /dev/null | tail -n1)" ]; then
 		dirty=1
 		if [ $dryrun ]; then
 			echo "Branch is dirty"
@@ -61,10 +75,11 @@ for directory in $WORKSPACE/*/ ; do
 		else
 			echo "Updating master"
 			git checkout master && git pull
-			if [ $? -ne 0 ]; then
-				echo >&2 "checking out and pulling on master failed with status $?"
-				exit 1
-			fi
+#			if [ $? -ne 0 ]; then
+#				echo >&2 "checking out and pulling on master failed with status $?"
+#				exit 1
+#			fi
+			handleFailure 'git checkout master && git pull' $? $directory
 
 			echo "Switching back to ${current_branch}"
 			git checkout "$current_branch"
@@ -103,3 +118,8 @@ for directory in $WORKSPACE/*/ ; do
 	fi
 	dirty=false
 done
+
+echo ""
+echo "The following repos failed while updating" 
+printf '%s\n' "${failedRepos[@]}"
+
