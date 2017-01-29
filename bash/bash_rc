@@ -1,10 +1,16 @@
 export EDITOR=/usr/local/bin/vim
-export BASH_CONF="basrc"
+export BASH_CONF="bashrc"
 
-alias utility="cd ~/utility"
+#General
 alias subl="open -a /Applications/Sublime\ Text.app"
-alias mvim="open -a /Applications/Macvim.app"
-alias vimrc="vim ~/.vimrc_ext"
 alias ulti="cd ~/.vim/bundle/ultisnips/Ultisnips"
-alias vg="vagrant"
+alias utility="cd ~/utility"
+alias vimrc="vim ~/.vimrc_ext"
+alias mvim="open -a /Applications/Macvim.app"
 alias wk="cd ~/workspace"
+alias bashrc="vim ~/.bash_rc"
+alias bashprofile="vim ~/.bash_profile"
+
+#Commands
+alias vg="vagrant"
+alias repos="~/utility/update-all-repos.sh"
