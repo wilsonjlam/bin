@@ -3,7 +3,7 @@ source ~/.bash_rc
 
 export QUALTRICSHOSTNAME=ops.b1-prv.local.wilsonl
 export WORKSPACE=$HOME/qualtrics
-export GOPATH=$HOME/qualtrics/global-wrapper-service
+export GOPATH=$HOME/qualtrics/GoHome
 export PATH=$PATH:/usr/local/opt/go/libexec/bin
 export CLICOLOR=1
 

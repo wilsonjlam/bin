@@ -191,6 +191,9 @@ autocmd FileType html vnoremap <buffer>  <c-f> :call RangeHtmlBeautify()<cr>
 " below is not being set/overridden
 " autocmd FileType javascript noremap <buffer>  <c-f> :call JsBeautify()<cr>
 
+" Go Development
+Plugin 'fatih/vim-go'
+
 call vundle#end()            " required vundle
 filetype plugin indent on    " required vundle
 
