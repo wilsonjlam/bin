@@ -15,26 +15,33 @@ alias bashprofile="vim ~/.bash_profile"
 #####################################################
 
 #Directories
-alias Q="cd ~/qualtrics"
-alias core="cd ~/qualtrics/core"
-alias cpui="cd ~/qualtrics/cp-ui-app"
-alias gws="cd ~/qualtrics/global-wrapper-service"
-alias lang="cd ~/qualtrics/language"
-alias locally="cd ~/qualtrics/monolith-locally"
-alias myproj="cd ~/qualtrics/my-projects-app"
-alias proj="cd ~/qualtrics/my-projects-app"
-alias rsw="cd ~/qualtrics/research-suite-wrapper"
+QUALTRICSHOME="~/qualtrics"
+GOHOME="$QUALTRICSHOME/GoHome"
+alias Q="cd $QUALTRICSHOME"
+alias core="cd $QUALTRICSHOME/core"
+alias cpui="cd $QUALTRICSHOME/cp-ui-app"
+alias gws="cd $GOHOME/src/gitlab-app.eng.qops.net/chrome-nav/global-wrapper-service"
+alias gwc="cd $QUALTRICSHOME/global-wrapper-client"
+alias lang="cd $QUALTRICSHOME/language"
+alias locally="cd $QUALTRICSHOME/monolith-locally"
+alias myproj="cd $QUALTRICSHOME/my-projects-app"
+alias proj="cd $QUALTRICSHOME/my-projects-app"
+alias rsw="cd $QUALTRICSHOME/research-suite-wrapper"
+alias qstrap="cd $QUALTRICSHOME/qstrap"
+alias 360="cd $QUALTRICSHOME/360"
 
 #Commands
 alias vg="vagrant"
 alias beaut="grunt jsbeautifier"
 alias ttest="grunt karma:unit"
 alias repos="~/utility/update-all-repos.sh"
+alias agig="ag --ignore=*.spec.js --ignore=*.json"
 
 build() {
-	if [[ "`pwd`" =~ "research-suite-wrapper" ]]
-	then
+	if [[ "`pwd`" =~ "research-suite-wrapper" ]]; then
 		grunt build
+	elif [[ "`pwd`" =~ "global-wrapper-service" ]]; then
+		go build
 	else
 		grunt build:dev
 	fi
