@@ -47,6 +47,9 @@ au BufRead *.txt setlocal spell
 set splitright
 set splitbelow
 
+"To stop tab-indenting eyaml/yaml files
+au BufRead,BufNewFile *.eyaml set filetype=yaml
+
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
