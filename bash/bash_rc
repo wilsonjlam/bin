@@ -17,25 +17,29 @@ alias bashprofile="vim ~/.bash_profile"
 #Directories
 QUALTRICSHOME="~/qualtrics"
 GOHOME="$QUALTRICSHOME/GoHome"
+alias 360="cd $QUALTRICSHOME/360"
 alias Q="cd $QUALTRICSHOME"
 alias core="cd $QUALTRICSHOME/core"
 alias cpui="cd $QUALTRICSHOME/cp-ui-app"
-alias gws="cd $GOHOME/src/gitlab-app.eng.qops.net/chrome-nav/global-wrapper-service"
 alias gwc="cd $QUALTRICSHOME/global-wrapper-client"
+alias gws="cd $GOHOME/src/gitlab-app.eng.qops.net/chrome-nav/global-wrapper-service"
+alias hiera="cd $QUALTRICSHOME/hiera"
 alias lang="cd $QUALTRICSHOME/language"
 alias locally="cd $QUALTRICSHOME/monolith-locally"
 alias myproj="cd $QUALTRICSHOME/my-projects-app"
 alias proj="cd $QUALTRICSHOME/my-projects-app"
-alias rsw="cd $QUALTRICSHOME/research-suite-wrapper"
 alias qstrap="cd $QUALTRICSHOME/qstrap"
-alias 360="cd $QUALTRICSHOME/360"
+alias rsw="cd $QUALTRICSHOME/research-suite-wrapper"
 
 #Commands
-alias vg="vagrant"
-alias beaut="grunt jsbeautifier"
-alias ttest="grunt karma:unit"
-alias repos="~/utility/update-all-repos.sh"
 alias agig="ag --ignore=*.spec.js --ignore=*.json"
+alias repos="~/utility/update-all-repos.sh"
+alias vg="vagrant"
+
+alias beaut="grunt jsbeautifier"
+alias kdebug="grunt karma:debug"
+alias mtest="grunt mochaTest:server"
+alias ttest="grunt karma:unit"
 
 build() {
 	if [[ "`pwd`" =~ "research-suite-wrapper" ]]; then
