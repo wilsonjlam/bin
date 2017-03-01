@@ -2,6 +2,7 @@
 source ~/.bash_rc
 
 export QUALTRICSHOSTNAME=ops.b1-prv.local.wilsonl
+export NODE_ENV='development'  #for certain repos this will help you build non-minified for local development
 export WORKSPACE=$HOME/qualtrics
 export GOPATH=$HOME/qualtrics/GoHome
 export PATH=$PATH:/usr/local/opt/go/libexec/bin
@@ -73,3 +74,4 @@ if [ -f $(brew --prefix)/etc/bash_completion ]; then
 fi
 
 test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
+[[ -s "$HOME/.avn/bin/avn.sh" ]] && source "$HOME/.avn/bin/avn.sh" # load avn
