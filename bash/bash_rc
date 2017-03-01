@@ -2,13 +2,13 @@ export EDITOR=/usr/local/bin/vim
 export BASH_CONF="bashrc"
 
 #General
+alias bashprofile="vim ~/.bash_profile"
+alias bashrc="vim ~/.bash_rc"
 alias subl="open -a /Applications/Sublime\ Text.app"
-alias ulti="cd ~/.vim/bundle/ultisnips/Ultisnips"
+alias ulti="vim ~/.vim/bundle/ultisnips/Ultisnips"
 alias utility="cd ~/utility"
 alias vimrc="vim ~/.vimrc_ext"
 alias wk="cd ~/workspace"
-alias bashrc="vim ~/.bash_rc"
-alias bashprofile="vim ~/.bash_profile"
 
 #####################################################
 #Work################################################
@@ -21,15 +21,23 @@ alias 360="cd $QUALTRICSHOME/360"
 alias Q="cd $QUALTRICSHOME"
 alias core="cd $QUALTRICSHOME/core"
 alias cpui="cd $QUALTRICSHOME/cp-ui-app"
+alias fallback="cd $QUALTRICSHOME/global-wrapper-fallback"
 alias gwc="cd $QUALTRICSHOME/global-wrapper-client"
+alias gwf="cd $QUALTRICSHOME/global-wrapper-fallback"
 alias gws="cd $GOHOME/src/gitlab-app.eng.qops.net/chrome-nav/global-wrapper-service"
 alias hiera="cd $QUALTRICSHOME/hiera"
 alias lang="cd $QUALTRICSHOME/language"
 alias locally="cd $QUALTRICSHOME/monolith-locally"
-alias myproj="cd $QUALTRICSHOME/my-projects-app"
+alias mpa="cd $QUALTRICSHOME/my-projects-app"
 alias proj="cd $QUALTRICSHOME/my-projects-app"
 alias qstrap="cd $QUALTRICSHOME/qstrap"
 alias rsw="cd $QUALTRICSHOME/research-suite-wrapper"
+alias testcore="cd $QUALTRICSHOME/testcore"
+
+alias devproxy="cd $QUALTRICSHOME/qualtrics-dev-proxy"
+alias tickets="cd $QUALTRICSHOME/tickets"
+alias vocalize="cd $QUALTRICSHOME/vocalize"
+alias vocproj="cd $QUALTRICSHOME/voc-project-app"
 
 #Commands
 alias agig="ag --ignore=*.spec.js --ignore=*.json"
@@ -42,10 +50,12 @@ alias mtest="grunt mochaTest:server"
 alias ttest="grunt karma:unit"
 
 build() {
-	if [[ "`pwd`" =~ "research-suite-wrapper" ]]; then
-		grunt build
-	elif [[ "`pwd`" =~ "global-wrapper-service" ]]; then
+	if [[ "`pwd`" =~ "global-wrapper-service" ]]; then
 		go build
+	elif [[ "`pwd`" =~ "fallback" ]]; then
+		webpack
+	elif [[ "`pwd`" =~ "wrapper" ]]; then
+		grunt build
 	else
 		grunt build:dev
 	fi
