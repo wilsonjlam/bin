@@ -9,7 +9,7 @@ handleFailure() {
 	repo=$3
 
 	if [ $err -ne 0 ]; then
-		echo >&2 "$cmd failed with status $err"
+		echo >&2 "\"$cmd\" failed with status \"$err\""
 		failedRepos+=("$repo")
 		continue
 	fi
@@ -55,14 +55,10 @@ for directory in $WORKSPACE/*/ ; do
 		if [ $dryrun ]; then
 			echo "Branch is dirty"
 			echo "git stash"
-			testFailure
+			testFail
 		else
 			echo "Stashing"
-			git stash
-			if [ $? -ne 0 ]; then
-				echo >&2 "stashing failed with status $?"
-				exit 1
-			fi
+			handleFailure "git stash" $? $directory
 		fi
 	fi
 
@@ -75,18 +71,11 @@ for directory in $WORKSPACE/*/ ; do
 		else
 			echo "Updating master"
 			git checkout master && git pull
-#			if [ $? -ne 0 ]; then
-#				echo >&2 "checking out and pulling on master failed with status $?"
-#				exit 1
-#			fi
-			handleFailure 'git checkout master && git pull' $? $directory
+			handleFailure "git checkout master && git pull" $? $directory
 
 			echo "Switching back to ${current_branch}"
 			git checkout "$current_branch"
-			if [ $? -ne 0 ]; then
-				echo >&2 "switching branches failed with status $?"
-				exit 1
-			fi
+			handleFailure "git checkout $current_branch" $? $directory
 		fi
 	else
 		if [ $dryrun ]; then
@@ -95,10 +84,7 @@ for directory in $WORKSPACE/*/ ; do
 		else
 			echo "Updating master"
 			git pull
-			if [ $? -ne 0 ]; then
-				echo >&2 "pulling failed with status $?"
-				exit 1
-			fi
+			handleFailure "git pull" $? $directory
 		fi
 	fi
 
@@ -110,17 +96,13 @@ for directory in $WORKSPACE/*/ ; do
 		else
 			echo "Unstashing changes"
 			git stash apply
-			if [ $? -ne 0 ]; then
-				echo >&2 "stash applying failed with status $?"
-				exit 1
-			fi
+			handleFailure "git stash apply" $? $directory
 		fi
 	fi
 	dirty=false
 done
 
 if [[ ${failedRepos[@]} -ne 0 ]]; then
-	echo ""
-	echo "The following repos failed while updating"
+	echo -e "\nThe following repos failed while updating"
 	printf '%s\n' "${failedRepos[@]}"
 fi
