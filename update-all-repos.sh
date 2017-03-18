@@ -102,5 +102,7 @@ for directory in $WORKSPACE/*/ ; do
 	dirty=false
 done
 
-echo -e "\nThe following repos failed while updating"
-printf '%s\n' "${failedRepos[@]}"
+if [[ ${failedRepos[@]} -ne 0  ]]; then
+	echo -e "\nThe following repos failed while updating"
+	printf '%s\n' "${failedRepos[@]}"
+fi
