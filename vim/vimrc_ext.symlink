@@ -71,6 +71,7 @@ endif
 Plugin 'NLKNguyen/papercolor-theme'
 Plugin 'fugalh/desert.vim'
 Plugin 'w0ng/vim-hybrid'
+Plugin 'chriskempson/vim-tomorrow-theme'
 let g:hybrid_custom_term_colors=1
 
 "fuzzy file searcher
@@ -81,10 +82,12 @@ endif
 let g:ctrlp_max_depth=50
 let g:ctrlp_max_files=300
 let g:ctrlp_working_path_mode="r"
+let g:ctrlp_dont_split = 'NERD'
 
 "file explorer
 Plugin 'scrooloose/nerdtree'
 let NERDTreeShowHidden=1
+nmap `` :NERDTreeToggle<CR>
 
 "search
 Plugin 'rking/ag.vim'
