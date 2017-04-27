@@ -5,8 +5,9 @@ export QUALTRICSHOSTNAME=ops.b1-prv.local.wilsonl
 export NODE_ENV='development'  #for certain repos this will help you build non-minified for local development
 export WORKSPACE=$HOME/qualtrics
 export GOPATH=$HOME/qualtrics/GoHome
-export PATH=$PATH:/usr/local/opt/go/libexec/bin
+export PATH=$PATH:/usr/local/opt/go/libexec/bin:$GOPATH/bin
 export CLICOLOR=1
+export SWPROXY_CERTIFICATE_PATH="/Users/WilsonL/qualtrics/qualtrics-dev-proxy/certs"
 
 #LSCOLORS (bold is just capital letters)
 #LSCOLORS: check `man ls` and grep for colors

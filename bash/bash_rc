@@ -15,10 +15,14 @@ alias wk="cd ~/workspace"
 #####################################################
 
 #Directories
-QUALTRICSHOME="~/qualtrics"
+export QUALTRICSHOME="~/qualtrics"
+
 GOHOME="$QUALTRICSHOME/GoHome"
-alias 360="cd $QUALTRICSHOME/360"
 alias Q="cd $QUALTRICSHOME"
+
+alias 360="cd $QUALTRICSHOME/360"
+alias alert="cd $QUALTRICSHOME/AlertOnMetrics"
+alias contacts="cd $QUALTRICSHOME/contacts"
 alias core="cd $QUALTRICSHOME/core"
 alias cpui="cd $QUALTRICSHOME/cp-ui-app"
 alias fallback="cd $QUALTRICSHOME/global-wrapper-fallback"
@@ -29,12 +33,13 @@ alias hiera="cd $QUALTRICSHOME/hiera"
 alias lang="cd $QUALTRICSHOME/language"
 alias locally="cd $QUALTRICSHOME/monolith-locally"
 alias mpa="cd $QUALTRICSHOME/my-projects-app"
-alias proj="cd $QUALTRICSHOME/my-projects-app"
+alias oasis="cd $QUALTRICSHOME/oasis"
+alias proxy="cd $QUALTRICSHOME/qualtrics-dev-proxy"
 alias qstrap="cd $QUALTRICSHOME/qstrap"
 alias rsw="cd $QUALTRICSHOME/research-suite-wrapper"
+alias statwing="cd $QUALTRICSHOME/swproxy"
+alias swproxy="cd $QUALTRICSHOME/swproxy"
 alias testcore="cd $QUALTRICSHOME/testcore"
-
-alias devproxy="cd $QUALTRICSHOME/qualtrics-dev-proxy"
 alias tickets="cd $QUALTRICSHOME/tickets"
 alias vocalize="cd $QUALTRICSHOME/vocalize"
 alias vocproj="cd $QUALTRICSHOME/voc-project-app"
@@ -44,10 +49,20 @@ alias agig="ag --ignore=*.spec.js --ignore=*.json"
 alias repos="~/utility/update-all-repos.sh"
 alias vg="vagrant"
 
+#Grunt Commands
 alias beaut="grunt jsbeautifier"
 alias kdebug="grunt karma:debug"
 alias mtest="grunt mochaTest:server"
 alias ttest="grunt karma:unit"
+
+#Gov1 Scripts
+alias gov1f5="echo Tunneling to f5 dashboard in gov1 and opening page in browser. You may need to refresh the page for it to show up. && open http://f5dashboard.gov1.qprod.net:9200 && ssh -L 9200:f5dashboard.gov1.qprod.net:80 -N rampart.gov1.qprod.net"
+alias gov1consul="echo Tunneling to consul dashboard in gov1 and opening page in browser. You may need to refresh the page for it to show up. && open http://consul1-app.gov1.qprod.net:8500/ui && ssh -L 8500:consul1-app.gov1.qprod.net:8500 -N rampart.gov1.qprod.net"
+alias gov1grafana="echo Tunneling to grafana dashboard in gov1 and opening page in browser. You may need to refresh the page for it to show up. && open http://metricscassandra1-app.gov1.qprod.net:9202 && ssh -L 9202:metricscassandra1-app:3000 -N rampart.gov1.qprod.net"
+alias gov1rundeck="echo Tunneling to rundeck dashboard in gov1 and opening page in browser. You may need to refresh the page for it to show up. && open http://rundeck-app.gov1.qprod.net:4440/menu/home && ssh -L 4440:rundeck-app:4440 -N rampart.gov1.qprod.net"
+alias gov1ff1="echo Tunneling to feature flipper 1 dashboard in gov1 and opening page in browser. You may need to refresh the page for it to show up. && open http://localhost:6801 && ssh -L 6801:ff-server1-app:6801 -N rampart.gov1.qprod.net"
+alias gov1ff2="echo Tunneling to feature flipper 2 dashboard in gov1 and opening page in browser. You may need to refresh the page for it to show up. && open http://localhost:6801 && ssh -L 6801:ff-server2-app:6801 -N rampart.gov1.qprod.net"
+alias gov1shardmanager="echo Tunneling to shard manager in gov1 and opening page in browser. You may need to refresh the page for it to show up. && open https://gov1-shardmanager.gov1.qprod.net:8087/Qualtrics/Server/ShardManager.php && ssh -L 8087:w1-app:443 -N rampart.gov1.qprod.net"
 
 build() {
 	if [[ "`pwd`" =~ "global-wrapper-service" ]]; then
