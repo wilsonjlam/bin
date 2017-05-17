@@ -14,3 +14,4 @@ alias bashprofile="vim ~/.bash_profile"
 #Commands
 alias vg="vagrant"
 alias repos="~/utility/update-all-repos.sh"
+alias nomouseaccel="defaults write .GlobalPreferences com.apple.mouse.scaling 0"
