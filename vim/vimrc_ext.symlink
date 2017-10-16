@@ -3,14 +3,15 @@ filetype plugin indent on
 let mapleader=" "
 
 inoremap jj <Esc>
-noremap <F5> <C-d>
-noremap <F6> <C-u>
-noremap <leader>d <C-d>
-noremap <leader>u <C-u>
+noremap <C-\> =
+"noremap mm :marks<CR>
 
 noremap j gj
 noremap k gk
 set backspace=indent,eol,start
+
+noremap * g*
+noremap # g#
 
 " indents
 set shiftwidth=4
@@ -31,6 +32,12 @@ set number
 
 set laststatus=2
 
+" Don't write buffers to disk when opening a new one
+" From documentation: 
+"   When off a buffer is unloaded when it is |abandon|ed.
+"   When on a buffer becomes hidden when it is |abandon|ed.
+" set hidden
+
 map - 10<C-w>-
 map _ 10<C-w>+
 map = 10<C-w><
@@ -50,6 +57,10 @@ set splitbelow
 "To stop tab-indenting eyaml/yaml files
 au BufRead,BufNewFile *.eyaml set filetype=yaml
 
+" :Wsudo sudo saves the file
+command Wsudo w !sudo tee % > /dev/null
+
+"#########VUNDLE#################
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
@@ -63,19 +74,20 @@ Plugin 'vim-airline/vim-airline-themes'
 Plugin 'powerline/powerline'
 let g:airline_theme = 'base16'
 let g:airline_powerline_fonts = 1
+" Airline Buffers
+let g:airline#extensions#tabline#enabled = 1 " Set Airline to show buffers at the top of the screen
+let g:airline#extensions#tabline#fnamemod = ':t' "show just the filename
+
+" TODO: Figure out the variables for these guys
+" let g:airline_section_x = [tagbar, virtualenv]
+" let g:airline_section_y = [fileformat]
 if has ('gui_running')
   set guifont=Meslo\ LG\ M\ Regular\ for\ Powerline:h11
 endif
 
-"ColorSchemes
-Plugin 'NLKNguyen/papercolor-theme'
-Plugin 'fugalh/desert.vim'
-Plugin 'w0ng/vim-hybrid'
-Plugin 'chriskempson/vim-tomorrow-theme'
-let g:hybrid_custom_term_colors=1
-
 "fuzzy file searcher
 Plugin 'kien/ctrlp.vim'
+noremap <leader>/ :Ag! 
 if executable('ag')
   let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
 endif
@@ -87,22 +99,31 @@ let g:ctrlp_dont_split = 'NERD'
 "file explorer
 Plugin 'scrooloose/nerdtree'
 let NERDTreeShowHidden=1
+let NERDTreeShowLineNumbers=1
 nmap `` :NERDTreeToggle<CR>
+
+"commenting
+Plugin 'scrooloose/nerdcommenter'
+let g:NERDSpaceDelims=1
+let g:NERDTrimTrailingWhitespace=1
 
 "search
 Plugin 'rking/ag.vim'
 " don't take over buffer with first result
 ca Ag Ag!
 let g:ag_working_path_mode="r"
+let g:ag_highlight = 1
 
 "Plugin 'MattesGroeger/vim-bookmarks'
 
 Plugin 'airblade/vim-gitgutter'
 "avoid gutter popping in and out
-let g:gitgutter_sign_column_always = 1
+set signcolumn=yes
 
 " Git commands (G<something>)
 Plugin 'tpope/vim-fugitive'
+Plugin 'shumphrey/fugitive-gitlab.vim'
+let g:fugitive_gitlab_domains = ['https://gitlab-app.eng.qops.net']
 
 " rainbow parens
 Plugin 'luochen1990/rainbow'
@@ -157,8 +178,8 @@ Plugin 'tpope/vim-surround'
 
 "project specific settings
 " these are in separate _vimrc_local.vim files
-Plugin 'LucHermitte/lh-vim-lib'
-Plugin 'LucHermitte/local_vimrc'
+" Plugin 'LucHermitte/lh-vim-lib'
+" Plugin 'LucHermitte/local_vimrc'
 
 Bundle 'ervandew/supertab'
 
@@ -184,28 +205,83 @@ let g:SuperTabDefaultCompletionType = '<C-n>'
 " figure out indent settings
 Plugin 'tpope/vim-sleuth'
 
-Plugin 'Shutnik/jshint2.vim'
-let jshint2_save = 1
-let jshint2_command = '/usr/local/bin/jshint'
+" framework for syntax highlighting
+"Plugin 'vim-syntastic/syntastic'
+"set statusline+=%#warningmsg#
+"set statusline+=%{SyntasticStatuslineFlag()}
+"set statusline+=%*
+"let g:syntastic_always_populate_loc_list = 1
+"let g:syntastic_auto_loc_list = 1
+"let g:syntastic_check_on_open = 1
+"let g:syntastic_check_on_wq = 0
+
+" Asynchronous Linting Engine
+Plugin 'w0rp/ale'
+let g:ale_linters = {
+\  'javascript': ['eslint', 'flow']
+\}
+let g:ale_lint_delay = 1000 "delay 1s after text change before lintng
+" let g:ale_lint_on_insert_leave = 1
+highlight clear ALEErrorSign " otherwise uses error bg color (typically red)
+highlight clear ALEWarningSign " otherwise uses error bg color (typically red)
+let g:ale_sign_error = 'E' " could use emoji
+let g:ale_sign_warning = 'W' " could use emoji
+let g:ale_statusline_format = ['X %d', '? %d', '']
+" %linter% is the name of the linter that provided the message
+" %s is the error or warning message
+let g:ale_echo_msg_format = '%linter% says %s'
+let g:ale_keep_list_window_open = 1
+" Map keys to navigate between lines with errors and warnings.
+nnoremap <leader>an :ALENextWrap<cr>
+nnoremap <leader>ap :ALEPreviousWrap<cr>
+let g:ale_sign_column_always=1
 
 " Js formatting
-Plugin 'maksimr/vim-jsbeautify'
-Plugin 'einars/js-beautify'
-autocmd FileType javascript vnoremap <buffer>  <c-f> :call RangeJsBeautify()<cr>
-autocmd FileType json vnoremap <buffer>  <c-f> :call RangeJsBeautify()<cr>
-autocmd FileType html vnoremap <buffer>  <c-f> :call RangeHtmlBeautify()<cr>
+" Plugin 'Shutnik/jshint2.vim'
+" let jshint2_save = 1
+" let jshint2_command = '/usr/local/bin/jshint'
+" Plugin 'maksimr/vim-jsbeautify'
+" Plugin 'einars/js-beautify'
+" autocmd FileType javascript vnoremap <buffer>  <c-f> :call RangeJsBeautify()<cr>
+" autocmd FileType json vnoremap <buffer>  <c-f> :call RangeJsBeautify()<cr>
+" autocmd FileType html vnoremap <buffer>  <c-f> :call RangeHtmlBeautify()<cr>
 " below is not being set/overridden
 " autocmd FileType javascript noremap <buffer>  <c-f> :call JsBeautify()<cr>
 
 " Go Development
 Plugin 'fatih/vim-go'
+let g:go_metalinter_autosave = 1
+let g:go_metalinter_autosave_enabled = ['vet']
+
+"ColorSchemes
+Plugin 'NLKNguyen/papercolor-theme'
+Plugin 'fugalh/desert.vim'
+Plugin 'w0ng/vim-hybrid'
+Plugin 'flazz/vim-colorschemes'
+Plugin 'zcodes/vim-colors-basic'
+Plugin 'nightsense/vim-crunchbang'
+Plugin 'davidklsn/vim-sialoquent'
+Plugin 'rhysd/vim-color-spring-night'
+Plugin 'kamwitsta/nordisk'
+Plugin 'tyrannicaltoucan/vim-quantum'
+Plugin 'hzchirs/vim-material'
+Plugin 'tyrannicaltoucan/vim-deep-space'
+Plugin 'kristijanhusak/vim-hybrid-material'
+Plugin 'danilo-augusto/vim-afterglow'
+
+" also check out colorsbox-stnight
+let g:hybrid_custom_term_colors=1
 
 call vundle#end()            " required vundle
 filetype plugin indent on    " required vundle
+"#########VUNDLE#################
 
+"ColorScheme Stuff
 set background=dark
-"colorscheme PaperColor
-colorscheme hybrid
+" set termguicolors
+" colorscheme vim-material
+colorscheme hybrid_material
+
 hi LineNr term=bold cterm=NONE ctermfg=DarkGrey ctermbg=NONE gui=NONE guifg=DarkGrey guibg=NONE " http://vim.wikia.com/wiki/Display_line_numbers
 hi Folded guibg=grey10 guifg=grey50
 hi SpecialKey ctermfg=darkgray guifg=gray35

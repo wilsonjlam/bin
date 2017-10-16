@@ -23,3 +23,4 @@ run pull_config.sh to setup root tracking with git info in folder
 		-selected text should be 1562c3
 	-airline
 	-install avn
+	-brew install tree

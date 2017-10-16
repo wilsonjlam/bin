@@ -121,6 +121,10 @@ done
 
 if [[ ${failedRepos[@]} -ne 0 ]]; then
 	echo ""
-	echo "The following repos failed while updating"
+	echo -e "\033[0;31m]The following repos failed while updating"
 	printf '%s\n' "${failedRepos[@]}"
+else
+	echo ""
+	echo -e "\033[0;32mAll repos updated successfully"
+	echo ""
 fi

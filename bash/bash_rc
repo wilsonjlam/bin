@@ -1,14 +1,32 @@
 export EDITOR=/usr/local/bin/vim
 export BASH_CONF="bashrc"
 
-#General
+#####################################################
+#General#############################################
+#####################################################
 alias bashprofile="vim ~/.bash_profile"
 alias bashrc="vim ~/.bash_rc"
+alias hosts="vim /etc/hosts"
+alias srcbash="source ~/.bash_profile"
 alias subl="open -a /Applications/Sublime\ Text.app"
 alias ulti="vim ~/.vim/bundle/ultisnips/Ultisnips"
 alias utility="cd ~/utility"
 alias vimrc="vim ~/.vimrc_ext"
 alias wk="cd ~/workspace"
+
+#Commands
+alias agig="ag --ignore=*.spec.js --ignore=*.json --ignore=*.less --ignore=*.css"
+alias freshbuild="rm -rf node_modules && rm -rf bower_components && yarn && bower update && build"
+alias proxyup="sudo port=80 https_port=443 npm start"
+alias repos="~/utility/update-all-repos.sh"
+alias vg="vagrant"
+
+#Grunt Commands
+alias beaut="grunt jsbeautifier"
+alias debug="grunt karma:debug"
+alias kdebug="grunt karma:debug"
+alias mtest="grunt mochaTest:server"
+alias ttest="grunt karma:unit"
 
 #####################################################
 #Work################################################
@@ -17,7 +35,7 @@ alias wk="cd ~/workspace"
 #Directories
 export QUALTRICSHOME="~/qualtrics"
 
-GOHOME="$QUALTRICSHOME/GoHome"
+export GOHOME="$QUALTRICSHOME/GoHome"
 alias Q="cd $QUALTRICSHOME"
 
 alias 360="cd $QUALTRICSHOME/360"
@@ -25,6 +43,7 @@ alias alert="cd $QUALTRICSHOME/AlertOnMetrics"
 alias contacts="cd $QUALTRICSHOME/contacts"
 alias core="cd $QUALTRICSHOME/core"
 alias cpui="cd $QUALTRICSHOME/cp-ui-app"
+alias devproxy="cd $QUALTRICSHOME/qualtrics-dev-proxy"
 alias fallback="cd $QUALTRICSHOME/global-wrapper-fallback"
 alias gwc="cd $QUALTRICSHOME/global-wrapper-client"
 alias gwf="cd $QUALTRICSHOME/global-wrapper-fallback"
@@ -35,8 +54,11 @@ alias locally="cd $QUALTRICSHOME/monolith-locally"
 alias mpa="cd $QUALTRICSHOME/my-projects-app"
 alias oasis="cd $QUALTRICSHOME/oasis"
 alias proxy="cd $QUALTRICSHOME/qualtrics-dev-proxy"
+alias qfolder="cd $QUALTRICSHOME/q-folder-components"
+alias qfolders="cd $QUALTRICSHOME/q-folder-components"
 alias qstrap="cd $QUALTRICSHOME/qstrap"
 alias rsw="cd $QUALTRICSHOME/research-suite-wrapper"
+alias stencil="cd $QUALTRICSHOME/stencil"
 alias statwing="cd $QUALTRICSHOME/swproxy"
 alias swproxy="cd $QUALTRICSHOME/swproxy"
 alias testcore="cd $QUALTRICSHOME/testcore"
@@ -44,34 +66,44 @@ alias tickets="cd $QUALTRICSHOME/tickets"
 alias vocalize="cd $QUALTRICSHOME/vocalize"
 alias vocproj="cd $QUALTRICSHOME/voc-project-app"
 
-#Commands
-alias agig="ag --ignore=*.spec.js --ignore=*.json"
-alias repos="~/utility/update-all-repos.sh"
-alias vg="vagrant"
-
-#Grunt Commands
-alias beaut="grunt jsbeautifier"
-alias kdebug="grunt karma:debug"
-alias mtest="grunt mochaTest:server"
-alias ttest="grunt karma:unit"
-
 #Gov1 Scripts
-alias gov1f5="echo Tunneling to f5 dashboard in gov1 and opening page in browser. You may need to refresh the page for it to show up. && open http://f5dashboard.gov1.qprod.net:9200 && ssh -L 9200:f5dashboard.gov1.qprod.net:80 -N rampart.gov1.qprod.net"
 alias gov1consul="echo Tunneling to consul dashboard in gov1 and opening page in browser. You may need to refresh the page for it to show up. && open http://consul1-app.gov1.qprod.net:8500/ui && ssh -L 8500:consul1-app.gov1.qprod.net:8500 -N rampart.gov1.qprod.net"
+alias gov1f5="echo Tunneling to f5 dashboard in gov1 and opening page in browser. You may need to refresh the page for it to show up. && open http://f5dashboard.gov1.qprod.net:9200 && ssh -L 9200:f5dashboard.gov1.qprod.net:80 -N rampart.gov1.qprod.net"
+alias gov1ff="echo Tunneling to feature flipper ui in gov1 and opening page in browser. You may need to refresh the page for it to show up. && open http://features.service.gov1.consul:8080 && ssh -L 8080:features.service.gov1.consul:80 -N rampart.gov1.qprod.net"
 alias gov1grafana="echo Tunneling to grafana dashboard in gov1 and opening page in browser. You may need to refresh the page for it to show up. && open http://metricscassandra1-app.gov1.qprod.net:9202 && ssh -L 9202:metricscassandra1-app:3000 -N rampart.gov1.qprod.net"
+alias gov1nexpose="echo Tunneling to nexpose in gov1 and opening page in browser. You may need to refresh the page for it to show up. && open https://nexpose-console-app.gov1.qprod.net:49160 && ssh -L 49160:nexpose-console-app:49160 rampart.gov1.qprod.net -N"
 alias gov1rundeck="echo Tunneling to rundeck dashboard in gov1 and opening page in browser. You may need to refresh the page for it to show up. && open http://rundeck-app.gov1.qprod.net:4440/menu/home && ssh -L 4440:rundeck-app:4440 -N rampart.gov1.qprod.net"
-alias gov1ff1="echo Tunneling to feature flipper 1 dashboard in gov1 and opening page in browser. You may need to refresh the page for it to show up. && open http://localhost:6801 && ssh -L 6801:ff-server1-app:6801 -N rampart.gov1.qprod.net"
-alias gov1ff2="echo Tunneling to feature flipper 2 dashboard in gov1 and opening page in browser. You may need to refresh the page for it to show up. && open http://localhost:6801 && ssh -L 6801:ff-server2-app:6801 -N rampart.gov1.qprod.net"
 alias gov1shardmanager="echo Tunneling to shard manager in gov1 and opening page in browser. You may need to refresh the page for it to show up. && open https://gov1-shardmanager.gov1.qprod.net:8087/Qualtrics/Server/ShardManager.php && ssh -L 8087:w1-app:443 -N rampart.gov1.qprod.net"
+alias gov1uchiwa="echo Tunneling to uchiwa in gov1 and opening page in browser. You may need to refresh the page for it to show up. && open https://uchiwa-app.gov1.qprod.net:8443 && ssh -L 8443:uchiwa-app:443 -N rampart.gov1.qprod.net"
+
+#Scripts
+start() {
+	if [[ "`pwd`" =~ "global-wrapper-service" ]]; then
+		./global-wrapper-service
+		#parse out the dir name instead
+	else
+		npm start
+	fi
+}
 
 build() {
-	if [[ "`pwd`" =~ "global-wrapper-service" ]]; then
+	if [[ "`pwd`" =~ "GoHome" ]]; then
 		go build
+		if [ $1 ]; then
+			start
+		fi
 	elif [[ "`pwd`" =~ "fallback" ]]; then
 		webpack
 	elif [[ "`pwd`" =~ "wrapper" ]]; then
 		grunt build
 	else
 		grunt build:dev
+		if [ $1 ]; then
+			start
+		fi
 	fi
+}
+
+monolithctl() {
+	(core && vagrant ssh -c "/vagrant/dev/monolithctl $1")
 }

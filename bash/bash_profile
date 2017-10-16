@@ -55,7 +55,7 @@ parent_working_directory() {
 }
 
 trim_hostname() {
-    hostname | awk '{split($0, array, "."); print substr(array[1], 0, 15)}'
+    hostname | awk '{split($0, array, "."); print substr(array[1], 0, 10)}'
 }
 
 parse_git_branch() {
