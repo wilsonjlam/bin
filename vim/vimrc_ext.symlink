@@ -32,11 +32,7 @@ set number
 
 set laststatus=2
 
-" Don't write buffers to disk when opening a new one
-" From documentation: 
-"   When off a buffer is unloaded when it is |abandon|ed.
-"   When on a buffer becomes hidden when it is |abandon|ed.
-" set hidden
+set scrolloff=5
 
 map - 10<C-w>-
 map _ 10<C-w>+
@@ -69,9 +65,28 @@ Plugin 'VundleVim/Vundle.vim'
 "Indent context aware pasting
 Bundle 'sickill/vim-pasta'
 
+" Don't write buffers to disk when opening a new one
+" From documentation: 
+"   When off a buffer is unloaded when it is |abandon|ed.
+"   When on a buffer becomes hidden when it is |abandon|ed.
+set hidden
+Plugin 'vim-scripts/BufOnly.vim'
+Plugin 'qpkorr/vim-bufkill'
+function DeleteHiddenBuffers()
+    let tpbl=tabpagebuflist()
+    for buf in filter(range(1, bufnr('$')), 'bufexists(v:val) && index(tpbl, v:val)==-1 && index(["help", ""], getbufvar(v:val, "&buftype")) != -1')
+        silent execute 'bwipeout' buf
+    endfor
+endfunction
+
+nnoremap <leader>bd :BD<CR>
+nnoremap <leader>bo :only<CR> :BufOnly<CR>
+nnoremap <leader>bD :only<CR> :BufOnly<CR> :BD<CR>
+nnoremap <leader>bu :call DeleteHiddenBuffers()<CR>
+
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
-Plugin 'powerline/powerline'
+" Plugin 'powerline/powerline'
 let g:airline_theme = 'base16'
 let g:airline_powerline_fonts = 1
 " Airline Buffers
@@ -148,7 +163,7 @@ map F <Plug>(easymotion-Fl)
 map t <Plug>(easymotion-tl)
 map T <Plug>(easymotion-Tl)
 map W <leader>w
-map B <leader>b
+" map B <leader>b
 map E <leader>e
 
 Plugin 'terryma/vim-multiple-cursors'
@@ -278,9 +293,9 @@ filetype plugin indent on    " required vundle
 
 "ColorScheme Stuff
 set background=dark
-" set termguicolors
+set termguicolors
 " colorscheme vim-material
-colorscheme hybrid_material
+colorscheme hybrid
 
 hi LineNr term=bold cterm=NONE ctermfg=DarkGrey ctermbg=NONE gui=NONE guifg=DarkGrey guibg=NONE " http://vim.wikia.com/wiki/Display_line_numbers
 hi Folded guibg=grey10 guifg=grey50
