@@ -3,6 +3,7 @@ source ~/.bash_rc
 
 export CLICOLOR=1
 export PATH="/usr/local/sbin:$PATH"
+export WORKSPACE="~/workspace"
 export GOPATH=$HOME/workspace/Go
 export PATH=$PATH:$GOPATH/bin
 
