@@ -1,6 +1,6 @@
 [user]
-	email = wilson.j.lam@gmail.com
-	name = Wilson Lam 
+	email = wilsonl@qualtrics.com
+	name = Wilson Lam
 [push]
 	default = simple
 [core]
@@ -23,3 +23,7 @@
 	stdiff = diff --staged
 	diffst = diff --staged
 	pushup = push -u origin HEAD
+	find = log --color -S
+#necessary for fetching via go get from our internal gitlab
+[url "ssh://git@gitlab-app.eng.qops.net:10022/"]
+	insteadOf = https://gitlab-app.eng.qops.net/

@@ -103,6 +103,11 @@ for directory in $WORKSPACE/*/ ; do
 done
 
 if [[ ${failedRepos[@]} -ne 0 ]]; then
-	echo -e "\nThe following repos failed while updating"
+	echo ""
+	echo -e "\033[0;31m]The following repos failed while updating"
 	printf '%s\n' "${failedRepos[@]}"
+else
+	echo ""
+	echo -e "\033[0;32mAll repos updated successfully"
+	echo ""
 fi
