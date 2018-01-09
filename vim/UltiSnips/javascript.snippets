@@ -78,8 +78,20 @@ snippet expect "expect statement" b
 expect(${1:ACTUAL})${2:ASSERTION};
 endsnippet
 
+snippet before "before statement" b
+before(function() {
+	${1:BODY}
+});
+endsnippet
+
 snippet beforeEach "beforeEach statement" b
 beforeEach(function() {
+	${1:BODY}
+});
+endsnippet
+
+snippet after "after statement" b
+after(function() {
 	${1:BODY}
 });
 endsnippet

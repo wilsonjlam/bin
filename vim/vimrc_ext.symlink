@@ -1,6 +1,8 @@
 filetype plugin indent on
 
-let mapleader=" "
+let mapleader=' '
+
+command! Src source ~/.vimrc
 
 inoremap jj <Esc>
 noremap <C-\> =
@@ -54,7 +56,10 @@ set splitbelow
 au BufRead,BufNewFile *.eyaml set filetype=yaml
 
 " :Wsudo sudo saves the file
-command Wsudo w !sudo tee % > /dev/null
+command! Wsudo w !sudo tee % > /dev/null
+
+" Doesn't work yet
+" command! Term w terminal<CR> source ~/.bash_profile<CR>
 
 "#########VUNDLE#################
 " set the runtime path to include Vundle and initialize
@@ -65,6 +70,8 @@ Plugin 'VundleVim/Vundle.vim'
 "Indent context aware pasting
 Bundle 'sickill/vim-pasta'
 
+" Buffers Stuffs
+"
 " Don't write buffers to disk when opening a new one
 " From documentation: 
 "   When off a buffer is unloaded when it is |abandon|ed.
@@ -72,26 +79,56 @@ Bundle 'sickill/vim-pasta'
 set hidden
 Plugin 'vim-scripts/BufOnly.vim'
 Plugin 'qpkorr/vim-bufkill'
-function DeleteHiddenBuffers()
+function! DeleteHiddenBuffers()
     let tpbl=tabpagebuflist()
     for buf in filter(range(1, bufnr('$')), 'bufexists(v:val) && index(tpbl, v:val)==-1 && index(["help", ""], getbufvar(v:val, "&buftype")) != -1')
         silent execute 'bwipeout' buf
     endfor
 endfunction
 
-nnoremap <leader>bd :BD<CR>
-nnoremap <leader>bo :only<CR> :BufOnly<CR>
-nnoremap <leader>bD :only<CR> :BufOnly<CR> :BD<CR>
-nnoremap <leader>bu :call DeleteHiddenBuffers()<CR>
+" Buffer Movement
+nnoremap <leader>bn :bn<CR> " Next buffer
+nnoremap <leader>bp :bp<CR> " Previous buffer
+nnoremap <leader>b :b 
+nnoremap <leader>bv :vert sb 
+nnoremap <leader>bx :sb 
+
+" Buffer CLeanup
+nnoremap <leader>bd :BD<CR> " Delete the current buffer without closing out the pane
+nnoremap <leader>bo :only<CR> :BufOnly<CR> " Make your current buffer the only buffer
+nnoremap <leader>bD :windo bd<CR> " For deleting all buffers in a tab
+nnoremap <leader>bu :call DeleteHiddenBuffers()<CR> " Deletes all hidden buffers
 
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 " Plugin 'powerline/powerline'
-let g:airline_theme = 'base16'
+let g:airline_theme = 'bubblegum'
 let g:airline_powerline_fonts = 1
+let g:airline_detect_modified = 1
 " Airline Buffers
 let g:airline#extensions#tabline#enabled = 1 " Set Airline to show buffers at the top of the screen
 let g:airline#extensions#tabline#fnamemod = ':t' "show just the filename
+let g:airline#extensions#tabline#buffer_nr_show = 1
+let g:airline#extensions#tabline#buffer_nr_format = '[%s] '
+" Airline Sections
+function! AirlineInit()
+  call airline#parts#define_minwidth('filetype', 50)
+  call airline#parts#define_minwidth('linenr', 50)
+  call airline#parts#define_minwidth('maxlinenr', 50)
+endfunction
+autocmd User AirlineAfterInit call AirlineInit()
+" let g:airline_section_a       (mode, crypt, paste, spell, iminsert)
+" let g:airline_section_b       (hunks, branch)
+" let g:airline_section_c       (bufferline or filename)
+" let g:airline_section_gutter  (readonly, csv)
+" let g:airline_section_x       (tagbar, filetype, virtualenv)
+let g:airline_section_y = [] " (fileencoding, fileformat)
+" let g:airline_section_z       (percentage, line number, column number)
+let g:airline_section_error = [] " (ycm_error_count, syntastic-err, eclim)
+let g:airline_section_warning = [] " (ycm_warning_count, syntastic-warn, whitespace)
+
+" Airline Branch
+let g:airline#extensions#branch#displayed_head_limit = 15
 
 " TODO: Figure out the variables for these guys
 " let g:airline_section_x = [tagbar, virtualenv]
@@ -102,14 +139,15 @@ endif
 
 "fuzzy file searcher
 Plugin 'kien/ctrlp.vim'
-noremap <leader>/ :Ag! 
-if executable('ag')
-  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+if executable('rg')
+  " let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+  let g:ctrlp_user_command = 'rg --files %s'
 endif
 let g:ctrlp_max_depth=50
 let g:ctrlp_max_files=300
 let g:ctrlp_working_path_mode="r"
-let g:ctrlp_dont_split = 'NERD'
+let g:ctrlp_extensions = ['dir']
+" let g:ctrlp_dont_split = 'NERD' "don't split from the nerdtree window -- use it
 
 "file explorer
 Plugin 'scrooloose/nerdtree'
@@ -128,6 +166,27 @@ Plugin 'rking/ag.vim'
 ca Ag Ag!
 let g:ag_working_path_mode="r"
 let g:ag_highlight = 1
+Plugin 'jremmen/vim-ripgrep'
+Plugin 'mileszs/ack.vim'
+cnoreabbrev Ack Ack!
+let g:ackhighlight = 1
+" let g:ack_autofold_results = 1
+let g:ack_mappings = {
+\ "t": "<C-W><CR><C-W>T",
+\ "T": "<C-W><CR><C-W>TgT<C-W>j",
+\ "o": "<CR>",
+\ "O": "<CR><C-W><C-W>:ccl<CR>",
+\ "go": "<CR><C-W>j",
+\ "x": "<C-W><CR><C-W>K",
+\ "X": "<C-W><CR><C-W>K<C-W>b",
+\ "v": "<C-W><CR><C-W>H<C-W>b<C-W>J<C-W>t",
+\ "V": "<C-W><CR><C-W>H<C-W>b<C-W>J" }
+if executable('rg')
+  let g:ackprg = 'rg --vimgrep -S'
+elseif executable('ag')
+  let g:ackprg = 'ag --vimgrep'
+endif
+noremap <leader>/ :Ack! 
 
 "Plugin 'MattesGroeger/vim-bookmarks'
 
@@ -162,9 +221,9 @@ map f <Plug>(easymotion-fl)
 map F <Plug>(easymotion-Fl)
 map t <Plug>(easymotion-tl)
 map T <Plug>(easymotion-Tl)
-map W <leader>w
-" map B <leader>b
-map E <leader>e
+map W <leader>W
+map B <leader>B
+map E <leader>E
 
 Plugin 'terryma/vim-multiple-cursors'
 " binds to <C-n>, use v after selection
@@ -233,12 +292,11 @@ Plugin 'tpope/vim-sleuth'
 " Asynchronous Linting Engine
 Plugin 'w0rp/ale'
 let g:ale_linters = {
-\  'javascript': ['eslint', 'flow']
+\  'javascript': ['eslint', 'flow'],
+\  'typescript': ['prettier', 'tslint', 'tsserver', 'typecheck']
 \}
 let g:ale_lint_delay = 1000 "delay 1s after text change before lintng
-" let g:ale_lint_on_insert_leave = 1
-highlight clear ALEErrorSign " otherwise uses error bg color (typically red)
-highlight clear ALEWarningSign " otherwise uses error bg color (typically red)
+let g:ale_lint_on_insert_leave = 1
 let g:ale_sign_error = 'E' " could use emoji
 let g:ale_sign_warning = 'W' " could use emoji
 let g:ale_statusline_format = ['X %d', '? %d', '']
@@ -250,6 +308,8 @@ let g:ale_keep_list_window_open = 1
 nnoremap <leader>an :ALENextWrap<cr>
 nnoremap <leader>ap :ALEPreviousWrap<cr>
 let g:ale_sign_column_always=1
+let g:ale_set_balloons = 1
+let g:ale_open_list = 1
 
 " Js formatting
 " Plugin 'Shutnik/jshint2.vim'
@@ -268,13 +328,16 @@ Plugin 'fatih/vim-go'
 let g:go_metalinter_autosave = 1
 let g:go_metalinter_autosave_enabled = ['vet']
 
+" Typescript Development
+Plugin 'leafgarland/typescript-vim'
+
 "ColorSchemes
 Plugin 'NLKNguyen/papercolor-theme'
 Plugin 'fugalh/desert.vim'
 Plugin 'w0ng/vim-hybrid'
 Plugin 'flazz/vim-colorschemes'
 Plugin 'zcodes/vim-colors-basic'
-Plugin 'nightsense/vim-crunchbang'
+Plugin 'nightsense/vimspectr'
 Plugin 'davidklsn/vim-sialoquent'
 Plugin 'rhysd/vim-color-spring-night'
 Plugin 'kamwitsta/nordisk'
@@ -282,7 +345,6 @@ Plugin 'tyrannicaltoucan/vim-quantum'
 Plugin 'hzchirs/vim-material'
 Plugin 'tyrannicaltoucan/vim-deep-space'
 Plugin 'kristijanhusak/vim-hybrid-material'
-Plugin 'danilo-augusto/vim-afterglow'
 
 " also check out colorsbox-stnight
 let g:hybrid_custom_term_colors=1
@@ -294,8 +356,7 @@ filetype plugin indent on    " required vundle
 "ColorScheme Stuff
 set background=dark
 set termguicolors
-" colorscheme vim-material
-colorscheme hybrid
+colorscheme vim-material
 
 hi LineNr term=bold cterm=NONE ctermfg=DarkGrey ctermbg=NONE gui=NONE guifg=DarkGrey guibg=NONE " http://vim.wikia.com/wiki/Display_line_numbers
 hi Folded guibg=grey10 guifg=grey50

@@ -5,7 +5,7 @@ export BASH_CONF="bashrc"
 #General#############################################
 #####################################################
 alias bashprofile="vim ~/.bash_profile"
-alias bashrc="vim ~/.bash_rc"
+alias bashrc="vim ~/.bashrc"
 alias hosts="vim /etc/hosts"
 alias srcbash="source ~/.bash_profile"
 alias subl="open -a /Applications/Sublime\ Text.app"
@@ -13,13 +13,15 @@ alias ulti="vim ~/.vim/bundle/ultisnips/Ultisnips"
 alias utility="cd ~/utility"
 alias vimrc="vim ~/.vimrc_ext"
 alias wk="cd ~/workspace"
+alias interviews="cd ~/workspace/interviews"
 alias tree="tree -C -a"
 
 #Commands
 alias agig="ag --ignore=*.spec.js --ignore=*.json --ignore=*.less --ignore=*.css"
-alias freshbuild="rm -rf node_modules && rm -rf bower_components && yarn && bower update && build"
+alias freshbuild="rm -rf node_modules && rm -rf bower_components && yarn && bower install && build"
 alias proxyup="sudo port=80 https_port=443 npm start"
-alias repos="~/utility/update-all-repos.sh"
+alias repos="~/utility/scripts/update-all-repos.sh"
+alias rg="rg -S"
 alias vg="vagrant"
 
 #Grunt Commands
@@ -28,6 +30,7 @@ alias debug="grunt karma:debug"
 alias kdebug="grunt karma:debug"
 alias mtest="grunt mocha_istanbul:server"
 alias ttest="grunt karma:unit"
+alias etest="grunt test:e2e_chrome"
 
 #####################################################
 #Work################################################
@@ -41,6 +44,7 @@ alias Q="cd $QUALTRICSHOME"
 
 alias 360="cd $QUALTRICSHOME/360"
 alias alert="cd $QUALTRICSHOME/AlertOnMetrics"
+alias aqqountant="cd $QUALTRICSHOME/aqqountant"
 alias contacts="cd $QUALTRICSHOME/contacts"
 alias core="cd $QUALTRICSHOME/core"
 alias cpui="cd $QUALTRICSHOME/cp-ui-app"
@@ -52,10 +56,13 @@ alias gws="cd $GOHOME/src/gitlab-app.eng.qops.net/chrome-nav/global-wrapper-serv
 alias hiera="cd $QUALTRICSHOME/hiera"
 alias lang="cd $QUALTRICSHOME/language"
 alias locally="cd $QUALTRICSHOME/monolith-locally"
-alias mpa="cd $QUALTRICSHOME/my-projects-app"
+alias mpa="cd $QUALTRICSHOME/my-projects-frontend"
+alias mpf="cd $QUALTRICSHOME/my-projects-frontend"
+alias mpfe="cd $QUALTRICSHOME/my-projects-frontend"
 alias oasis="cd $QUALTRICSHOME/oasis"
 alias pfe2e="cd $QUALTRICSHOME/pf_e2e_tests"
-alias pfe2emodel="cd $QUALTRICSHOME/pf_e2e_tests_model"
+alias pfmodel="cd $QUALTRICSHOME/pf_e2e_tests_model"
+alias pftest="cd $QUALTRICSHOME/pf_e2e_tests"
 alias proxy="cd $QUALTRICSHOME/qualtrics-dev-proxy"
 alias qfolder="cd $QUALTRICSHOME/q-folder-components"
 alias qfolders="cd $QUALTRICSHOME/q-folder-components"
@@ -97,16 +104,21 @@ build() {
 		fi
 	elif [[ "`pwd`" =~ "fallback" ]]; then
 		webpack
-	elif [[ "`pwd`" =~ "wrapper" ]]; then
-		grunt build
-	else
+	elif [[ "`pwd`" =~ "cp-ui-app" ]]; then
 		grunt build:dev
-		if [ $1 ]; then
-			start
-		fi
+	else
+		grunt build
+	fi
+	if [ $1 ]; then
+		start
 	fi
 }
 
+
 monolithctl() {
-	(core && vagrant ssh -c "/vagrant/dev/monolithctl $1")
+	if [ $1 = 'proxy' ]; then
+		(core && vim dev/files/proxy.conf)
+	else
+		(core && vagrant ssh -c "/vagrant/dev/monolithctl $1")
+	fi
 }
