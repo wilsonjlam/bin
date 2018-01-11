@@ -25,6 +25,7 @@
 	pushup = push -u origin HEAD
 	fupstream = "!git reset --hard $(git rev-parse @{u})"
 	find = log --color -S
+	contains = branch --contains
 #necessary for fetching via go get from our internal gitlab
 [url "ssh://git@gitlab-app.eng.qops.net:10022/"]
 	insteadOf = https://gitlab-app.eng.qops.net/

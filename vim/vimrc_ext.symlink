@@ -67,6 +67,9 @@ set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 
+"fzf
+Plugin 'junegunn/fzf.vim'
+
 "Indent context aware pasting
 Bundle 'sickill/vim-pasta'
 
@@ -110,6 +113,7 @@ let g:airline#extensions#tabline#enabled = 1 " Set Airline to show buffers at th
 let g:airline#extensions#tabline#fnamemod = ':t' "show just the filename
 let g:airline#extensions#tabline#buffer_nr_show = 1
 let g:airline#extensions#tabline#buffer_nr_format = '[%s] '
+let g:airline#extensions#tabline#switch_buffers_and_tabs = 1
 " Airline Sections
 function! AirlineInit()
   call airline#parts#define_minwidth('filetype', 50)
@@ -129,6 +133,7 @@ let g:airline_section_warning = [] " (ycm_warning_count, syntastic-warn, whitesp
 
 " Airline Branch
 let g:airline#extensions#branch#displayed_head_limit = 15
+
 
 " TODO: Figure out the variables for these guys
 " let g:airline_section_x = [tagbar, virtualenv]
@@ -192,7 +197,7 @@ noremap <leader>/ :Ack!
 
 Plugin 'airblade/vim-gitgutter'
 "avoid gutter popping in and out
-set signcolumn=yes
+"set signcolumn=yes
 
 " Git commands (G<something>)
 Plugin 'tpope/vim-fugitive'
