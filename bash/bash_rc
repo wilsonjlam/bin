@@ -14,6 +14,7 @@ alias utility="cd ~/utility"
 alias vimrc="vim ~/.vimrc_ext"
 alias wk="cd ~/workspace"
 alias tree="tree -C -a"
+alias rg="rg -S"
 
 #Commands
 alias agig="ag --ignore=*.spec.js --ignore=*.json --ignore=*.less --ignore=*.css"

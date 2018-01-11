@@ -51,16 +51,16 @@ light_white="\[\e[97m\]"
 export PS1="$blue\$(trim_hostname)#$green\$(parent_working_directory)$light_red\$(parse_git_branch):$light_gray\$$gray"
 
 parent_working_directory() {
-    pwd | awk '{n = split($0, a, "/"); printf "%s/%s", a[n-1], a[n]}'
+	pwd | awk '{n = split($0, a, "/"); printf "%s/%s", a[n-1], a[n]}'
 }
 
 trim_hostname() {
-    hostname | awk '{split($0, array, "."); print substr(array[1], 0, 10)}'
+	hostname | awk '{split($0, array, "."); print substr(array[1], 0, 10)}'
 }
 
 parse_git_branch() {
-    git branch 2>/dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/' \
-    | sed -e 's/^[ \t]*//'
+	git branch 2>/dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/' \
+	| sed -e 's/^[ \t]*//'
 }
 
 up() {
@@ -70,8 +70,32 @@ up() {
 	fi
 }
 
+# fd() {
+	# local dir
+	# dir=$(find ${1:-.} -path '*/\.*' -prune \
+				  # -o -type d -print 2> /dev/null | fzf +m) &&
+	# cd "$dir"
+# }
+
+fd() {
+	local dir
+	dir=$(find ${1:-.} -type d 2> /dev/null | fzf +m) && cd "$dir"
+}
+
+
+frg() {
+  local file
+
+    file="$(rg --pretty -n --no-heading $@ | fzf --ansi -0 -1 | awk -F: '{print $1 " +" $2}')"
+
+  if [[ -n $file ]]
+  then
+     vim $file
+  fi
+}
+
 if [ -f $(brew --prefix)/etc/bash_completion ]; then
-    . $(brew --prefix)/etc/bash_completion
+	. $(brew --prefix)/etc/bash_completion
 fi
 
 test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
