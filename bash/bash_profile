@@ -70,30 +70,6 @@ up() {
 	fi
 }
 
-# fd() {
-	# local dir
-	# dir=$(find ${1:-.} -path '*/\.*' -prune \
-				  # -o -type d -print 2> /dev/null | fzf +m) &&
-	# cd "$dir"
-# }
-
-fd() {
-	local dir
-	dir=$(find ${1:-.} -type d 2> /dev/null | fzf +m) && cd "$dir"
-}
-
-
-frg() {
-  local file
-
-    file="$(rg --pretty -n --no-heading $@ | fzf --ansi -0 -1 | awk -F: '{print $1 " +" $2}')"
-
-  if [[ -n $file ]]
-  then
-     vim $file
-  fi
-}
-
 if [ -f $(brew --prefix)/etc/bash_completion ]; then
 	. $(brew --prefix)/etc/bash_completion
 fi
@@ -101,3 +77,35 @@ fi
 test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
 [[ -s "$HOME/.avn/bin/avn.sh" ]] && source "$HOME/.avn/bin/avn.sh" # load avn
 export PATH="/usr/local/opt/mysql@5.6/bin:$PATH"
+
+# FZF
+fd() {
+  #TODO: add a flag for -a to allow searching hidden files as well
+  # dir=$(find ${1:-.} -type d 2> /dev/null | fzf +m) && cd "$dir"
+  local dir
+  dir=$(find ${1:-.} -path '*/\.*' -prune -o -type d -print 2> /dev/null | fzf +m) && cd "$dir"
+}
+
+fvim() {
+  local file
+
+  if [ $# -eq 0 ]; then
+    file=$(fzf)
+  else
+    file="$(rg --pretty -n --no-heading $@ | fzf --ansi -0 -1 | awk -F: '{print $1 " +" $2}')"
+  fi
+
+  if [[ -n $file ]]
+  then
+     vim $file
+  fi
+}
+
+fbr() {
+  local branches branch
+  branches=$(git branch --all | grep -v HEAD) &&
+  branch=$(echo "$branches" |
+           fzf-tmux -d $(( 2 + $(wc -l <<< "$branches") )) +m) &&
+  git checkout $(echo "$branch" | sed "s/.* //" | sed "s#remotes/[^/]*/##")
+}
+

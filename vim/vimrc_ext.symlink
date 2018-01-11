@@ -134,10 +134,6 @@ let g:airline_section_warning = [] " (ycm_warning_count, syntastic-warn, whitesp
 " Airline Branch
 let g:airline#extensions#branch#displayed_head_limit = 15
 
-
-" TODO: Figure out the variables for these guys
-" let g:airline_section_x = [tagbar, virtualenv]
-" let g:airline_section_y = [fileformat]
 if has ('gui_running')
   set guifont=Meslo\ LG\ M\ Regular\ for\ Powerline:h11
 endif
