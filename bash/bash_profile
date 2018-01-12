@@ -1,6 +1,9 @@
 #iterm only loads bash_profile when it opens
 source ~/.bashrc
 
+#fzf shortcuts
+source ~/utility/bash/fzf.sh
+
 export QUALTRICSHOSTNAME=ops.b1-prv.local.wilsonl
 export NODE_ENV='development'  #for certain repos this will help you build non-minified for local development
 export WORKSPACE=$HOME/qualtrics
@@ -64,6 +67,7 @@ parse_git_branch() {
 }
 
 up() {
+	local path
 	path=$(git rev-parse --show-toplevel);
 	if [ $? == 0 ]; then
 		cd $path
@@ -77,35 +81,4 @@ fi
 test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
 [[ -s "$HOME/.avn/bin/avn.sh" ]] && source "$HOME/.avn/bin/avn.sh" # load avn
 export PATH="/usr/local/opt/mysql@5.6/bin:$PATH"
-
-# FZF
-fd() {
-  #TODO: add a flag for -a to allow searching hidden files as well
-  # dir=$(find ${1:-.} -type d 2> /dev/null | fzf +m) && cd "$dir"
-  local dir
-  dir=$(find ${1:-.} -path '*/\.*' -prune -o -type d -print 2> /dev/null | fzf +m) && cd "$dir"
-}
-
-fvim() {
-  local file
-
-  if [ $# -eq 0 ]; then
-    file=$(fzf)
-  else
-    file="$(rg --pretty -n --no-heading $@ | fzf --ansi -0 -1 | awk -F: '{print $1 " +" $2}')"
-  fi
-
-  if [[ -n $file ]]
-  then
-     vim $file
-  fi
-}
-
-fbr() {
-  local branches branch
-  branches=$(git branch --all | grep -v HEAD) &&
-  branch=$(echo "$branches" |
-           fzf-tmux -d $(( 2 + $(wc -l <<< "$branches") )) +m) &&
-  git checkout $(echo "$branch" | sed "s/.* //" | sed "s#remotes/[^/]*/##")
-}
 
