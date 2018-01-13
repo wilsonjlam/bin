@@ -38,7 +38,7 @@ alias etest="grunt test:e2e_chrome"
 #####################################################
 
 #Directories
-export QUALTRICSHOME="~/qualtrics"
+export QUALTRICSHOME="$HOME/qualtrics"
 
 export GOHOME="$QUALTRICSHOME/GoHome"
 alias Q="cd $QUALTRICSHOME"
