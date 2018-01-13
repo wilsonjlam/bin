@@ -10,11 +10,14 @@ fd() {
 	shift
 	ALL=true
 	;;
+      *)
+	shift
+	;;
     esac
   done
 
   local dir
-  if [ ALL ]; then
+  if [ $ALL ]; then
     dir=$(find ${1:-.} -type d 2> /dev/null | fzf +m)
   else
     dir=$(find ${1:-.} -path '*/\.*' -prune -o -type d -print 2> /dev/null | fzf +m)
@@ -25,17 +28,36 @@ fd() {
 #open something in vim using fzf
 #optional arguments to specify something to search for (e.g. using rg to grep something then vim-ing the file)
 fvim() {
-  local file
+  local EDIT searchTerm
+  EDIT=false
+  while [[ $# -gt 0  ]]; do
+    local key
+    key="$1"
+    case $key in
+      -e|--edit) #-a or --all to search for hidden directories as well
+	shift
+	EDIT=true
+	;;
+      *)
+	searchTerm=$key
+	shift
+	;;
+    esac
+  done
 
-  if [ $# -eq 0 ]; then
+  local file
+  if [ -z $searchTerm ]; then
     file=$(fzf)
   else
-    file="$(rg --pretty -n --no-heading $@ | fzf --ansi -0 -1 | awk -F: '{print $1 " +" $2}')"
+    file="$(rg --pretty -n --no-heading $searchTerm | fzf --ansi -0 -1 | awk -F: '{print $1 " +" $2}')"
   fi
 
-  if [[ -n $file ]]
-  then
-     vim $file
+  if [[ -n $file ]]; then
+    if [[ $EDIT ]]; then
+      mvim $file
+    else
+      vim $file
+    fi
   fi
 }
 
