@@ -29,9 +29,10 @@ alias vg="vagrant"
 alias beaut="grunt jsbeautifier"
 alias debug="grunt karma:debug"
 alias kdebug="grunt karma:debug"
-alias mtest="grunt mocha_istanbul:server"
-alias ttest="grunt karma:unit"
 alias etest="grunt test:e2e_chrome"
+alias mtest="grunt mocha_istanbul:server"
+alias ttest="grunt test"
+alias utest="grunt karma:unit"
 
 #####################################################
 #Work################################################
@@ -57,10 +58,10 @@ alias gws="cd $GOHOME/src/gitlab-app.eng.qops.net/chrome-nav/global-wrapper-serv
 alias hiera="cd $QUALTRICSHOME/hiera"
 alias lang="cd $QUALTRICSHOME/language"
 alias locally="cd $QUALTRICSHOME/monolith-locally"
-alias mpa="cd $QUALTRICSHOME/my-projects-frontend"
 alias mpf="cd $QUALTRICSHOME/my-projects-frontend"
 alias mpfe="cd $QUALTRICSHOME/my-projects-frontend"
 alias oasis="cd $QUALTRICSHOME/oasis"
+alias opsmetrics="cd $QUALTRICSHOME/operational-metrics"
 alias pfe2e="cd $QUALTRICSHOME/pf_e2e_tests"
 alias pfmodel="cd $QUALTRICSHOME/pf_e2e_tests_model"
 alias pftest="cd $QUALTRICSHOME/pf_e2e_tests"
@@ -68,12 +69,15 @@ alias proxy="cd $QUALTRICSHOME/qualtrics-dev-proxy"
 alias qfolder="cd $QUALTRICSHOME/q-folder-components"
 alias qfolders="cd $QUALTRICSHOME/q-folder-components"
 alias qstrap="cd $QUALTRICSHOME/qstrap"
+alias qtech="cd $QUALTRICSHOME/q-tech-stats"
 alias rsw="cd $QUALTRICSHOME/research-suite-wrapper"
+alias srvr="cd $GOHOME/src/gitlab-app.eng.qops.net/dev-tooling/service-checker"
 alias statwing="cd $QUALTRICSHOME/swproxy"
 alias stencil="cd $QUALTRICSHOME/stencil"
 alias swproxy="cd $QUALTRICSHOME/swproxy"
 alias testcore="cd $QUALTRICSHOME/testcore"
 alias tickets="cd $QUALTRICSHOME/tickets"
+alias tmp="cd $QUALTRICSHOME/tmp"
 alias vocalize="cd $QUALTRICSHOME/vocalize"
 alias vocproj="cd $QUALTRICSHOME/voc-project-app"
 
@@ -118,8 +122,14 @@ build() {
 
 monolithctl() {
 	if [ $1 = 'proxy' ]; then
-		(core && vim dev/files/proxy.conf)
+		(core && vim dev/files/custom-proxy.conf)
+	elif [ $1 = 'ssh' ]; then
+		(core && vagrant ssh)
 	else
 		(core && vagrant ssh -c "/vagrant/dev/monolithctl $1")
 	fi
 }
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion

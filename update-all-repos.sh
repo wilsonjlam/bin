@@ -1,4 +1,7 @@
 #!/bin/bash
+set -euo pipefail
+IFS=$`\n\t`
+
 #idea: when soemthing fails, have a "skip this one and output it as a failed repo"
 dryrun=$1
 declare -a failedRepos

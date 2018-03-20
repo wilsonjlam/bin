@@ -59,6 +59,7 @@ au BufRead,BufNewFile *.eyaml set filetype=yaml
 command! Wsudo w !sudo tee % > /dev/null
 
 " Doesn't work yet
+" Macvim open a terminal window
 " command! Term w terminal<CR> source ~/.bash_profile<CR>
 
 "#########VUNDLE#################
@@ -95,11 +96,12 @@ nnoremap <leader>bp :bp<CR> " Previous buffer
 nnoremap <leader>b :b 
 nnoremap <leader>bv :vert sb 
 nnoremap <leader>bx :sb 
+nnoremap <leader>bs :sb 
 
 " Buffer CLeanup
 nnoremap <leader>bd :BD<CR> " Delete the current buffer without closing out the pane
 nnoremap <leader>bo :only<CR> :BufOnly<CR> " Make your current buffer the only buffer
-nnoremap <leader>bD :windo bd<CR> " For deleting all buffers in a tab
+nnoremap <leader>bD :windo bd<CR> :call DeleteHiddenBuffers()<CR>" For deleting all buffers in a tab
 nnoremap <leader>bu :call DeleteHiddenBuffers()<CR> " Deletes all hidden buffers
 
 Plugin 'vim-airline/vim-airline'
@@ -113,7 +115,7 @@ let g:airline#extensions#tabline#enabled = 1 " Set Airline to show buffers at th
 let g:airline#extensions#tabline#fnamemod = ':t' "show just the filename
 let g:airline#extensions#tabline#buffer_nr_show = 1
 let g:airline#extensions#tabline#buffer_nr_format = '[%s] '
-let g:airline#extensions#tabline#switch_buffers_and_tabs = 1
+let g:airline#extensions#tabline#switch_buffers_and_tabs = 0
 " Airline Sections
 function! AirlineInit()
   call airline#parts#define_minwidth('filetype', 50)
@@ -187,7 +189,7 @@ if executable('rg')
 elseif executable('ag')
   let g:ackprg = 'ag --vimgrep'
 endif
-noremap <leader>/ :Ack! 
+noremap <leader>/ :Gcd <bar> Ack! 
 
 "Plugin 'MattesGroeger/vim-bookmarks'
 
@@ -226,8 +228,7 @@ map W <leader>W
 map B <leader>B
 map E <leader>E
 
-Plugin 'terryma/vim-multiple-cursors'
-" binds to <C-n>, use v after selection
+Plugin 'kshenoy/vim-signature'
 
 " this works well but auto line wraps
 Plugin 'jiangmiao/auto-pairs'
@@ -304,7 +305,7 @@ let g:ale_statusline_format = ['X %d', '? %d', '']
 " %linter% is the name of the linter that provided the message
 " %s is the error or warning message
 let g:ale_echo_msg_format = '%linter% says %s'
-let g:ale_keep_list_window_open = 1
+let g:ale_keep_list_window_open = 0
 " Map keys to navigate between lines with errors and warnings.
 nnoremap <leader>an :ALENextWrap<cr>
 nnoremap <leader>ap :ALEPreviousWrap<cr>
@@ -312,17 +313,8 @@ let g:ale_sign_column_always=1
 let g:ale_set_balloons = 1
 let g:ale_open_list = 1
 
-" Js formatting
-" Plugin 'Shutnik/jshint2.vim'
-" let jshint2_save = 1
-" let jshint2_command = '/usr/local/bin/jshint'
-" Plugin 'maksimr/vim-jsbeautify'
-" Plugin 'einars/js-beautify'
-" autocmd FileType javascript vnoremap <buffer>  <c-f> :call RangeJsBeautify()<cr>
-" autocmd FileType json vnoremap <buffer>  <c-f> :call RangeJsBeautify()<cr>
-" autocmd FileType html vnoremap <buffer>  <c-f> :call RangeHtmlBeautify()<cr>
-" below is not being set/overridden
-" autocmd FileType javascript noremap <buffer>  <c-f> :call JsBeautify()<cr>
+" NGINX
+Plugin 'vim-scripts/nginx.vim'
 
 " Go Development
 Plugin 'fatih/vim-go'

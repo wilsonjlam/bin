@@ -10,11 +10,19 @@ fd() {
 	shift
 	ALL=true
 	;;
+      --home)
+	shift
+	HOME=true
+	;;
       *)
 	shift
 	;;
     esac
   done
+
+  if [ $HOME ]; then
+    cd
+  fi
 
   local dir
   if [ $ALL ]; then
@@ -29,7 +37,6 @@ fd() {
 #optional arguments to specify something to search for (e.g. using rg to grep something then vim-ing the file)
 fvim() {
   local EDIT searchTerm
-  EDIT=false
   while [[ $# -gt 0  ]]; do
     local key
     key="$1"
@@ -53,7 +60,7 @@ fvim() {
   fi
 
   if [[ -n $file ]]; then
-    if [[ $EDIT ]]; then
+    if [ $EDIT ]; then
       mvim $file
     else
       vim $file
