@@ -123,10 +123,8 @@ build() {
 monolithctl() {
 	if [ $1 = 'proxy' ]; then
 		(core && vim dev/files/custom-proxy.conf)
-	elif [ $1 = 'ssh' ]; then
-		(core && vagrant ssh)
 	else
-		(core && vagrant ssh -c "/vagrant/dev/monolithctl $1")
+		(core && ./dev/monolithctl $1)
 	fi
 }
 

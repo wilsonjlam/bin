@@ -216,8 +216,6 @@ let g:rainbow_conf = {
 \	'parentheses': ['start=/(/ end=/)/ fold', 'start=/\[/ end=/\]/ fold', 'start=/{/ end=/}/ fold']
 \}
 
-Plugin 'ap/vim-css-color'
-
 Plugin 'easymotion/vim-easymotion'
 map <leader> <Plug>(easymotion-prefix)
 map f <Plug>(easymotion-fl)
@@ -313,6 +311,13 @@ let g:ale_sign_column_always=1
 let g:ale_set_balloons = 1
 let g:ale_open_list = 1
 
+" #####################################################################################
+" ############  LANGUAGES & SYNTAX HIGHLIGHTING  ######################################
+" #####################################################################################
+
+" CSS
+Plugin 'ap/vim-css-color'
+
 " NGINX
 Plugin 'vim-scripts/nginx.vim'
 
@@ -321,8 +326,14 @@ Plugin 'fatih/vim-go'
 let g:go_metalinter_autosave = 1
 let g:go_metalinter_autosave_enabled = ['vet']
 
+" Javascript Development
+" Plugin 'othree/javascript-libraries-syntax.vim'
+
 " Typescript Development
 Plugin 'leafgarland/typescript-vim'
+
+" Angular Development
+Plugin 'burnettk/vim-angular'
 
 "ColorSchemes
 Plugin 'NLKNguyen/papercolor-theme'
