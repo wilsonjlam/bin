@@ -2,8 +2,9 @@
 
 #cd using fzf
 fd() {
+  local key HOME
+  HOME=false
   while [[ $# -gt 0  ]]; do
-    local key
     key="$1"
     case $key in
       -a|--all) #-a or --all to search for hidden directories as well
@@ -36,7 +37,7 @@ fd() {
 #open something in vim using fzf
 #optional arguments to specify something to search for (e.g. using rg to grep something then vim-ing the file)
 fvim() {
-  local EDIT searchTerm
+  local EDIT FILE searchTerm
   while [[ $# -gt 0  ]]; do
     local key
     key="$1"
@@ -44,6 +45,10 @@ fvim() {
       -e|--edit) #-a or --all to search for hidden directories as well
 	shift
 	EDIT=true
+	;;
+      -f|--file)
+	shift
+	FILE=true
 	;;
       *)
 	searchTerm=$key
@@ -55,8 +60,10 @@ fvim() {
   local file
   if [ -z $searchTerm ]; then
     file=$(fzf)
+  elif [[ $FILE ]]; then
+    file="$(rg --iglob *$searchTerm* --files | fzf --ansi -0 -1)"
   else
-    file="$(rg --pretty -n --no-heading $searchTerm | fzf --ansi -0 -1 | awk -F: '{print $1 " +" $2}')"
+    file="$(rg $searchTerm | fzf --ansi -0 -1 | awk -F: '{print $1 " +" $2}')"
   fi
 
   if [[ -n $file ]]; then

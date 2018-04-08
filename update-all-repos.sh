@@ -4,6 +4,10 @@ IFS=$`\n\t`
 
 #idea: when soemthing fails, have a "skip this one and output it as a failed repo"
 dryrun=$1
+if [[ $dryrun ]]; then
+	set -n
+fi
+
 declare -a failedRepos
 
 handleFailure() {
@@ -55,52 +59,29 @@ for directory in $WORKSPACE/*/ ; do
 	echo -e "\nCurrently in ${directory} on branch ${current_branch}"
 	if [  -n "$(git status --short -uno 2> /dev/null | tail -n1)" ]; then
 		dirty=1
-		if [ $dryrun ]; then
-			echo "Branch is dirty"
-			echo "git stash"
-			testFail
-		else
-			echo "Stashing"
-			handleFailure "git stash" $? $directory
-		fi
+		echo "Stashing"
+		handleFailure "git stash" $? $directory
 	fi
 
 	#TODO: stop looping if checking out master or pulling fails
 	if [ "$(git symbolic-ref --short HEAD)" != "master" ]; then
-		if [ $dryrun ]; then
-			echo "git checkout master && git pull"
-			echo "git checkout "$current_branch""
-			testFail
-		else
-			echo "Updating master"
-			git checkout master && git pull
-			handleFailure "git checkout master && git pull" $? $directory
+		echo "Updating master"
+		git checkout master && git pull
+		handleFailure "git checkout master && git pull" $? $directory
 
-			echo "Switching back to ${current_branch}"
-			git checkout "$current_branch"
-			handleFailure "git checkout $current_branch" $? $directory
-		fi
+		echo "Switching back to ${current_branch}"
+		git checkout "$current_branch"
+		handleFailure "git checkout $current_branch" $? $directory
 	else
-		if [ $dryrun ]; then
-			echo "git pull"
-			testFail
-		else
-			echo "Updating master"
-			git pull
-			handleFailure "git pull" $? $directory
-		fi
+		echo "Updating master"
+		git pull
+		handleFailure "git pull" $? $directory
 	fi
 
 	if [ $dirty -ne 0 ]; then
-		if [ $dryrun ]; then
-			echo "Dirty is ${dirty}"
-			echo "git stash apply"
-			testFail
-		else
-			echo "Unstashing changes"
-			git stash apply
-			handleFailure "git stash apply" $? $directory
-		fi
+		echo "Unstashing changes"
+		git stash apply
+		handleFailure "git stash apply" $? $directory
 	fi
 	dirty=false
 done

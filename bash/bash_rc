@@ -15,14 +15,13 @@ alias vimrc="vim ~/.vimrc_ext"
 alias wk="cd ~/workspace"
 alias interviews="cd ~/workspace/interviews"
 alias tree="tree -C -a"
-alias rg="rg -S"
+alias rg="rg -S --column --line-number --color=always --colors=match:fg:yellow --colors=path:fg:blue --colors=line:fg:green --colors=column:fg:cyan"
 
 #Commands
 alias agig="ag --ignore=*.spec.js --ignore=*.json --ignore=*.less --ignore=*.css"
 alias freshbuild="rm -rf node_modules && rm -rf bower_components && yarn && bower install && build"
-alias proxyup="sudo port=80 https_port=443 npm start"
+alias dc="docker-compose"
 alias repos="~/utility/scripts/update-all-repos.sh"
-alias rg="rg -S"
 alias vg="vagrant"
 
 #Grunt Commands
@@ -70,6 +69,7 @@ alias qfolder="cd $QUALTRICSHOME/q-folder-components"
 alias qfolders="cd $QUALTRICSHOME/q-folder-components"
 alias qstrap="cd $QUALTRICSHOME/qstrap"
 alias qtech="cd $QUALTRICSHOME/q-tech-stats"
+alias release="cd $QUALTRICSHOME/release"
 alias rsw="cd $QUALTRICSHOME/research-suite-wrapper"
 alias srvr="cd $GOHOME/src/gitlab-app.eng.qops.net/dev-tooling/service-checker"
 alias statwing="cd $QUALTRICSHOME/swproxy"
@@ -124,7 +124,7 @@ monolithctl() {
 	if [ $1 = 'proxy' ]; then
 		(core && vim dev/files/custom-proxy.conf)
 	else
-		(core && ./dev/monolithctl $1)
+		(core && ./dev/monolithctl $@)
 	fi
 }
 

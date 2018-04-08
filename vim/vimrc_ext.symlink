@@ -76,12 +76,29 @@ set rtp+=/usr/local/opt/fzf
 Plugin 'junegunn/fzf.vim'
 command! -bang -nargs=* Rg
   \ call fzf#vim#grep(
-  \   'rg -S --column --line-number --no-heading --color=always '.shellescape(<q-args>), 1,
+  \   'rg -S --column --line-number --no-heading --color=always --colors=match:fg:221 --colors=path:fg:110 --colors=line:fg:143 --colors=column:fg:109 '.shellescape(<q-args>), 1,
   \   <bang>0 ? fzf#vim#with_preview('up:60%')
   \           : fzf#vim#with_preview('right:50%:hidden', '?'),
   \   <bang>0)
 noremap <leader>/ :Gcd <bar> Rg 
-
+let g:fzf_colors =
+\ { 'fg':      ['fg', 'Normal'],
+  \ 'bg':      ['bg', 'Normal'],
+  \ 'hl':      ['fg', 'Comment'],
+  \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+  \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+  \ 'hl+':     ['fg', 'Statement'],
+  \ 'info':    ['fg', 'PreProc'],
+  \ 'border':  ['fg', 'Ignore'],
+  \ 'prompt':  ['fg', 'Conditional'],
+  \ 'pointer': ['fg', 'Exception'],
+  \ 'marker':  ['fg', 'Keyword'],
+  \ 'spinner': ['fg', 'Label'],
+  \ 'header':  ['fg', 'Comment'] }
+let g:fzf_action = {
+  \ 'ctrl-t': 'tab split',
+  \ 'ctrl-x': 'split',
+  \ 'ctrl-v': 'vsplit' }
 
 "Indent context aware pasting
 Bundle 'sickill/vim-pasta'
@@ -116,6 +133,10 @@ nnoremap <leader>bo :only<CR> :BufOnly<CR> " Make your current buffer the only b
 nnoremap <leader>bD :windo bd<CR> :call DeleteHiddenBuffers()<CR>" For deleting all buffers in a tab
 nnoremap <leader>bu :call DeleteHiddenBuffers()<CR> " Deletes all hidden buffers
 
+Plugin 't9md/vim-choosewin'
+nmap <leader><tab> <Plug>(choosewin)
+let g:choosewin_overlay_enable = 1
+
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 " Plugin 'powerline/powerline'
@@ -127,7 +148,7 @@ let g:airline#extensions#tabline#enabled = 1 " Set Airline to show buffers at th
 let g:airline#extensions#tabline#fnamemod = ':t' "show just the filename
 let g:airline#extensions#tabline#buffer_nr_show = 1
 let g:airline#extensions#tabline#buffer_nr_format = '[%s] '
-let g:airline#extensions#tabline#switch_buffers_and_tabs = 0
+let g:airline#extensions#tabline#switch_buffers_and_tabs = 1
 " Airline Sections
 function! AirlineInit()
   call airline#parts#define_minwidth('filetype', 50)
@@ -247,7 +268,7 @@ Plugin 'SirVer/ultisnips'
 "Plugin 'matthewsimo/angular-vim-snippets'
 let g:UltiSnipsEditSplit="vertical"
 let g:UltiSnipsExpandTrigger = "<tab>"
-let g:UltiSnipsJumpForwardTrigger = "<leader><tab>"
+let g:UltiSnipsJumpForwardTrigger = "<tab>"
 let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
 let g:UltiSnipsSnippetDir = "~/.vim/bundle/ultisnips/UltiSnips"
 
@@ -320,6 +341,7 @@ Plugin 'leafgarland/typescript-vim'
 Plugin 'burnettk/vim-angular'
 
 "ColorSchemes
+nnoremap <leader>C :Colors<CR>
 Plugin 'NLKNguyen/papercolor-theme'
 Plugin 'fugalh/desert.vim'
 Plugin 'w0ng/vim-hybrid'
@@ -333,8 +355,12 @@ Plugin 'tyrannicaltoucan/vim-quantum'
 Plugin 'hzchirs/vim-material'
 Plugin 'tyrannicaltoucan/vim-deep-space'
 Plugin 'kristijanhusak/vim-hybrid-material'
+Plugin 'chriskempson/base16-vim'
+Plugin 'nightsense/carbonized'
+Plugin 'nightsense/seagrey'
+Plugin 'nightsense/forgotten'
+Plugin 'colorsbox-stnight'
 
-" also check out colorsbox-stnight
 let g:hybrid_custom_term_colors=1
 
 call vundle#end()            " required vundle
@@ -344,7 +370,8 @@ filetype plugin indent on    " required vundle
 "ColorScheme Stuff
 set background=dark
 set termguicolors
-colorscheme vim-material
+" let base16colorspace=256
+colorscheme colorsbox-stnight
 
 hi LineNr term=bold cterm=NONE ctermfg=DarkGrey ctermbg=NONE gui=NONE guifg=DarkGrey guibg=NONE " http://vim.wikia.com/wiki/Display_line_numbers
 hi Folded guibg=grey10 guifg=grey50
