@@ -14,7 +14,7 @@ alias utility="cd ~/utility"
 alias vimrc="vim ~/.vimrc_ext"
 alias wk="cd ~/workspace"
 alias interviews="cd ~/workspace/interviews"
-alias tree="tree -C -a"
+alias tree="tree -C -a -I *.git"
 alias rg="rg -S --column --line-number --color=always --colors=match:fg:yellow --colors=path:fg:blue --colors=line:fg:green --colors=column:fg:cyan"
 
 #Commands
