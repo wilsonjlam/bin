@@ -5,6 +5,7 @@ source ~/.bashrc
 source ~/utility/bash/fzf.sh
 
 export QUALTRICSHOSTNAME=ops.b1-prv.local.wilsonl
+export DATACENTER=b1-prv
 export NODE_ENV='development'  #for certain repos this will help you build non-minified for local development
 export WORKSPACE=$HOME/qualtrics
 export GOPATH=$HOME/qualtrics/GoHome

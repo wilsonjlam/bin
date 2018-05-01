@@ -120,6 +120,11 @@ function! DeleteHiddenBuffers()
 endfunction
 
 " Buffer Movement
+Plugin 't9md/vim-choosewin'
+nmap <leader><tab> <Plug>(choosewin)
+let g:choosewin_overlay_enable = 1
+
+" Buffer Movement (cont)
 nnoremap <leader>bn :bn<CR> " Next buffer
 nnoremap <leader>bp :bp<CR> " Previous buffer
 nnoremap <leader>b :b 
@@ -132,10 +137,6 @@ nnoremap <leader>bd :BD<CR> " Delete the current buffer without closing out the 
 nnoremap <leader>bo :only<CR> :BufOnly<CR> " Make your current buffer the only buffer
 nnoremap <leader>bD :windo bd<CR> :call DeleteHiddenBuffers()<CR>" For deleting all buffers in a tab
 nnoremap <leader>bu :call DeleteHiddenBuffers()<CR> " Deletes all hidden buffers
-
-Plugin 't9md/vim-choosewin'
-nmap <leader><tab> <Plug>(choosewin)
-let g:choosewin_overlay_enable = 1
 
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'

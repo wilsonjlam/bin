@@ -2,8 +2,7 @@
 
 #cd using fzf
 fd() {
-  local key HOME
-  HOME=false
+  searchTerm="$HOME/qualtrics"
   while [[ $# -gt 0  ]]; do
     key="$1"
     case $key in
@@ -11,25 +10,20 @@ fd() {
 	shift
 	ALL=true
 	;;
-      --home)
-	shift
-	HOME=true
-	;;
       *)
+	searchTerm=$key
 	shift
 	;;
     esac
   done
 
-  if [ $HOME ]; then
-    cd
-  fi
-
   local dir
   if [ $ALL ]; then
-    dir=$(find ${1:-.} -type d 2> /dev/null | fzf +m)
+    # dir=$(find ${1:-.} -type d 2> /dev/null | fzf +m)
+    dir=$(find "$searchTerm" -type d 2> /dev/null | fzf +m)
   else
-    dir=$(find ${1:-.} -path '*/\.*' -prune -o -type d -print 2> /dev/null | fzf +m)
+    # dir=$(find ${1:-.} -path '*/\.*' -prune -o -type d -print 2> /dev/null | fzf +m)
+    dir=$(find "$searchTerm" -maxdepth 1 -path '*/\.*' -prune -o -type d -print 2> /dev/null | fzf +m)
   fi
   cd "$dir"
 }
