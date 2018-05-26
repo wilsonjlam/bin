@@ -4,6 +4,12 @@ source ~/.bashrc
 #fzf shortcuts
 source ~/utility/bash/fzf.sh
 
+export GITLAB_TOKEN=ZKJHCN29d52-fizGsWAf
+export VICTOROPS_API_KEY=bf0402f0b6ab470fbfa66f0b37db97f6
+export VICTOROPS_API_ID=53c46b2e
+export JIRA_API_USER=user
+export JIRA_API_PASSWORD=password
+
 export QUALTRICSHOSTNAME=ops.b1-prv.local.wilsonl
 export DATACENTER=b1-prv
 export NODE_ENV='development'  #for certain repos this will help you build non-minified for local development
