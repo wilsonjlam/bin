@@ -2,8 +2,7 @@
 
 #cd using fzf
 fd() {
-  local key HOME
-  HOME=false
+  local searchTerm
   while [[ $# -gt 0  ]]; do
     key="$1"
     case $key in
@@ -11,27 +10,24 @@ fd() {
 	shift
 	ALL=true
 	;;
-      --home)
-	shift
-	HOME=true
-	;;
       *)
+	searchTerm=$key
 	shift
 	;;
     esac
   done
 
-  if [ $HOME ]; then
-    cd
-  fi
-
   local dir
   if [ $ALL ]; then
-    dir=$(find ${1:-.} -type d 2> /dev/null | fzf +m)
+    # dir=$(find ${1:-.} -type d 2> /dev/null | fzf +m)
+    dir=$(find "$searchTerm" -type d 2> /dev/null | fzf +m --algo=v1)
+  elif [ -z $searchTerm ]; then
+    dir=$HOME/qualtrics/$(ls $HOME/qualtrics | fzf +m --algo=v1)
   else
-    dir=$(find ${1:-.} -path '*/\.*' -prune -o -type d -print 2> /dev/null | fzf +m)
+    # dir=$(find ${1:-.} -path '*/\.*' -prune -o -type d -print 2> /dev/null | fzf +m)
+    dir=$(find "$searchTerm" -path '*/\.*' -prune -o -type d -print 2> /dev/null | fzf +m --algo=v1)
   fi
-  cd "$dir"
+  cd -P "$dir"
 }
 
 #open something in vim using fzf
