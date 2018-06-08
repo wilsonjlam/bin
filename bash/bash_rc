@@ -16,12 +16,14 @@ alias wk="cd ~/workspace"
 alias interviews="cd ~/workspace/interviews"
 alias tree="tree -C -a -I *.git"
 alias rg="rg -S --column --line-number --color=always --colors=match:fg:yellow --colors=path:fg:blue --colors=line:fg:green --colors=column:fg:cyan"
+alias fnd="/usr/local/bin/fd"
 
 #Commands
 alias freshbuild="rm -rf node_modules && rm -rf bower_components && yarn && bower install && build"
 alias dc="docker-compose"
 alias repos="~/utility/scripts/update-all-repos.sh"
 alias vg="vagrant"
+alias monolithctl="~/qualtrics/core/dev/monolithctl"
 
 #Grunt Commands
 alias beaut="grunt jsbeautifier"
@@ -51,43 +53,6 @@ alias gov1nexpose="echo Tunneling to nexpose in gov1 and opening page in browser
 alias gov1rundeck="echo Tunneling to rundeck dashboard in gov1 and opening page in browser. You may need to refresh the page for it to show up. && open http://rundeck-app.gov1.qprod.net:4440/menu/home && ssh -L 4440:rundeck-app:4440 -N rampart.gov1.qprod.net"
 alias gov1shardmanager="echo Tunneling to shard manager in gov1 and opening page in browser. You may need to refresh the page for it to show up. && open https://gov1-shardmanager.gov1.qprod.net:8087/Qualtrics/Server/ShardManager.php && ssh -L 8087:w1-app:443 -N rampart.gov1.qprod.net"
 alias gov1uchiwa="echo Tunneling to uchiwa in gov1 and opening page in browser. You may need to refresh the page for it to show up. && open https://uchiwa-app.gov1.qprod.net:8443 && ssh -L 8443:uchiwa-app:443 -N rampart.gov1.qprod.net"
-
-#Scripts
-start() {
-	if [[ "`pwd`" =~ "global-wrapper-service" ]]; then
-		./global-wrapper-service
-		#parse out the dir name instead
-	else
-		npm start
-	fi
-}
-
-build() {
-	if [[ "`pwd`" =~ "GoHome" ]]; then
-		go build
-		if [ $1 ]; then
-			start
-		fi
-	elif [[ "`pwd`" =~ "fallback" ]]; then
-		webpack
-	elif [[ "`pwd`" =~ "cp-ui-app" ]]; then
-		grunt build:dev
-	else
-		grunt build
-	fi
-	if [ $1 ]; then
-		start
-	fi
-}
-
-
-monolithctl() {
-	if [ $1 = 'proxy' ]; then
-		(core && vim dev/files/custom-proxy.conf)
-	else
-		(core && ./dev/monolithctl $@)
-	fi
-}
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
