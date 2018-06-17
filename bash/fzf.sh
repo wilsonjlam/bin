@@ -2,7 +2,7 @@
 
 #cd using fzf
 fd() {
-  local searchTerm
+  local search_term
   while [[ $# -gt 0  ]]; do
     key="$1"
     case $key in
@@ -11,55 +11,70 @@ fd() {
 	ALL=true
 	;;
       *)
-	searchTerm=$key
+	search_term=$key
 	shift
 	;;
     esac
   done
 
   local dir
+  local find_options=('--type=d' '--absolute-path' '--follow' '.')
+  # alias find_command="fnd --type d --absolute-path --follow ."
+  local fzf_options=('+m' '--algo=v1' '-1')
+
   if [ $ALL ]; then
-    # dir=$(find ${1:-.} -type d 2> /dev/null | fzf +m)
-    dir=$(find "$searchTerm" -type d 2> /dev/null | fzf +m --algo=v1)
-  elif [ -z $searchTerm ]; then
-    dir=$HOME/qualtrics/$(ls $HOME/qualtrics | fzf +m --algo=v1)
+    # dir=$(find "$search_term" -type d 2> /dev/null | fzf +m --algo=v1)
+    dir=$(fnd ${find_options[*]} --hidden --no-ignore "$search_term" | fzf ${fzf_options[*]})
+  elif [ -z $search_term ]; then
+    dir=$HOME/qualtrics/$(ls $HOME/qualtrics | fzf ${fzf_options[*]})
   else
-    # dir=$(find ${1:-.} -path '*/\.*' -prune -o -type d -print 2> /dev/null | fzf +m)
-    dir=$(find "$searchTerm" -path '*/\.*' -prune -o -type d -print 2> /dev/null | fzf +m --algo=v1)
+    # dir=$(find "$search_term" -path '*/\.*' -prune -o -type d -print 2> /dev/null | fzf +m --algo=v1)
+    dir=$(fnd ${find_options[*]} "$search_term" | fzf ${fzf_options[*]})
   fi
-  cd -P "$dir"
+
+  if [ ! -z "$dir" ]; then
+    cd -P "$dir"
+  fi
 }
 
 #open something in vim using fzf
 #optional arguments to specify something to search for (e.g. using rg to grep something then vim-ing the file)
 fvim() {
-  local EDIT FILE searchTerm
+  local directory edit file_search search_term
   while [[ $# -gt 0  ]]; do
     local key
     key="$1"
     case $key in
+      -d|--directory)
+	shift
+	directory="$1"
+	;;
       -e|--edit) #-a or --all to search for hidden directories as well
 	shift
-	EDIT=true
+	edit=true
 	;;
       -f|--file)
 	shift
-	FILE=true
+	file_search=true
 	;;
       *)
-	searchTerm=$key
+	search_term=$key
 	shift
 	;;
     esac
   done
 
   local file
-  if [ -z $searchTerm ]; then
-    file=$(fzf)
-  elif [[ $FILE ]]; then
-    file="$(rg --iglob *$searchTerm* --files | fzf --ansi -0 -1)"
+  directory=${directory:-.}
+  if [ -z $search_term ]; then
+    search_term="."
+    file_search=true
+  fi
+
+  if [[ $file_search ]]; then
+    file="$(fnd "$search_term" "$directory" | fzf --ansi -0 -1)"
   else
-    file="$(rg $searchTerm | fzf --ansi -0 -1 | awk -F: '{print $1 " +" $2}')"
+    file="$(cd -P "$directory"; rg "$search_term" | fzf --ansi -0 -1 | awk -F: '{print $1 " +" $2}')"
   fi
 
   if [[ -n $file ]]; then

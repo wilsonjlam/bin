@@ -3,6 +3,7 @@ filetype plugin indent on
 let mapleader=' '
 
 command! Src source ~/.vimrc
+command! Vimrc e ~/.vimrc_ext
 
 inoremap jj <Esc>
 noremap <C-\> =
@@ -30,7 +31,6 @@ syntax on
 " http://vim.wikia.com/wiki/Display_line_numbers
 set relativenumber
 set number
-set nu!
 set mouse+=a
 
 set laststatus=2
@@ -82,8 +82,8 @@ command! -bang -nargs=* Rg
   \           : fzf#vim#with_preview('right:50%:hidden', '?'),
   \   <bang>0)
 noremap <leader>/ :Gcd <bar> Rg 
-noremap <leader>l :Lines<CR>
-noremap <leader>L :Lines 
+noremap <leader>l :BLines<CR>
+noremap <leader>L :BLines 
 noremap <leader>m :Marks<CR>
 let g:fzf_colors =
 \ { 'fg':      ['fg', 'Normal'],
@@ -181,7 +181,7 @@ endif
 "fuzzy file searcher
 Plugin 'kien/ctrlp.vim'
 if executable('rg')
-  let g:ctrlp_user_command = 'rg --files %s'
+  let g:ctrlp_user_command = "fd --absolute-path --follow --type=f . %s"
 endif
 let g:ctrlp_cmd = 'CtrlPMixed'
 let g:ctrlp_max_depth=50
@@ -213,20 +213,6 @@ Plugin 'airblade/vim-gitgutter'
 Plugin 'tpope/vim-fugitive'
 Plugin 'shumphrey/fugitive-gitlab.vim'
 let g:fugitive_gitlab_domains = ['https://gitlab-app.eng.qops.net']
-
-" rainbow parens
-Plugin 'luochen1990/rainbow'
-let g:rainbow_active = 0 "enable it later via :RainbowToggle
-"color needs work here
-let g:rainbow_conf = {
-\	'guifgs': ['RoyalBlue3', 'SeaGreen3', 'DarkOrchid3', 'firebrick3', 'RoyalBlue3',
-\ 'SeaGreen3', 'DarkOrchid3', 'firebrick3', 'RoyalBlue3', 'SeaGreen3',
-\ 'DarkOrchid3', 'firebrick3', 'RoyalBlue3', 'SeaGreen3', 'DarkOrchid3',
-\ 'firebrick3'],
-\	'ctermfgs': ['lightyellow'],
-\	'operators': 0,
-\	'parentheses': ['start=/(/ end=/)/ fold', 'start=/\[/ end=/\]/ fold', 'start=/{/ end=/}/ fold']
-\}
 
 Plugin 'easymotion/vim-easymotion'
 map <leader> <Plug>(easymotion-prefix)
@@ -306,7 +292,8 @@ Plugin 'tpope/vim-sleuth'
 Plugin 'w0rp/ale'
 let g:ale_linters = {
 \  'javascript': ['eslint', 'flow'],
-\  'typescript': ['prettier', 'tslint', 'tsserver', 'typecheck']
+\  'typescript': ['prettier', 'tslint', 'tsserver', 'typecheck'],
+\  'php': ['php -l', 'phpmd', 'phpstan', 'phpcbf', 'php-cs-fixer'],
 \}
 let g:ale_lint_delay = 1000 "delay 1s after text change before lintng
 let g:ale_lint_on_insert_leave = 1
@@ -331,16 +318,10 @@ let g:ale_open_list = 1
 " CSS
 Plugin 'ap/vim-css-color'
 
-" NGINX
-Plugin 'vim-scripts/nginx.vim'
-
 " Go Development
 Plugin 'fatih/vim-go'
 let g:go_metalinter_autosave = 1
 let g:go_metalinter_autosave_enabled = ['vet']
-
-" Javascript Development
-" Plugin 'othree/javascript-libraries-syntax.vim'
 
 " Typescript Development
 Plugin 'leafgarland/typescript-vim'
