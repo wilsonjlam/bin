@@ -3,5 +3,4 @@
 *~
 *.swp
 *.swo
-.vim
 .node-version
