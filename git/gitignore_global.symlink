@@ -2,7 +2,6 @@
 
 *.swp
 *.swo
-*.vim
 .agignore
 *.tern-project
 yarn.lock

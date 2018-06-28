@@ -3,7 +3,13 @@ filetype plugin indent on
 let mapleader=' '
 
 command! Src source ~/.vimrc
-command! Vimrc e ~/.vimrc_ext
+" Tell vim to remember certain things when we exit
+"  '100  :  marks will be remembered for up to 100 previously edited files
+"  "100 :  will save up to 100 lines for each register
+"  :20  :  up to 20 lines of command-line history will be remembered
+"  %    :  saves and restores the buffer list
+"  n... :  where to save the viminfo files
+set viminfo='100,\"30,:20,%,n~/.viminfo
 
 inoremap jj <Esc>
 noremap <C-\> =
@@ -22,13 +28,12 @@ set noexpandtab
 
 set ignorecase
 set smartcase
+set incsearch
 set hlsearch " makes highlight show up on search
 set list
 set listchars=tab:·\ ,trail:«"makes tabs show as "·    "
 
 syntax on
-" line numbers are relative to current line, not absolute
-" http://vim.wikia.com/wiki/Display_line_numbers
 set relativenumber
 set number
 set mouse+=a
@@ -99,10 +104,6 @@ let g:fzf_colors =
   \ 'marker':  ['fg', 'Keyword'],
   \ 'spinner': ['fg', 'Label'],
   \ 'header':  ['fg', 'Comment'] }
-let g:fzf_action = {
-  \ 'ctrl-t': 'tab split',
-  \ 'ctrl-x': 'split',
-  \ 'ctrl-v': 'vsplit' }
 
 "Indent context aware pasting
 Bundle 'sickill/vim-pasta'
@@ -137,46 +138,49 @@ nnoremap <leader>bx :sb
 nnoremap <leader>bs :sb 
 
 " Buffer CLeanup
-nnoremap <leader>bd :BD<CR> " Delete the current buffer without closing out the pane
+nnoremap <leader>q :q<CR> " Close the buffer
+nnoremap <leader>bd :bd<CR> " Delete the current buffer
+nnoremap <leader>bD :BD<CR> " Delete the current buffer without closing out the pane
 nnoremap <leader>bo :only<CR> :BufOnly<CR> " Make your current buffer the only buffer
-nnoremap <leader>bD :windo bd<CR> :call DeleteHiddenBuffers()<CR>" For deleting all buffers in a tab
+nnoremap <leader>bU :windo bd<CR> :call DeleteHiddenBuffers()<CR>" For deleting all buffers in a tab
 nnoremap <leader>bu :call DeleteHiddenBuffers()<CR> " Deletes all hidden buffers
 
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 " Plugin 'powerline/powerline'
+if has ('gui_running')
+  set guifont=Meslo\ LG\ M\ Regular\ for\ Powerline:h11
+endif
 let g:airline_theme = 'bubblegum'
 let g:airline_powerline_fonts = 1
 let g:airline_detect_modified = 1
+let g:airline#extensions#wordcount#enabled = 0
 " Airline Buffers
 let g:airline#extensions#tabline#enabled = 1 " Set Airline to show buffers at the top of the screen
 let g:airline#extensions#tabline#fnamemod = ':t' "show just the filename
 let g:airline#extensions#tabline#buffer_nr_show = 1
 let g:airline#extensions#tabline#buffer_nr_format = '[%s] '
-let g:airline#extensions#tabline#switch_buffers_and_tabs = 0
+let g:airline#extensions#tabline#switch_buffers_and_tabs = 1
 " Airline Sections
 function! AirlineInit()
-  call airline#parts#define_minwidth('filetype', 50)
-  call airline#parts#define_minwidth('linenr', 50)
-  call airline#parts#define_minwidth('maxlinenr', 50)
+	call airline#parts#define_minwidth('linenr', 500)
+	call airline#parts#define_minwidth('maxlinenr', 500)
+	" let g:airline_section_a = airline#section#create(['mode'])       "(mode, crypt, paste, spell, iminsert)
+	let g:airline_section_b = airline#section#create(['branch'])       "(hunks, branch)
+	let g:airline_section_c = airline#section#create(['path'])       "(bufferline or filename)
+	" let g:airline_section_gutter  (readonly, csv)
+	let g:airline_section_x = airline#section#create(['filetype'])       "(tagbar, filetype, virtualenv)
+	let g:airline_section_y = [] " (fileencoding, fileformat)
+	let g:airline_section_z = airline#section#create(['linenr', 'maxlinenr', ' ', '%{col(".")}'])       "(percentage, line number, column number)
+	let g:airline_section_error = [] " (ycm_error_count, syntastic-err, eclim)
+	let g:airline_section_warning = [] " (ycm_warning_count, syntastic-warn, whitespace)
 endfunction
 autocmd User AirlineAfterInit call AirlineInit()
-" let g:airline_section_a       (mode, crypt, paste, spell, iminsert)
-" let g:airline_section_b       (hunks, branch)
-" let g:airline_section_c       (bufferline or filename)
-" let g:airline_section_gutter  (readonly, csv)
-" let g:airline_section_x       (tagbar, filetype, virtualenv)
-let g:airline_section_y = [] " (fileencoding, fileformat)
-" let g:airline_section_z       (percentage, line number, column number)
-let g:airline_section_error = [] " (ycm_error_count, syntastic-err, eclim)
-let g:airline_section_warning = [] " (ycm_warning_count, syntastic-warn, whitespace)
 
-" Airline Branch
+" Airline Extensions
 let g:airline#extensions#branch#displayed_head_limit = 15
+let g:airline#extensions#tabline#enabled = 1
 
-if has ('gui_running')
-  set guifont=Meslo\ LG\ M\ Regular\ for\ Powerline:h11
-endif
 
 "fuzzy file searcher
 Plugin 'kien/ctrlp.vim'
@@ -262,8 +266,8 @@ Plugin 'SirVer/ultisnips'
 "Plugin 'matthewsimo/angular-vim-snippets'
 let g:UltiSnipsEditSplit="vertical"
 let g:UltiSnipsExpandTrigger = "<tab>"
-let g:UltiSnipsJumpForwardTrigger = "<tab>"
-let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
+let g:UltiSnipsJumpForwardTrigger = "<leader><tab>"
+let g:UltiSnipsJumpBackwardTrigger = "<leader><s-tab>"
 let g:UltiSnipsSnippetDir = "~/.vim/bundle/ultisnips/UltiSnips"
 
 " autocomplete
@@ -277,16 +281,6 @@ let g:SuperTabDefaultCompletionType = '<C-n>'
 
 " figure out indent settings
 Plugin 'tpope/vim-sleuth'
-
-" framework for syntax highlighting
-"Plugin 'vim-syntastic/syntastic'
-"set statusline+=%#warningmsg#
-"set statusline+=%{SyntasticStatuslineFlag()}
-"set statusline+=%*
-"let g:syntastic_always_populate_loc_list = 1
-"let g:syntastic_auto_loc_list = 1
-"let g:syntastic_check_on_open = 1
-"let g:syntastic_check_on_wq = 0
 
 " Asynchronous Linting Engine
 Plugin 'w0rp/ale'
@@ -328,6 +322,9 @@ Plugin 'leafgarland/typescript-vim'
 
 " Angular Development
 Plugin 'burnettk/vim-angular'
+
+" React Development
+Plugin 'mxw/vim-jsx'
 
 "ColorSchemes
 nnoremap <leader>C :Colors<CR>

@@ -26,13 +26,13 @@ fd() {
     # dir=$(find "$search_term" -type d 2> /dev/null | fzf +m --algo=v1)
     dir=$(fnd ${find_options[*]} --hidden --no-ignore "$search_term" | fzf ${fzf_options[*]})
   elif [ -z $search_term ]; then
-    dir=$HOME/qualtrics/$(ls $HOME/qualtrics | fzf ${fzf_options[*]})
+    dir=$HOME/workspace/$(ls $HOME/workspace | fzf ${fzf_options[*]})
   else
     # dir=$(find "$search_term" -path '*/\.*' -prune -o -type d -print 2> /dev/null | fzf +m --algo=v1)
     dir=$(fnd ${find_options[*]} "$search_term" | fzf ${fzf_options[*]})
   fi
 
-  if [ ! -z "$dir" ]; then
+  if [ -n "$dir" ]; then
     cd -P "$dir"
   fi
 }

@@ -6,11 +6,10 @@ source ~/utility/bash/fzf.sh
 
 export QUALTRICSHOSTNAME=ops.b1-prv.local.wilsonl
 export NODE_ENV='development'  #for certain repos this will help you build non-minified for local development
-export WORKSPACE=$HOME/qualtrics
-export GOPATH=$HOME/qualtrics/GoHome
+export GOPATH=$HOME/workspace/GoHome
 export PATH=$PATH:/usr/local/opt/go/libexec/bin:$GOPATH/bin
 export CLICOLOR=1
-export SWPROXY_CERTIFICATE_PATH="/Users/WilsonL/qualtrics/qualtrics-dev-proxy/certs"
+export SWPROXY_CERTIFICATE_PATH="/Users/WilsonL/workspace/qualtrics-dev-proxy/certs"
 
 #LSCOLORS (bold is just capital letters)
 #LSCOLORS: check `man ls` and grep for colors
@@ -79,5 +78,8 @@ if [ -f $(brew --prefix)/etc/bash_completion ]; then
 fi
 
 test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
-[[ -s "$HOME/.avn/bin/avn.sh" ]] && source "$HOME/.avn/bin/avn.sh" # load avn
 
+# Node Versioning
+export NVM_DIR="$HOME/.nvm"
+[[ -s "$HOME/.avn/bin/avn.sh" ]] && source "$HOME/.avn/bin/avn.sh" # load avn
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
