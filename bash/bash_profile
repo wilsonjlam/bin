@@ -1,6 +1,13 @@
 #iterm only loads bash_profile when it opens
 source ~/.bashrc
 
+# More sensical CLI word-based movements/editing
+bind '"\C-f":vi-next-word'
+bind '"\C-b":vi-prev-word'
+stty werase undef #you have to do this to allow rebinding C-w
+bind '"\C-w":backward-kill-word'
+bind '"\C-d":kill-word'
+
 #fzf shortcuts
 source ~/utility/bash/fzf.sh
 
