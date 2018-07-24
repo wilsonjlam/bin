@@ -10,6 +10,14 @@ command! Src source ~/.vimrc
 "  %    :  saves and restores the buffer list
 "  n... :  where to save the viminfo files
 set viminfo='100,\"30,:20,%,n~/.viminfo
+function! SetGMark(mark, filename, line_nr)
+    let l:mybuf = bufnr(a:filename, 1)
+    call setpos("'".a:mark, [l:mybuf, a:line_nr, 1, 0])
+endf
+
+call SetGMark('V', '/Users/WilsonL/.vimrc_ext', 1)
+call SetGMark('P', '/Users/WilsonL/.bash_profile', 1)
+call SetGMark('B', '/Users/WilsonL/.bashrc', 1)
 
 inoremap jj <Esc>
 noremap <C-\> =
@@ -61,6 +69,11 @@ set splitbelow
 "To stop tab-indenting eyaml/yaml files
 au BufRead,BufNewFile *.eyaml set filetype=yaml
 
+aug QFClose
+  au!
+  au WinEnter * if winnr('$') == 1 && getbufvar(winbufnr(winnr()), "&buftype") == "quickfix"|q|endif
+aug END
+
 " :Wsudo sudo saves the file
 command! Wsudo w !sudo tee % > /dev/null
 
@@ -90,6 +103,10 @@ noremap <leader>/ :Gcd <bar> Rg
 noremap <leader>l :BLines<CR>
 noremap <leader>L :BLines 
 noremap <leader>m :Marks<CR>
+noremap <C-f> :FZF<CR>
+noremap <C-b> :Buffers<CR>
+let g:fzf_history_dir = '~/.local/share/fzf-history'
+let g:fzf_layout = { 'down': '~30%' }
 let g:fzf_colors =
 \ { 'fg':      ['fg', 'Normal'],
   \ 'bg':      ['bg', 'Normal'],
@@ -141,8 +158,8 @@ nnoremap <leader>bs :sb
 nnoremap <leader>q :q<CR> " Close the buffer
 nnoremap <leader>bd :bd<CR> " Delete the current buffer
 nnoremap <leader>bD :BD<CR> " Delete the current buffer without closing out the pane
-nnoremap <leader>bo :only<CR> :BufOnly<CR> " Make your current buffer the only buffer
-nnoremap <leader>bU :windo bd<CR> :call DeleteHiddenBuffers()<CR>" For deleting all buffers in a tab
+nnoremap <leader>bo :only<CR> " Make your current buffer the only buffer
+nnoremap <leader>bW :windo bd<CR> :call DeleteHiddenBuffers()<CR>" For deleting all buffers in a tab
 nnoremap <leader>bu :call DeleteHiddenBuffers()<CR> " Deletes all hidden buffers
 
 Plugin 'vim-airline/vim-airline'
@@ -214,6 +231,7 @@ Plugin 'airblade/vim-gitgutter'
 Plugin 'tpope/vim-fugitive'
 Plugin 'shumphrey/fugitive-gitlab.vim'
 let g:fugitive_gitlab_domains = ['https://gitlab-app.eng.qops.net']
+noremap <leader>g :Gbrowse!<CR>
 
 Plugin 'easymotion/vim-easymotion'
 map <leader> <Plug>(easymotion-prefix)
@@ -306,6 +324,13 @@ let g:ale_open_list = 1
 " ############  LANGUAGES & SYNTAX HIGHLIGHTING  ######################################
 " #####################################################################################
 
+" Markdown
+" Plugin 'shime/vim-livedown'
+" let g:livedown_browser = "google chrome"
+
+" XML
+Plugin 'othree/xml.vim'
+
 " CSS
 Plugin 'ap/vim-css-color'
 
@@ -354,8 +379,8 @@ filetype plugin indent on    " required vundle
 set background=dark
 set termguicolors
 " let base16colorspace=256
-" colorscheme colorsbox-stnight
-colorscheme hybrid
+colorscheme colorsbox-stnight
+" colorscheme hybrid
 
 hi LineNr term=bold cterm=NONE ctermfg=DarkGrey ctermbg=NONE gui=NONE guifg=DarkGrey guibg=NONE " http://vim.wikia.com/wiki/Display_line_numbers
 hi Folded guibg=grey10 guifg=grey50
