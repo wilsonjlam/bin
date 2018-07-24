@@ -204,10 +204,13 @@ Plugin 'kien/ctrlp.vim'
 if executable('rg')
   let g:ctrlp_user_command = "fd --absolute-path --follow --type=f . %s"
 endif
+let g:ctrlp_cmd = 'CtrlPMixed'
 let g:ctrlp_max_depth=50
 let g:ctrlp_max_files=300
 let g:ctrlp_working_path_mode="r"
-let g:ctrlp_extensions = ['dir']
+let g:ctrlp_switch_buffer = 'et'
+let g:ctrlp_extensions = ['dir', 'line']
+let g:ctrlp_clear_cache_on_exit = 0
 " let g:ctrlp_dont_split = 'NERD' "don't split from the nerdtree window -- use it
 
 "file explorer
