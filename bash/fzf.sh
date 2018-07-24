@@ -95,3 +95,6 @@ fbr() {
   git checkout $(echo "$branch" | sed "s/.* //" | sed "s#remotes/[^/]*/##")
 }
 
+commands() {
+  compgen -c | fzf
+}
