@@ -8,6 +8,9 @@ yarn.lock
 
 *.txt
 
+# CTags
+tags
+
 # put personal scripts in this folder
 myscripts/*
 
