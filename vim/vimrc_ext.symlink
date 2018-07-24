@@ -15,9 +15,9 @@ function! SetGMark(mark, filename, line_nr)
     call setpos("'".a:mark, [l:mybuf, a:line_nr, 1, 0])
 endf
 
-call SetGMark('V', '/Users/WilsonL/.vimrc_ext', 1)
-call SetGMark('P', '/Users/WilsonL/.bash_profile', 1)
-call SetGMark('B', '/Users/WilsonL/.bashrc', 1)
+call SetGMark('V', '~/.vimrc_ext', 1)
+call SetGMark('P', '~/.bash_profile', 1)
+call SetGMark('B', '~/.bashrc', 1)
 
 inoremap jj <Esc>
 noremap <C-\> =
@@ -382,8 +382,8 @@ filetype plugin indent on    " required vundle
 set background=dark
 set termguicolors
 " let base16colorspace=256
-colorscheme colorsbox-stnight
-" colorscheme hybrid
+" colorscheme colorsbox-stnight
+colorscheme hybrid
 
 hi LineNr term=bold cterm=NONE ctermfg=DarkGrey ctermbg=NONE gui=NONE guifg=DarkGrey guibg=NONE " http://vim.wikia.com/wiki/Display_line_numbers
 hi Folded guibg=grey10 guifg=grey50
