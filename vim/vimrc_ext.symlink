@@ -15,9 +15,10 @@ function! SetGMark(mark, filename, line_nr)
     call setpos("'".a:mark, [l:mybuf, a:line_nr, 1, 0])
 endf
 
-call SetGMark('V', '~/.vimrc_ext', 1)
-call SetGMark('P', '~/.bash_profile', 1)
-call SetGMark('B', '~/.bashrc', 1)
+let HOME = expand('~')
+call SetGMark('V', HOME . '/.vimrc_ext', 1)
+call SetGMark('P', HOME . '/.bash_profile', 1)
+call SetGMark('B', HOME . '/.bashrc', 1)
 
 inoremap jj <Esc>
 noremap <C-\> =
