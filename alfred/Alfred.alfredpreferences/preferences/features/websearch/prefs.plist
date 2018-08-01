@@ -138,6 +138,19 @@
 			<key>utf8</key>
 			<true/>
 		</dict>
+		<key>E2451BE7-6503-4633-BBD2-42720B881E82</key>
+		<dict>
+			<key>enabled</key>
+			<true/>
+			<key>keyword</key>
+			<string>caniuse</string>
+			<key>text</key>
+			<string>Can I Use</string>
+			<key>url</key>
+			<string>https://caniuse.com/#search={query}</string>
+			<key>utf8</key>
+			<true/>
+		</dict>
 		<key>E7A659A3-1008-410A-8BAF-010BFE1CF9A0</key>
 		<dict>
 			<key>enabled</key>

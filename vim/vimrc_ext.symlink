@@ -329,8 +329,8 @@ let g:ale_open_list = 1
 " #####################################################################################
 
 " Markdown
-" Plugin 'shime/vim-livedown'
-" let g:livedown_browser = "google chrome"
+Plugin 'shime/vim-livedown'
+let g:livedown_browser = "google chrome"
 
 " XML
 Plugin 'othree/xml.vim'
@@ -384,7 +384,7 @@ set background=dark
 set termguicolors
 " let base16colorspace=256
 " colorscheme colorsbox-stnight
-colorscheme hybrid
+colorscheme spring-night
 
 hi LineNr term=bold cterm=NONE ctermfg=DarkGrey ctermbg=NONE gui=NONE guifg=DarkGrey guibg=NONE " http://vim.wikia.com/wiki/Display_line_numbers
 hi Folded guibg=grey10 guifg=grey50
