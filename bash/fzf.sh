@@ -2,7 +2,7 @@
 
 #cd using fzf
 fd() {
-  local search_term
+  local search_term ALL
   while [[ $# -gt 0  ]]; do
     key="$1"
     case $key in
@@ -22,11 +22,12 @@ fd() {
   # alias find_command="fnd --type d --absolute-path --follow ."
   local fzf_options=('+m' '--algo=v1' '-1')
 
-  if [ $ALL ]; then
+  if [ -z $search_term ]; then
+    dir=$(ls $HOME/workspace | fzf ${fzf_options[*]})
+    dir=${dir:+$HOME/workspace/$dir}
+  elif [ $ALL ]; then
     # dir=$(find "$search_term" -type d 2> /dev/null | fzf +m --algo=v1)
     dir=$(fnd ${find_options[*]} --hidden --no-ignore "$search_term" | fzf ${fzf_options[*]})
-  elif [ -z $search_term ]; then
-    dir=$HOME/workspace/$(ls $HOME/workspace | fzf ${fzf_options[*]})
   else
     # dir=$(find "$search_term" -path '*/\.*' -prune -o -type d -print 2> /dev/null | fzf +m --algo=v1)
     dir=$(fnd ${find_options[*]} "$search_term" | fzf ${fzf_options[*]})
