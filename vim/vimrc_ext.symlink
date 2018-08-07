@@ -353,6 +353,9 @@ Plugin 'burnettk/vim-angular'
 " React Development
 Plugin 'mxw/vim-jsx'
 
+" Nginx Development
+Plugin 'chr4/nginx.vim'
+
 "ColorSchemes
 nnoremap <leader>C :Colors<CR>
 Plugin 'NLKNguyen/papercolor-theme'
