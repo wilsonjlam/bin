@@ -46,7 +46,7 @@ for directory in $WORKSPACE/*/ ; do
 		continue
 	fi
 
-	cd $directory
+	cd -P $directory
 	dirty=0
 	current_branch="$(git symbolic-ref --short HEAD)"
 	echo -e "\nCurrently in ${directory} on branch ${current_branch}"

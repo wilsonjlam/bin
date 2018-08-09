@@ -353,6 +353,9 @@ Plugin 'burnettk/vim-angular'
 " React Development
 Plugin 'mxw/vim-jsx'
 
+" Nginx Development
+Plugin 'chr4/nginx.vim'
+
 "ColorSchemes
 nnoremap <leader>C :Colors<CR>
 Plugin 'NLKNguyen/papercolor-theme'
@@ -360,7 +363,6 @@ Plugin 'fugalh/desert.vim'
 Plugin 'w0ng/vim-hybrid'
 Plugin 'flazz/vim-colorschemes'
 Plugin 'zcodes/vim-colors-basic'
-Plugin 'nightsense/vimspectr'
 Plugin 'davidklsn/vim-sialoquent'
 Plugin 'rhysd/vim-color-spring-night'
 Plugin 'kamwitsta/nordisk'
@@ -369,7 +371,6 @@ Plugin 'hzchirs/vim-material'
 Plugin 'tyrannicaltoucan/vim-deep-space'
 Plugin 'kristijanhusak/vim-hybrid-material'
 Plugin 'chriskempson/base16-vim'
-Plugin 'nightsense/carbonized'
 Plugin 'nightsense/seagrey'
 Plugin 'nightsense/forgotten'
 Plugin 'mkarmona/colorsbox'
@@ -385,7 +386,7 @@ set background=dark
 set termguicolors
 " let base16colorspace=256
 " colorscheme colorsbox-stnight
-colorscheme vim-material
+colorscheme colorsbox-material
 
 hi LineNr term=bold cterm=NONE ctermfg=DarkGrey ctermbg=NONE gui=NONE guifg=DarkGrey guibg=NONE " http://vim.wikia.com/wiki/Display_line_numbers
 hi Folded guibg=grey10 guifg=grey50
