@@ -2,7 +2,7 @@
 
 #cd using fzf
 fd() {
-  local search_term ALL
+  local key search_term ALL
   while [[ $# -gt 0  ]]; do
     key="$1"
     case $key in
