@@ -6,11 +6,15 @@ snippet error "console.error" b
 console.error('${1:STUFF}');
 endsnippet
 
-snippet IIFE "Angular IIFE" b
-(function() {
-	angular.module('${1:MODULE}')
-		$2
- })();
+snippet angular.factory "Angular Factory" b
+angular.module('${1:MODULE}')
+	.factory('${2:FACTORY}', $2);
+
+$2.$inject = ['${3:DEPENDENCY}'];
+
+function $2($3) {
+	${4:BODY}
+}
 endsnippet
 
 snippet .then "then"
