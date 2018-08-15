@@ -15,9 +15,10 @@ export QUALTRICSHOSTNAME=ops.b1-prv.local.wilsonl
 export NODE_ENV='development'  #for certain repos this will help you build non-minified for local development
 export GOPATH=$HOME/workspace/GoHome
 export PATH=$PATH:/usr/local/opt/go/libexec/bin:$GOPATH/bin
-export CLICOLOR=1
+export PATH=$PATH:$HOME/utility/bin
 export SWPROXY_CERTIFICATE_PATH="/Users/WilsonL/workspace/qualtrics-dev-proxy/certs"
 
+export CLICOLOR=1
 #LSCOLORS (bold is just capital letters)
 #LSCOLORS: check `man ls` and grep for colors
 ls_black='a'
@@ -78,10 +79,6 @@ up() {
 	if [ $? == 0 ]; then
 		cd $path
 	fi
-}
-
-clone() {
-	$(cd ~/workspace && git clone $1)
 }
 
 if [ -f /usr/local/etc/bash_completion ]; then
