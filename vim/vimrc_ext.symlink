@@ -1,5 +1,4 @@
-filetype plugin indent on
-" Set up folding in vimrc
+filetype plugin indent on " Set up folding in vimrc
 set foldmethod=indent
 set nofoldenable
 " optionally you can set foldlevel=x where it'll fold everything fold-level above x
@@ -423,6 +422,7 @@ Plugin 'tpope/vim-surround'
 	Plugin 'nightsense/seagrey'
 	Plugin 'nightsense/forgotten'
 	Plugin 'mkarmona/colorsbox'
+	Plugin 'morhetz/gruvbox'
 
 	let g:hybrid_custom_term_colors=1
 	set background=dark
@@ -434,4 +434,4 @@ filetype plugin indent on    " required vundle
 "#########VUNDLE#################
 
 " Required to be outside of vundle
-colorscheme colorsbox-stnight
+colorscheme vim-material

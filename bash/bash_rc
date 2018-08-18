@@ -6,29 +6,29 @@ export BASH_CONF="bashrc"
 #####################################################
 alias bashprofile="vim ~/.bash_profile"
 alias bashrc="vim ~/.bashrc"
-alias fnd="/usr/local/bin/fd"
 alias hosts="vim /etc/hosts"
-alias interviews="cd ~/workspace/interviews"
-alias rg="rg -S --column --line-number --color=always --colors=match:fg:yellow --colors=path:fg:blue --colors=line:fg:green --colors=column:fg:cyan"
 alias srcbash="source ~/.bash_profile"
-alias subl="open -a /Applications/Sublime\ Text.app"
-alias tree="tree -C -a -I *.git"
-alias ulti="vim ~/.vim/bundle/ultisnips/Ultisnips"
-alias utility="cd ~/utility"
+alias snippets="vim ~/.vim/bundle/ultisnips/Ultisnips"
 alias vimrc="vim ~/.vimrc_ext"
 
 #Directories
-export WORKSPACE="$HOME/workspace"
 export GOHOME="$WORKSPACE/GoHome"
-alias wk="cd $WORKSPACE"
+export WORKSPACE="$HOME/workspace"
+alias interviews="cd ~/workspace/interviews"
 alias personal="cd ~/personal"
+alias utility="cd ~/utility"
+alias wk="cd $WORKSPACE"
 
 #Commands
-alias freshbuild="rm -rf node_modules && rm -rf bower_components && yarn && bower install && build"
 alias dc="docker-compose"
-alias repos="~/utility/scripts/update-all-repos.sh"
-alias vg="vagrant"
+alias fnd="/usr/local/bin/fd"
+alias freshbuild="rm -rf node_modules && rm -rf bower_components && yarn && bower install && build"
 alias monolithctl="~/workspace/core/dev/monolithctl"
+alias repos="~/utility/scripts/update-all-repos.sh"
+alias rg="rg -S --column --line-number --color=always --colors=match:fg:yellow --colors=path:fg:blue --colors=line:fg:green --colors=column:fg:cyan"
+alias subl="open -a /Applications/Sublime\ Text.app"
+alias tree="tree -C -a -I *.git*"
+alias vg="vagrant"
 
 #Grunt Commands
 alias debug="grunt karma:debug"
@@ -54,6 +54,12 @@ alias gov1nexpose="echo Tunneling to nexpose in gov1 and opening page in browser
 alias gov1widgetportal="echo Tunneling to widget portal in gov1. Please navigate to localhost:5555 in your browser. && ssh -NL 5555:widget-portal-app:5555 rampart.gov1.qprod.net"
 alias gov1kairos="echo 'Tunneling to kairos UI in gov1. Please navigate to http://kairos-ui-pool.gov1.qprod.net:8081 in your browser.' && ssh -NL 8081:collect1-app:8080 gov1"
 
-# proxy() {
-
-# }
+proxy() {
+	if [ "$1" == "start" ];then
+		docker-compose -f  ~/workspace/qualtrics-dev-proxy/docker-compose.yml restart
+	elif [ "$1" == "conf" ];then
+		vim ~/workspace/qualtrics-dev-proxy/proxy-conf.js
+	else
+		echo "unknown input"
+	fi
+}
