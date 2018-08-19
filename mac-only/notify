@@ -1,2 +1,0 @@
-#!/bin/bash
-/usr/bin/osascript -e "display notification \"$2\" with title \"$1\" sound name \"Ping\""
