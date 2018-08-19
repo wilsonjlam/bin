@@ -20,6 +20,6 @@ run pull_config.sh to setup root tracking with git info in folder
 	-airline
 	-install avn and nvm
 	-typescript:
-		-need the vim plugins 
+		-need the vim plugins
 		-need to npm install typescript
 		-need to npm install typscript-eslint-parser
