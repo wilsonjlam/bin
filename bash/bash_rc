@@ -4,29 +4,28 @@ export BASH_CONF="bashrc"
 #####################################################
 #General#############################################
 #####################################################
+alias profile="vim ~/.bash_profile ~/.bashrc"
 alias bashprofile="vim ~/.bash_profile"
 alias bashrc="vim ~/.bashrc"
 alias hosts="vim /etc/hosts"
-alias srcbash="source ~/.bash_profile"
+alias src="source ~/.bash_profile"
 alias snippets="vim ~/.vim/bundle/ultisnips/Ultisnips"
 alias vimrc="vim ~/.vimrc_ext"
 
 #Directories
 export GOHOME="$WORKSPACE/GoHome"
 export WORKSPACE="$HOME/workspace"
-alias interviews="cd ~/workspace/interviews"
-alias personal="cd ~/personal"
-alias utility="cd ~/utility"
+alias interviews="cd $WORKSPACE/interviews"
+alias personal="cd $HOME/personal"
+alias utility="cd $HOME/utility"
 alias wk="cd $WORKSPACE"
 
 #Commands
 alias dc="docker-compose"
-alias fnd="/usr/local/bin/fd"
+alias fnd="$(which fd)"
 alias freshbuild="rm -rf node_modules && rm -rf bower_components && yarn && bower install && build"
-alias monolithctl="~/workspace/core/dev/monolithctl"
 alias repos="~/utility/scripts/update-all-repos.sh"
 alias rg="rg -S --column --line-number --color=always --colors=match:fg:yellow --colors=path:fg:blue --colors=line:fg:green --colors=column:fg:cyan"
-alias subl="open -a /Applications/Sublime\ Text.app"
 alias tree="tree -C -a -I *.git*"
 alias vg="vagrant"
 
@@ -61,5 +60,12 @@ proxy() {
 		vim ~/workspace/qualtrics-dev-proxy/proxy-conf.js
 	else
 		echo "unknown input"
+	fi
+}
+monolithctl() {
+	if [ "$1" == "proxy" ];then
+		vim ~/workspace/core/dev/files/custom-proxy.conf
+	else
+		~/workspace/core/dev/monolithctl "$*"
 	fi
 }

@@ -72,7 +72,7 @@ fvim() {
 	fi
 
 	if [[ $file_search ]]; then
-		file="$(fnd "$search_term" "$directory" | fzf --ansi -0 -1)"
+		file="$(fnd --hidden --follow --exclude "*.git*" "$search_term" "$directory" | fzf --ansi -0 -1)"
 	else
 		file="$(cd -P "$directory"; rg "$search_term" | fzf --ansi -0 -1 | awk -F: '{print $1 " +" $2}')"
 	fi

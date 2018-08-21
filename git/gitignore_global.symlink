@@ -11,9 +11,6 @@ yarn.lock
 # CTags
 tags
 
-# put personal scripts in this folder
-myscripts/*
-
 # https://help.github.com/articles/ignoring-files/
 #
 # Compiled source #
