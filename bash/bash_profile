@@ -93,7 +93,7 @@ clone() {
 		source /usr/local/etc/bash_completion
 	fi
 
-	source "${HOME}/.iterm2_shell_integration.bash"
+	# source "${HOME}/.iterm2_shell_integration.bash"
 
 # Node Versioning
 	export NVM_DIR="$HOME/.nvm"

@@ -10,7 +10,7 @@ alias bashrc="vim ~/.bashrc"
 alias hosts="vim /etc/hosts"
 alias src="source ~/.bash_profile"
 alias snippets="vim ~/.vim/bundle/ultisnips/Ultisnips"
-alias vimrc="vim ~/.vimrc_ext"
+alias vimrc="vim ~/.vimrc"
 
 #Directories
 export GOHOME="$WORKSPACE/GoHome"
