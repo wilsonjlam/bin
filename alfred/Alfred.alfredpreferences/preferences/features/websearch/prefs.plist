@@ -37,7 +37,7 @@
 			<key>enabled</key>
 			<true/>
 			<key>keyword</key>
-			<string>git</string>
+			<string>gitlab</string>
 			<key>spaces</key>
 			<string>+</string>
 			<key>text</key>
@@ -57,6 +57,21 @@
 			<string>Odo Brand</string>
 			<key>url</key>
 			<string>https://odo.corp.qualtrics.com/?a=ResearchSuite&amp;b=RSBrandProfile&amp;bid={query}</string>
+			<key>utf8</key>
+			<true/>
+		</dict>
+		<key>44FED259-F9E0-4ED2-9196-6E6E521A1ED1</key>
+		<dict>
+			<key>enabled</key>
+			<true/>
+			<key>keyword</key>
+			<string>packal</string>
+			<key>spaces</key>
+			<string>+</string>
+			<key>text</key>
+			<string>packal</string>
+			<key>url</key>
+			<string>http://www.packal.org/workflow-search?query={query}&amp;osx-version=All&amp;items_per_page=50</string>
 			<key>utf8</key>
 			<true/>
 		</dict>
@@ -156,7 +171,7 @@
 			<key>enabled</key>
 			<true/>
 			<key>keyword</key>
-			<string>gitg</string>
+			<string>gitlabg</string>
 			<key>text</key>
 			<string>gitlab groups</string>
 			<key>url</key>
