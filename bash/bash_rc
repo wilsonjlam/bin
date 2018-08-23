@@ -10,6 +10,7 @@ alias bashrc="vim ~/.bashrc"
 alias hosts="vim /etc/hosts"
 alias src="source ~/.bash_profile"
 alias snippets="vim ~/.vim/bundle/ultisnips/Ultisnips"
+alias scripts="vim ~/utility/scripts"
 alias vimrc="vim ~/.vimrc"
 
 #Directories

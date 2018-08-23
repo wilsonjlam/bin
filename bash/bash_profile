@@ -19,6 +19,7 @@ source ~/.bashrc
 
 #FZF
 	export FZF_DEFAULT_COMMAND="fd -H -E *.git*"
+	export FZF_DEFAULT_OPTS="--ansi --preview='head -$LINES {}' --preview-window=right:50%:hidden --bind=?:toggle-preview"
 	source ~/utility/bash/fzf.sh
 
 #Prompt
@@ -85,7 +86,9 @@ up() {
 }
 
 clone() {
-	$(cd ~/workspace && git clone $1)
+	cd ~/workspace
+	git clone $1
+	cd $(echo "$1" | rev | cut -d '.' -f 2 | cut -d '/' -f 1 | rev)
 }
 
 #Bash Completion
