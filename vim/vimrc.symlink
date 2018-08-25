@@ -1,7 +1,7 @@
-filetype plugin indent on " Set up folding in vimrc
+filetype plugin indent on
 set foldmethod=indent
-set nofoldenable
-" optionally you can set foldlevel=x where it'll fold everything fold-level above x
+set nofoldenable " optionally you can set foldlevel=x where it'll fold everything fold-level above x
+set ff=unix
 
 let mapleader=' '
 
@@ -43,12 +43,13 @@ hi Folded guibg=grey10 guifg=grey50
 hi SpecialKey ctermfg=darkgray guifg=gray35
 "Set a column ruler at 100 char
 set colorcolumn=120
-set ff=unix
+
+" set redrawtime=3000
+" set lazyredraw
 
 set scrolloff=5 " Always show 5 lines above/below the cursor
 
 set nocompatible " be iMproved, required (doesn't try backwards compatability with vi)
-filetype off " required
 
 set autoread
 au BufRead *.txt setlocal spell
@@ -77,7 +78,7 @@ call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 
 " Vim asks you which file you meant if no matching filename is found
-Plugin 'EinfachToll/DidYouMean'
+" Plugin 'EinfachToll/DidYouMean'
 
 " Figure out indent settings
 Plugin 'tpope/vim-sleuth'
@@ -171,7 +172,6 @@ Plugin 'tpope/vim-surround'
 	"   When on a buffer becomes hidden when it is |abandon|ed.
 	set hidden
 
-	Plugin 'vim-scripts/BufOnly.vim'
 	Plugin 'qpkorr/vim-bufkill'
 	function! DeleteHiddenBuffers()
 		let tpbl=tabpagebuflist()
@@ -204,6 +204,12 @@ Plugin 'tpope/vim-surround'
 	nnoremap <leader>bo :only<CR> " Make your current buffer the only buffer
 	nnoremap <leader>bW :windo bd<CR> :call DeleteHiddenBuffers()<CR>" For deleting all buffers in a tab
 	nnoremap <leader>bu :call DeleteHiddenBuffers()<CR> " Deletes all hidden buffers
+
+
+" ==============
+" Tmux
+" ==============
+	Plugin 'christoomey/vim-tmux-navigator'
 
 
 " ==============
@@ -305,6 +311,8 @@ Plugin 'tpope/vim-surround'
 	call SetGMark('P', HOME . '/.bash_profile', 1)
 	call SetGMark('B', HOME . '/.bashrc', 1)
 	call SetGMark('F', HOME . '/utility/bash/fzf.sh', 1)
+	call SetGMark('A', HOME . '/utility/alacritty/alacritty_macos.yml', 1)
+	call SetGMark('T', HOME . '/utility/tmux/tmux.conf.symlink', 1)
 	" Displays your marks in your git gutter
 	Plugin 'kshenoy/vim-signature'
 	" Plugin 'MattesGroeger/vim-bookmarks'
@@ -320,7 +328,6 @@ Plugin 'tpope/vim-surround'
 	" Snippets
 	Plugin 'SirVer/ultisnips'
 	"Plugin 'honza/vim-snippets' " bring these in one at a time
-	"Plugin 'matthewsimo/angular-vim-snippets'
 	let g:UltiSnipsEditSplit="vertical"
 	let g:UltiSnipsExpandTrigger = "<tab>"
 	let g:UltiSnipsJumpForwardTrigger = "<leader><tab>"
@@ -414,7 +421,6 @@ Plugin 'tpope/vim-surround'
 	Plugin 'NLKNguyen/papercolor-theme'
 	Plugin 'fugalh/desert.vim'
 	Plugin 'w0ng/vim-hybrid'
-	Plugin 'flazz/vim-colorschemes'
 	Plugin 'zcodes/vim-colors-basic'
 	Plugin 'davidklsn/vim-sialoquent'
 	Plugin 'rhysd/vim-color-spring-night'
@@ -428,15 +434,18 @@ Plugin 'tpope/vim-surround'
 	Plugin 'nightsense/forgotten'
 	Plugin 'mkarmona/colorsbox'
 	Plugin 'morhetz/gruvbox'
+	Plugin 'kaicataldo/material.vim'
+	Plugin 'chriskempson/vim-tomorrow-theme'
 
-	let g:hybrid_custom_term_colors=1
+	" let g:hybrid_custom_term_colors=1
 	set background=dark
-	set termguicolors
+	if has ('gui_running')
+		set termguicolors
+	endif
 	" let base16colorspace=256
 
 call vundle#end()            " required vundle
-filetype plugin indent on    " required vundle
 "#########VUNDLE#################
 
 " Required to be outside of vundle
-colorscheme vim-material
+colorscheme hybrid

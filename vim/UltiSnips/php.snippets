@@ -5,3 +5,33 @@ endsnippet
 snippet stackTrace "stack trace log" b
 Log::stackTrace();
 endsnippet
+
+snippet test "test with generate" b
+	/**
+	* @test
+	* @group ${1:GROUP}
+	* @dataProvider generate${2}
+	*/
+	public function test${2:FUNCTION}()
+	{
+		//top level variables
+
+		$sut = $this->getSut('some function');
+
+		//setup some mocks (remember that functions needing access outside of scope need a `use (&$var)` bit attached)
+
+		//expectations
+	}
+
+	public function generate${2}Data()
+	{
+		return [
+			'description' => [
+				'args' => [
+				],
+				'expected' => [
+				],
+			],
+		];
+	}
+endsnippet
