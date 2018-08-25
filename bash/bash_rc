@@ -63,10 +63,25 @@ proxy() {
 		echo "unknown input"
 	fi
 }
+
 monolithctl() {
 	if [ "$1" == "proxy" ];then
 		vim ~/workspace/core/dev/files/custom-proxy.conf
 	else
 		~/workspace/core/dev/monolithctl "$*"
 	fi
+}
+
+up() {
+	local path
+	path=$(git rev-parse --show-toplevel);
+	if [ $? == 0 ]; then
+		cd $path
+	fi
+}
+
+clone() {
+	cd ~/workspace
+	git clone $1
+	cd $(echo "$1" | rev | cut -d '.' -f 2 | cut -d '/' -f 1 | rev)
 }

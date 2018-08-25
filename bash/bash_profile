@@ -1,6 +1,9 @@
 #iterm only loads bash_profile when it opens
 source ~/.bashrc
 
+export PATH=/usr/local/bin:$PATH
+export PATH="$HOME/.cargo/bin:$PATH"
+
 # More sensical CLI word-based movements/editing
 	bind '"\C-f":vi-next-word'
 	bind '"\C-b":vi-prev-word'
@@ -77,20 +80,6 @@ source ~/.bashrc
 		}
 export PS1="$blue\$(trim_hostname)#$green\$(parent_working_directory)$light_red\$(parse_git_branch):$light_gray\$$gray"
 
-up() {
-	local path
-	path=$(git rev-parse --show-toplevel);
-	if [ $? == 0 ]; then
-		cd $path
-	fi
-}
-
-clone() {
-	cd ~/workspace
-	git clone $1
-	cd $(echo "$1" | rev | cut -d '.' -f 2 | cut -d '/' -f 1 | rev)
-}
-
 #Bash Completion
 	if [ -f /usr/local/etc/bash_completion ]; then
 		source /usr/local/etc/bash_completion
@@ -104,4 +93,3 @@ clone() {
 	[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 	[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
-export PATH="$HOME/.cargo/bin:$PATH"
