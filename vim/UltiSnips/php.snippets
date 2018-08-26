@@ -7,31 +7,39 @@ Log::stackTrace();
 endsnippet
 
 snippet test "test with generate" b
-	/**
-	* @test
-	* @group ${1:GROUP}
-	* @dataProvider generate${2}
-	*/
-	public function test${2:FUNCTION}()
-	{
-		//top level variables
+/**
+* @test
+* @group ${1:GROUP}
+* @dataProvider generate$2Data
+*/
+public function test${2:FUNCTION}()
+{
+	//top level variables
 
-		$sut = $this->getSut('some function');
+	$sut = $this->getSut('some function');
 
-		//setup some mocks (remember that functions needing access outside of scope need a `use (&$var)` bit attached)
+	//setup some mocks (remember that functions needing access outside of scope need a `use (&$var)` bit attached)
 
-		//expectations
-	}
+	//expectations
+}
 
-	public function generate${2}Data()
-	{
-		return [
-			'description' => [
-				'args' => [
-				],
-				'expected' => [
-				],
+public function generate$2Data()
+{
+	return [
+		'description' => [
+			'args' => [
 			],
-		];
-	}
+			'expected' => [
+			],
+		],
+	];
+}
+endsnippet
+
+snippet assertEquals "$this->assertEquals()" b
+$this->assertEquals(${1:EXPECTED}, ${2:ACTUAL});
+endsnippet
+
+snippet assertTrue "$this->assertTrue()" b
+$this->assertTrue(${1:VALUE}, ${2:ERROR_MSG});
 endsnippet

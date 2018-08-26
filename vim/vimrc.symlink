@@ -311,7 +311,7 @@ Plugin 'tpope/vim-surround'
 	call SetGMark('P', HOME . '/.bash_profile', 1)
 	call SetGMark('B', HOME . '/.bashrc', 1)
 	call SetGMark('F', HOME . '/utility/bash/fzf.sh', 1)
-	call SetGMark('A', HOME . '/utility/alacritty/alacritty_macos.yml', 1)
+	call SetGMark('A', HOME . '/utility/terminal/alacritty_macos.yml', 1)
 	call SetGMark('T', HOME . '/utility/tmux/tmux.conf.symlink', 1)
 	" Displays your marks in your git gutter
 	Plugin 'kshenoy/vim-signature'
