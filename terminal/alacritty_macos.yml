@@ -93,19 +93,19 @@ custom_cursor_colors: true
 colors:
   # Default colors
   primary:
-    background: '0x27292c'
-    foreground: '0xd0d2d1'
+    background: '0x1c1f20'
+    foreground: '0x8a8a8a'
 
   # Normal colors
   normal:
-    black:   '0x35383b'
-    red:     '0xb05655'
-    green:   '0x769972'
-    yellow:  '0xe1a574'
-    blue:    '0x7693ac'
-    magenta: '0x977ba0'
-    cyan:    '0x749e99'
-    white:   '0x848b92'
+    black:   '0x1c1f20'
+    red:     '0xa54141'
+    green:   '0x8c943f'
+    yellow:  '0xde925e'
+    blue:    '0x5f809d'
+    magenta: '0x85668e'
+    cyan:    '0x5e8c86'
+    white:   '0x707780'
 
   # Bright colors
   bright:
@@ -256,9 +256,7 @@ key_bindings:
   - { key: C,        mods: Command, action: Copy                         }
   - { key: Paste,                   action: Paste                        }
   - { key: Copy,                    action: Copy                         }
-  - { key: H,        mods: Command, action: Hide                         }
   - { key: Q,        mods: Command, action: Quit                         }
-  - { key: W,        mods: Command, action: Quit                         }
   - { key: Home,                    chars: "\x1bOH",   mode: AppCursor   }
   - { key: Home,                    chars: "\x1b[H",   mode: ~AppCursor  }
   - { key: End,                     chars: "\x1bOF",   mode: AppCursor   }
@@ -377,3 +375,4 @@ key_bindings:
   - { key: Right, mods: Command,       chars: "\x00\x4c" }
   - { key: ;,     mods: Command,       chars: "\x00\x3a" }
   - { key: G,     mods: Command,       chars: "\x00\x71" }
+  - { key: R,     mods: Command,       chars: "\x00\x72" }
