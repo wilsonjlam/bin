@@ -4,7 +4,7 @@ export BASH_CONF="bashrc"
 #####################################################
 #General#############################################
 #####################################################
-alias profile="vim ~/.bash_profile ~/.bashrc"
+alias profile="vim -O ~/.bash_profile ~/.bashrc"
 alias bashprofile="vim ~/.bash_profile"
 alias bashrc="vim ~/.bashrc"
 alias hosts="vim /etc/hosts"
