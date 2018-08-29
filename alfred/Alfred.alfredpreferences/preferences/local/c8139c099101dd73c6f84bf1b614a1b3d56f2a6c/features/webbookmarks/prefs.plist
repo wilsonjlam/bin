@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>chromeProfile</key>
-	<string>Default</string>
+	<string>Profile 1</string>
 	<key>indexChrome</key>
 	<true/>
 </dict>
