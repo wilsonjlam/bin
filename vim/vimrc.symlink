@@ -301,7 +301,7 @@ Plugin 'tpope/vim-surround'
   "  :20  :  up to 20 lines of command-line history will be remembered
   "  %    :  saves and restores the buffer list
   "  n... :  where to save the viminfo files
-	set viminfo='100,\"30,:20,%,n~/.viminfo
+	" set viminfo='100,\"30,:20,%,n~/.viminfo
 	function! SetGMark(mark, filename, line_nr)
 		let l:mybuf = bufnr(a:filename, 1)
 		call setpos("'".a:mark, [l:mybuf, a:line_nr, 1, 0])
