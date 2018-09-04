@@ -8,6 +8,12 @@ bind C-@ send-prefix
 # vim compatibility
 set -g default-terminal "xterm-256color"
 
+# Source Tmux Conf
+bind ` source-file ~/.tmux.conf
+
+# speed up sec
+set -sg escape-time 0
+
 # Reattach each new window to the user bootstrap namespace
 # https://github.com/ChrisJohnsen/tmux-MacOSX-pasteboard
 set -g default-command "which reattach-to-user-namespace > /dev/null && reattach-to-user-namespace -l $SHELL || $SHELL -l"
@@ -45,6 +51,24 @@ set -g set-titles on
 set -g set-titles-string "#T"
 
 # Panes
+#Smart pane switching with awareness of Vim splits.
+# See: https://github.com/christoomey/vim-tmux-navigator
+is_vim="ps -o state= -o comm= -t '#{pane_tty}' | grep -iqE '^[^TXZ ]+ +(\\S+\\/)?g?(view|n?vim?x?)(diff)?$'"
+bind-key -n C-h if-shell "$is_vim" "send-keys C-h"  "select-pane -L"
+bind-key -n C-j if-shell "$is_vim" "send-keys C-j"  "select-pane -D"
+bind-key -n C-k if-shell "$is_vim" "send-keys C-k"  "select-pane -U"
+bind-key -n C-l if-shell "$is_vim" "send-keys C-l"  "select-pane -R"
+bind-key -n C-\ if-shell "$is_vim" "send-keys C-\\" "select-pane -l"
+bind-key -T copy-mode-vi C-h select-pane -L
+bind-key -T copy-mode-vi C-j select-pane -D
+bind-key -T copy-mode-vi C-k select-pane -U
+bind-key -T copy-mode-vi C-l select-pane -R
+bind-key -T copy-mode-vi C-\ select-pane -l
+bind-key C-r if-shell "$is_vim" "send-keys C-l"  "send-keys C-l"
+
+# Disable confirm before killing
+bind-key x kill-pane
+
 # Split horiziontal and vertical splits, instead of % and "
 # Also open them in the same directory
 bind-key v split-window -h -c '#{pane_current_path}'
@@ -59,13 +83,6 @@ bind-key J resize-pane -D 10
 bind-key K resize-pane -U 10
 bind-key H resize-pane -L 10
 bind-key L resize-pane -R 10
-
-# Select panes 
-# NOTE(arslan): See to prevent cycling https://github.com/tmux/tmux/issues/1158
-bind-key C-j select-pane -D 
-bind-key C-k select-pane -U 
-bind-key C-h select-pane -L 
-bind-key C-l select-pane -R 
 
 # This tmux statusbar config was created by tmuxline.vim
 # on Wed, 25 Nov 2015
@@ -99,20 +116,5 @@ setw -g window-status-bg "colour236"
 setw -g window-status-format "#[fg=colour245,bg=colour236] #I #[fg=colour245,bg=colour236]#W "
 setw -g window-status-current-format "#[fg=colour236,bg=colour240,nobold,nounderscore,noitalics]#[fg=colour231,bg=colour240] #I #[fg=colour231,bg=colour240]#{?window_zoomed_flag,#[fg=green][],}#W #[fg=colour240,bg=colour236,nobold,nounderscore,noitalics]"
 
-set -g window-style 'fg=colour247,bg=colour236'
+set -g window-style 'fg=colour245,bg=colour236'
 set -g window-active-style 'fg=colour250,bg=black'
-
-#Smart pane switching with awareness of Vim splits.
-# See: https://github.com/christoomey/vim-tmux-navigator
-is_vim="ps -o state= -o comm= -t '#{pane_tty}' \
-	| grep -iqE '^[^TXZ ]+ +(\\S+\\/)?g?(view|n?vim?x?)(diff)?$'"
-	bind-key -n C-h if-shell "$is_vim" "send-keys C-h"  "select-pane -L"
-	bind-key -n C-j if-shell "$is_vim" "send-keys C-j"  "select-pane -D"
-	bind-key -n C-k if-shell "$is_vim" "send-keys C-k"  "select-pane -U"
-	bind-key -n C-l if-shell "$is_vim" "send-keys C-l"  "select-pane -R"
-	bind-key -n C-\ if-shell "$is_vim" "send-keys C-\\" "select-pane -l"
-	bind-key -T copy-mode-vi C-h select-pane -L
-	bind-key -T copy-mode-vi C-j select-pane -D
-	bind-key -T copy-mode-vi C-k select-pane -U
-	bind-key -T copy-mode-vi C-l select-pane -R
-	bind-key -T copy-mode-vi C-\ select-pane -l
