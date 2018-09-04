@@ -22,14 +22,14 @@ fd() {
 	local fzf_options=('+m' '--algo=v1' '-1')
 
 	if [ -z $search_term ]; then
-		dir=$(ls $HOME/workspace | fzf ${fzf_options[*]})
+		dir=$(ls $HOME/workspace | fzf-tmux ${fzf_options[*]})
 		dir=${dir:+$HOME/workspace/$dir}
 	elif [ $ALL ]; then
 		# dir=$(find "$search_term" -type d 2> /dev/null | fzf +m --algo=v1)
-		dir=$(fnd ${find_options[*]} --hidden --no-ignore "$search_term" | fzf ${fzf_options[*]})
+		dir=$(fnd ${find_options[*]} --hidden --no-ignore "$search_term" | fzf-tmux ${fzf_options[*]})
 	else
 		# dir=$(find "$search_term" -path '*/\.*' -prune -o -type d -print 2> /dev/null | fzf +m --algo=v1)
-		dir=$(fnd ${find_options[*]} "$search_term" | fzf ${fzf_options[*]})
+		dir=$(fnd ${find_options[*]} "$search_term" | fzf-tmux ${fzf_options[*]})
 	fi
 
 	if [ -n "$dir" ]; then
@@ -72,16 +72,16 @@ fvim() {
 	fi
 
 	if [[ $file_search ]]; then
-		file="$(fnd --hidden --follow --exclude "*.git*" "$search_term" "$directory" | fzf --ansi -0 -1)"
+		file="$(fnd --hidden --follow --exclude "*.git/" "$search_term" "$directory" | fzf-tmux --ansi -0 -1)"
 	else
-		file="$(cd -P "$directory"; rg "$search_term" | fzf --ansi -0 -1 | awk -F: '{print $1 " +" $2}')"
+		file="$(cd -P "$directory"; rg "$search_term" | fzf-tmux --ansi -0 -1 | awk -F: '{print $1 " +" $2}')"
 	fi
 
 	if [[ -n $file ]]; then
 		if [ $EDIT ]; then
 			mvim $file
 		else
-			vim $file
+			nvim $file
 		fi
 	fi
 }

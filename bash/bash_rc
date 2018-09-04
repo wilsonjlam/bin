@@ -68,7 +68,7 @@ monolithctl() {
 	if [ "$1" == "proxy" ];then
 		vim ~/workspace/core/dev/files/custom-proxy.conf
 	else
-		~/workspace/core/dev/monolithctl "$*"
+		~/workspace/core/dev/monolithctl "$@"
 	fi
 }
 
