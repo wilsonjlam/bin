@@ -4,13 +4,13 @@ export BASH_CONF="bashrc"
 #####################################################
 #General#############################################
 #####################################################
-alias profile="vim -O ~/.bash_profile ~/.bashrc"
 alias bashprofile="vim ~/.bash_profile"
 alias bashrc="vim ~/.bashrc"
 alias hosts="vim /etc/hosts"
-alias src="source ~/.bash_profile"
-alias snippets="vim ~/.vim/bundle/ultisnips/Ultisnips"
+alias profile="vim -O ~/.bash_profile ~/.bashrc"
 alias scripts="vim ~/utility/scripts"
+alias snippets="vim ~/.vim/bundle/ultisnips/Ultisnips"
+alias src="source ~/.bash_profile"
 alias vimrc="vim ~/.vimrc"
 
 #Directories
@@ -38,39 +38,6 @@ alias mtest="grunt mocha_istanbul:server"
 alias ttest="grunt test"
 alias utest="grunt karma:unit"
 
-#####################################################
-#Work################################################
-#####################################################
-
-#Gov1 Scripts
-alias gov1f5="echo Tunneling to f5 dashboard in gov1 and opening page in browser. You may need to refresh the page for it to show up. && open http://f5dashboard.gov1.qprod.net:9200 && ssh -L 9200:f5dashboard.gov1.qprod.net:80 -N rampart.gov1.qprod.net"
-alias gov1consul="echo Tunneling to consul ui in gov1 and opening page in browser. You may need to refresh the page for it to show up. && open http://consul1-app.gov1.qprod.net:8500/ui && ssh -L 8500:consul1-app.gov1.qprod.net:8500 -N rampart.gov1.qprod.net"
-alias gov1grafana="echo Tunneling to grafana dashboard in gov1 and opening page in browser. You may need to refresh the page for it to show up. && open http://metricscassandra1-app.gov1.qprod.net:9202 && ssh -L 9202:metricscassandra1-app:3000 -N rampart.gov1.qprod.net"
-alias gov1rundeck="echo Tunneling to rundeck in gov1 and opening page in browser. You may need to refresh the page for it to show up. && open http://rundeck-app.gov1.qprod.net:4440/menu/home && ssh -L 4440:rundeck-app:4440 -N rampart.gov1.qprod.net"
-alias gov1ff="echo Tunneling to feature flipper ui in gov1 and opening page in browser. You may need to refresh the page for it to show up. && open http://features.service.gov1.consul:8080 && ssh -L 8080:features.service.gov1.consul:80 -N rampart.gov1.qprod.net"
-alias gov1shardmanager="echo Tunneling to shard manager in gov1 and opening page in browser. You may need to refresh the page for it to show up. && open https://gov1-shardmanager.gov1.qprod.net:8087/Qualtrics/Server/ShardManager.php && ssh -L 8087:w1-app:443 -N rampart.gov1.qprod.net"
-alias gov1uchiwa="echo Tunneling to uchiwa in gov1 and opening page in browser. You may need to refresh the page for it to show up. && open https://uchiwa-app.gov1.qprod.net:8443 && ssh -L 8443:uchiwa-app:443 -N rampart.gov1.qprod.net"
-alias gov1nexpose="echo Tunneling to nexpose in gov1 and opening page in browser. You may need to refresh the page for it to show up. && open https://nexpose-console-app.gov1.qprod.net:49160 && ssh -L 49160:nexpose-console-app:49160 rampart.gov1.qprod.net -N"
-alias gov1widgetportal="echo Tunneling to widget portal in gov1. Please navigate to localhost:5555 in your browser. && ssh -NL 5555:widget-portal-app:5555 rampart.gov1.qprod.net"
-alias gov1kairos="echo 'Tunneling to kairos UI in gov1. Please navigate to http://kairos-ui-pool.gov1.qprod.net:8081 in your browser.' && ssh -NL 8081:collect1-app:8080 gov1"
-
-proxy() {
-	if [ "$1" == "start" ];then
-		docker-compose -f  ~/workspace/qualtrics-dev-proxy/docker-compose.yml restart
-	elif [ "$1" == "conf" ];then
-		vim ~/workspace/qualtrics-dev-proxy/proxy-conf.js
-	else
-		echo "unknown input"
-	fi
-}
-
-monolithctl() {
-	if [ "$1" == "proxy" ];then
-		vim ~/workspace/core/dev/files/custom-proxy.conf
-	else
-		~/workspace/core/dev/monolithctl "$@"
-	fi
-}
 
 up() {
 	local path

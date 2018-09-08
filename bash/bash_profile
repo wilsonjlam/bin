@@ -1,5 +1,8 @@
 #iterm only loads bash_profile when it opens
 source ~/.bashrc
+if [[ -f ~/utility/work/work_profile ]]; then
+	source ~/utility/work/work_profile
+fi
 
 export PATH=/usr/local/bin:$PATH
 export PATH="$HOME/.cargo/bin:$PATH"
@@ -10,11 +13,6 @@ export PATH="$HOME/.cargo/bin:$PATH"
 	stty werase undef #you have to do this to allow rebinding C-w
 	bind '"\C-w":backward-kill-word'
 	bind '"\C-d":kill-word'
-
-#Qualtrics
-	export QUALTRICSHOSTNAME=ops.b1-prv.local.wilsonl
-	export NODE_ENV='development'  #for certain repos this will help you build non-minified for local development
-	export SWPROXY_CERTIFICATE_PATH="/Users/WilsonL/workspace/qualtrics-dev-proxy/certs"
 
 #Golang
 	export GOPATH=$HOME/workspace/GoHome
