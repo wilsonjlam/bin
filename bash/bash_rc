@@ -1,17 +1,54 @@
 export EDITOR=/usr/local/bin/vim
 export BASH_CONF="bashrc"
 
-#General
-alias subl="open -a /Applications/Sublime\ Text.app"
-alias ulti="cd ~/.vim/bundle/ultisnips/Ultisnips"
-alias utility="cd ~/utility"
-alias vimrc="vim ~/.vimrc_ext"
-alias mvim="open -a /Applications/Macvim.app"
-alias wk="cd ~/workspace"
-alias bashrc="vim ~/.bash_rc"
+#####################################################
+#General#############################################
+#####################################################
 alias bashprofile="vim ~/.bash_profile"
+alias bashrc="vim ~/.bashrc"
+alias hosts="vim /etc/hosts"
+alias profile="vim -O ~/.bash_profile ~/.bashrc"
+alias scripts="vim ~/utility/scripts"
+alias snippets="vim ~/.vim/bundle/ultisnips/Ultisnips"
+alias src="source ~/.bash_profile"
+alias vimrc="vim ~/.vimrc"
+
+#Directories
+export GOHOME="$WORKSPACE/GoHome"
+export WORKSPACE="$HOME/workspace"
+alias interviews="cd $WORKSPACE/interviews"
+alias personal="cd $HOME/personal"
+alias utility="cd $HOME/utility"
+alias wk="cd $WORKSPACE"
 
 #Commands
+alias dc="docker-compose"
+alias fnd="$(which fd)"
+alias freshbuild="rm -rf node_modules && rm -rf bower_components && yarn && bower install && build"
+alias repos="~/utility/scripts/update-all-repos.sh"
+alias rg="rg -S --column --line-number --color=always --colors=match:fg:yellow --colors=path:fg:blue --colors=line:fg:green --colors=column:fg:cyan"
+alias tree="tree -C -a -I *.git*"
 alias vg="vagrant"
-alias repos="~/utility/update-all-repos.sh"
-alias nomouseaccel="defaults write .GlobalPreferences com.apple.mouse.scaling 0"
+
+#Grunt Commands
+alias debug="grunt karma:debug"
+alias kdebug="grunt karma:debug"
+alias etest="grunt test:e2e_chrome"
+alias mtest="grunt mocha_istanbul:server"
+alias ttest="grunt test"
+alias utest="grunt karma:unit"
+
+
+up() {
+	local path
+	path=$(git rev-parse --show-toplevel);
+	if [ $? == 0 ]; then
+		cd $path
+	fi
+}
+
+clone() {
+	cd ~/workspace
+	git clone $1
+	cd $(echo "$1" | rev | cut -d '.' -f 2 | cut -d '/' -f 1 | rev)
+}

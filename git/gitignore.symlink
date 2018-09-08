@@ -1,6 +1,6 @@
 *.o
 *.exe
-*.swp
 *~
-*
-.vim
+*.swp
+*.swo
+.node-version

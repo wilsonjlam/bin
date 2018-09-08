@@ -18,9 +18,10 @@ run pull_config.sh to setup root tracking with git info in folder
 	-go to valloric/youcompleteme -- run the install.py in ~/.vim/bundle/YouCompleteMe
 	-npm install -g jshint
 	-install git completion: https://github.com/bobthecow/git-flow-completion
-	-hybrid:
-		-foreground in iterm should be 8a8a8a
-		-selection should be c5c8c6
-		-selected text should be 1562c3
 	-airline
 		-this requires installing the powerline-fonts
+	-install avn and nvm
+	-typescript:
+		-need the vim plugins
+		-need to npm install typescript
+		-need to npm install typscript-eslint-parser

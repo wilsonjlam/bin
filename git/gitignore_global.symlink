@@ -2,15 +2,14 @@
 
 *.swp
 *.swo
-*.vim
 .agignore
 *.tern-project
 yarn.lock
 
 *.txt
 
-# put personal scripts in this folder
-myscripts/*
+# CTags
+tags
 
 # https://help.github.com/articles/ignoring-files/
 #
