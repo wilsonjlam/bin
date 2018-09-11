@@ -1,21 +1,22 @@
 #!/bin/bash
-#idea: when soemthing fails, have a "skip this one and output it as a failed repo"
-dryrun=$1
+set -euo pipefail
+
+if [ ! -n "$WORKSPACE" ]; then
+	echo "Please set the $WORKSPACE enviornment variable"
+fi
+
 declare -a failedRepos
 
 handleFailure() {
-	cmd=$1
-	err=$2
-	repo=$3
-
-	if [ $err -ne 0 ]; then
-		echo >&2 "$cmd failed with status $err"
-		failedRepos+=("$repo")
-		continue
-	fi
+	echo "$BASH_COMMAND" failed with status $?
+	failedRepos+=("$(pwd | rev | cut -d '/' -f 1 | rev)")
+	exit $?
 }
+trap handleFailure ERR
 
-if [ $dryrun ]; then
+dryrun=""
+
+if [[ $dryrun ]]; then
 	echo "Test catching failure y/n?"
 	read testFailure
 	failCode=11
@@ -35,34 +36,26 @@ if [ $dryrun ]; then
 	}
 fi
 
-if [ ! -n "$WORKSPACE" ]; then
-	echo "Please set the $WORKSPACE enviornment variable"
-fi
-
-#For each directory in the $WORKSPACE
-for directory in $WORKSPACE/*/ ; do
+function updateRepo () {
 	if [ ! -d $directory ] || [ ! -d $directory/.git ]; then
 		echo "Skipping ${directory} since it's not a repo"
 		continue
 	fi
 
 	cd -P $directory
+	echo -e "\nCurrently in ${directory}"
 	dirty=0
 	current_branch="$(git symbolic-ref --short HEAD)"
-	echo -e "\nCurrently in ${directory} on branch ${current_branch}"
+	echo -e "On branch ${current_branch}\n"
 	if [  -n "$(git status --short -uno 2> /dev/null | tail -n1)" ]; then
 		dirty=1
 		if [ $dryrun ]; then
 			echo "Branch is dirty"
 			echo "git stash"
-			testFailure
+			testFail
 		else
 			echo "Stashing"
 			git stash
-			if [ $? -ne 0 ]; then
-				echo >&2 "stashing failed with status $?"
-				exit 1
-			fi
 		fi
 	fi
 
@@ -75,18 +68,9 @@ for directory in $WORKSPACE/*/ ; do
 		else
 			echo "Updating master"
 			git checkout master && git pull
-#			if [ $? -ne 0 ]; then
-#				echo >&2 "checking out and pulling on master failed with status $?"
-#				exit 1
-#			fi
-			handleFailure 'git checkout master && git pull' $? $directory
 
 			echo "Switching back to ${current_branch}"
 			git checkout "$current_branch"
-			if [ $? -ne 0 ]; then
-				echo >&2 "switching branches failed with status $?"
-				exit 1
-			fi
 		fi
 	else
 		if [ $dryrun ]; then
@@ -95,10 +79,6 @@ for directory in $WORKSPACE/*/ ; do
 		else
 			echo "Updating master"
 			git pull
-			if [ $? -ne 0 ]; then
-				echo >&2 "pulling failed with status $?"
-				exit 1
-			fi
 		fi
 	fi
 
@@ -110,21 +90,19 @@ for directory in $WORKSPACE/*/ ; do
 		else
 			echo "Unstashing changes"
 			git stash apply
-			if [ $? -ne 0 ]; then
-				echo >&2 "stash applying failed with status $?"
-				exit 1
-			fi
 		fi
 	fi
 	dirty=false
+}
+
+#For each directory in the $WORKSPACE
+for directory in $WORKSPACE/*/ ; do
+	updateRepo
 done
 
 if [[ ${failedRepos[@]} -ne 0 ]]; then
-	echo ""
-	echo -e "\033[0;31m]The following repos failed while updating"
-	printf '%s\n' "${failedRepos[@]}"
+	echo -e \n"\033[0;31m]The following repos failed while updating"
+	printf '%s\n' "${failedRepos}"
 else
-	echo ""
-	echo -e "\033[0;32mAll repos updated successfully"
-	echo ""
+	echo -e "\n\033[0;32mAll repos updated successfully\n"
 fi
