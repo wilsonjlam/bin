@@ -1,20 +1,22 @@
 #!/bin/bash
 
-set -v
+set -euv
+
+install_dir="$(dirname $BASH_SOURCE)"
 
 #directories
 mkdir ~/workspace
 mkdir ~/personal
 
 #brew installations
-cat brew/list | xargs brew install
-cat brew/cask_list | xargs brew cask install
+cat "$install_dir/brew/list" | xargs brew install
+cat "$install_dirbrew/cask_list" | xargs brew cask install
 
 #nvm
 curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
 
 #dot files
-./links.sh
+./"$install_dir"/links.sh
 
 set +v
 source ~/.bash_profile
