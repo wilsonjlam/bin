@@ -12,8 +12,6 @@ run pull_config.sh to setup root tracking with git info in folder
 		-cloned the repo to ~/utility
 	-downloaded and ran Vundle to install plugins
 	-ran ~/utility/install/links.sh
-	-brew install macvim --override-system-vim; brew linkapps
-		(installed and overrode system vim with macvim)
 	-go to valloric/youcompleteme -- run the install.py in ~/.vim/bundle/YouCompleteMe
 	-npm install -g jshint
 	-install git completion: https://github.com/bobthecow/git-flow-completion
