@@ -34,6 +34,10 @@ fd() {
 
 	if [ -n "$dir" ]; then
 		cd -P "$dir"
+
+		if [ -f ".nvmrc" ]; then
+			nvm use --silent 1>/dev/null
+		fi
 	fi
 }
 

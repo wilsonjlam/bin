@@ -28,7 +28,7 @@ alias freshbuild="rm -rf node_modules && rm -rf bower_components && yarn && bowe
 alias repos="~/utility/scripts/update-all-repos.sh"
 alias rg="rg -S --column --line-number --color=always --colors=match:fg:yellow --colors=path:fg:blue --colors=line:fg:green --colors=column:fg:cyan"
 alias tree="tree -C -a -I *.git*"
-alias vg="vagrant"
+alias nx="nvm exec"
 
 #Grunt Commands
 alias debug="grunt karma:debug"
@@ -37,7 +37,6 @@ alias etest="grunt test:e2e_chrome"
 alias mtest="grunt mocha_istanbul:server"
 alias ttest="grunt test"
 alias utest="grunt karma:unit"
-
 
 up() {
 	local path

@@ -4,8 +4,10 @@ fd
 fzf
 htop
 jq
-macvim
 ripgrep
+tmux
 tree
+neovim
+pyenv
 vim
 yarn

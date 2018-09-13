@@ -6,7 +6,7 @@
 cd "$(dirname "$0")/.."
 DOTFILES_ROOT=$(pwd)
 
-set -e
+set -eu
 
 echo ''
 
@@ -39,16 +39,12 @@ link_file () {
 
 		if [ "$overwrite_all" == "false" ] && [ "$backup_all" == "false" ] && [ "$skip_all" == "false" ]
 		then
-
 			local currentSrc="$(readlink $dst)"
 
 			if [ "$currentSrc" == "$src" ]
 			then
-
 				skip=true;
-
 			else
-
 				user "File already exists: $dst ($(basename "$src")), what do you want to do?\n\
 				[s]kip, [S]kip all, [o]verwrite, [O]verwrite all, [b]ackup, [B]ackup all?"
 				read -n 1 action
@@ -69,9 +65,7 @@ link_file () {
 					* )
 						;;
 				esac
-
 			fi
-
 		fi
 
 		overwrite=${overwrite:-$overwrite_all}
@@ -108,7 +102,7 @@ install_dotfiles () {
 
 	local overwrite_all=false backup_all=false skip_all=false
 
-	for src in $(find "$DOTFILES_ROOT/" -maxdepth 2 -name '*.symlink')
+	for src in $(find "$DOTFILES_ROOT" -maxdepth 2 -name '*.symlink')
 	do
 		dst="$HOME/.$(basename "${src%.*}")"
 		link_file "$src" "$dst"

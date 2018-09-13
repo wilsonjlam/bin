@@ -85,11 +85,8 @@ export PS1="$blue\$(trim_hostname)#$green\$(parent_working_directory)$light_red\
 		source /usr/local/etc/bash_completion
 	fi
 
-	# source "${HOME}/.iterm2_shell_integration.bash"
-
 # Node Versioning
 	export NVM_DIR="$HOME/.nvm"
-	[[ -s "$HOME/.avn/bin/avn.sh" ]] && source "$HOME/.avn/bin/avn.sh" # load avn
 	[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 	[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 

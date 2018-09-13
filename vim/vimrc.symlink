@@ -71,14 +71,14 @@ command! Wsudo w !sudo tee % > /dev/null
 " #################################################################################################
 " VUNDLE ##########################################################################################
 " #################################################################################################
-
+filetype off
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 
 " Vim asks you which file you meant if no matching filename is found
-" Plugin 'EinfachToll/DidYouMean'
+Plugin 'EinfachToll/DidYouMean'
 
 " Figure out indent settings
 Plugin 'tpope/vim-sleuth'
@@ -123,7 +123,7 @@ Plugin 'tpope/vim-surround'
 	noremap <leader>m :Marks<CR>
 	noremap <leader>h :Helptags<CR>
 	noremap <C-t> :Tags<CR>
-	noremap <C-f> :FZF<CR>
+	noremap <C-f> :Gcd <bar> FZF<CR>
 	noremap <C-b> :Buffers<CR>
 	let g:fzf_history_dir = '~/.local/share/fzf-history'
 	let g:fzf_layout = { 'down': '~30%' }
@@ -369,7 +369,7 @@ Plugin 'tpope/vim-surround'
 	\  'typescript': ['prettier', 'tslint', 'tsserver', 'typecheck'],
 	\  'php': ['php -l', 'phpmd', 'phpstan', 'phpcbf', 'php-cs-fixer'],
 	\}
-	let g:ale_lint_delay = 1000 "delay 1s after text change before lintng
+	let g:ale_lint_delay = 500 "delay 1s after text change before lintng
 	let g:ale_lint_on_insert_leave = 1
 	let g:ale_sign_error = 'E' " could use emoji
 	let g:ale_sign_warning = 'W' " could use emoji
@@ -445,6 +445,7 @@ Plugin 'tpope/vim-surround'
 	" let base16colorspace=256
 
 call vundle#end()            " required vundle
+filetype plugin indent on
 "#########VUNDLE#################
 
 " Required to be outside of vundle
