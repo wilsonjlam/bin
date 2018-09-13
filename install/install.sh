@@ -15,7 +15,7 @@ set -v
 
 #vim
 vim -c PluginInstall -c qa
-cd ~/.vim/bundle/YouCompleteMe
-./install.py
+~/.vim/bundle/YouCompleteMe/install.py
 
-npm install -g avn
+#nvm
+curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
