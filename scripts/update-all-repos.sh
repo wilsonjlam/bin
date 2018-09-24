@@ -37,16 +37,16 @@ if [[ $dryrun ]]; then
 fi
 
 function updateRepo () {
-	if [ ! -d $directory ] || [ ! -d $directory/.git ]; then
+	if [ ! -d "$directory" ] || [ ! -d "$directory"/.git ]; then
 		echo "Skipping ${directory} since it's not a repo"
-		continue
+		return
 	fi
 
-	cd -P $directory
-	echo -e "\nCurrently in ${directory}"
+	cd -P "$directory"
+	echo -e "\\nCurrently in ${directory}"
 	dirty=0
 	current_branch="$(git symbolic-ref --short HEAD)"
-	echo -e "On branch ${current_branch}\n"
+	echo -e "On branch ${current_branch}\\n"
 	if [  -n "$(git status --short -uno 2> /dev/null | tail -n1)" ]; then
 		dirty=1
 		if [ $dryrun ]; then
@@ -63,7 +63,7 @@ function updateRepo () {
 	if [ "$(git symbolic-ref --short HEAD)" != "master" ]; then
 		if [ $dryrun ]; then
 			echo "git checkout master && git pull"
-			echo "git checkout "$current_branch""
+			echo "git checkout $current_branch"
 			testFail
 		else
 			echo "Updating master"
@@ -78,7 +78,7 @@ function updateRepo () {
 			testFail
 		else
 			echo "Updating master"
-			git pull
+			git pull --no-edit
 		fi
 	fi
 
@@ -96,7 +96,7 @@ function updateRepo () {
 }
 
 #For each directory in the $WORKSPACE
-for directory in $WORKSPACE/*/ ; do
+for directory in "$WORKSPACE"/*/ ; do
 	updateRepo
 done
 
