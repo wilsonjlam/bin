@@ -3,7 +3,7 @@ if [[ -f ~/utility/work/work_profile ]]; then
 	source ~/utility/work/work_profile
 fi
 
-export PATH=/usr/local/bin:$PATH #homebrew
+export PATH=/usr/local/bin:/usr/local/sbin:$PATH #homebrew
 export PATH="$HOME/.cargo/bin:$PATH" #rust
 
 # More sensical CLI word-based movements/editing
