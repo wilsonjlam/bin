@@ -5,8 +5,13 @@ set -euv
 install_dir="$(dirname $BASH_SOURCE)"
 
 #directories
-mkdir ~/workspace
-mkdir ~/personal
+if [ ! -d "~/workspace" ]; then
+	mkdir ~/workspace
+fi
+
+if [ ! -d "~/personal" ]; then
+	mkdir ~/personal
+fi
 
 #brew installations
 cat "$install_dir/brew/list" | xargs brew install
