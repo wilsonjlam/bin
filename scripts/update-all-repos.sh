@@ -18,14 +18,14 @@ dryrun=""
 
 if [[ $dryrun ]]; then
 	echo "Test catching failure y/n?"
-	read testFailure
+	read -r testFailure
 	failCode=11
 	fail() {
 		return $failCode
 	}
 
 	testFail() {
-		if [ $testFailure == "y" ]; then
+		if [ "$testFailure" == "y" ]; then
 			fail
 			retval=$?
 			if [ $retval -ne 0 ]; then
@@ -67,7 +67,8 @@ function updateRepo () {
 			testFail
 		else
 			echo "Updating master"
-			git checkout master && git pull
+			git checkout master 
+			git pull --commit --no-edit #don't open an editor -- just commit the change
 
 			echo "Switching back to ${current_branch}"
 			git checkout "$current_branch"
@@ -78,7 +79,7 @@ function updateRepo () {
 			testFail
 		else
 			echo "Updating master"
-			git pull --no-edit
+			git pull --commit --no-edit #don't open an editor -- just commit the change
 		fi
 	fi
 
@@ -101,8 +102,8 @@ for directory in "$WORKSPACE"/*/ ; do
 done
 
 if [[ ${#failedRepos[@]} -ne 0 ]]; then
-	echo -e \n"\033[0;31m]The following repos failed while updating"
-	printf '%s\n' "${failedRepos}"
+	echo -e \\n"\\033[0;31m]The following repos failed while updating"
+	printf '%s\n' "${failedRepos[@]}"
 else
-	echo -e "\n\033[0;32mAll repos updated successfully\n"
+	printf "\\n\\033[0;32mAll repos updated successfully\\n"
 fi
