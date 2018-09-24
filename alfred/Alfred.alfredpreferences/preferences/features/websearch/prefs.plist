@@ -179,6 +179,19 @@
 			<key>utf8</key>
 			<true/>
 		</dict>
+		<key>F95E097F-A02D-40FC-9233-DA3AB2DCF48E</key>
+		<dict>
+			<key>enabled</key>
+			<true/>
+			<key>keyword</key>
+			<string>odoticket</string>
+			<key>text</key>
+			<string>odoticket</string>
+			<key>url</key>
+			<string>https://odo.corp.qualtrics.com/?a=QUni&amp;b=EB_Viewer&amp;iid={query}</string>
+			<key>utf8</key>
+			<true/>
+		</dict>
 	</dict>
 </dict>
 </plist>
