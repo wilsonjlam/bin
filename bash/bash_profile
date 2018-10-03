@@ -1,6 +1,6 @@
-source ~/.bashrc
-if [[ -f ~/utility/work/work_profile ]]; then
-	source ~/utility/work/work_profile
+source "$HOME/.bashrc"
+if [[ -f $HOME/utility/work/work_profile ]]; then
+	source "$HOME/utility/work/work_profile"
 fi
 
 export PATH=/usr/local/bin:/usr/local/sbin:$PATH #homebrew
@@ -23,7 +23,7 @@ export PATH="$HOME/.cargo/bin:$PATH" #rust
 #FZF
 	export FZF_DEFAULT_COMMAND="fd -H -E *.git*"
 	export FZF_DEFAULT_OPTS="--ansi --preview='head -$LINES {}' --preview-window=right:50%:hidden --bind=?:toggle-preview"
-	source ~/utility/bash/fzf.sh
+	source "$HOME/utility/bash/fzf.sh"
 
 #Prompt
 	#Colors
