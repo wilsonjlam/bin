@@ -6,6 +6,7 @@ export BASH_CONF="bashrc"
 #####################################################
 alias bashprofile="vim ~/.bash_profile"
 alias bashrc="vim ~/.bashrc"
+alias workprofile="vim ~/utility/work/work_profile"
 alias hosts="vim /etc/hosts"
 alias profile="vim -O ~/.bash_profile ~/.bashrc"
 alias scripts="vim ~/utility/scripts"
