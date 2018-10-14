@@ -297,9 +297,6 @@ Plug 'tpope/vim-surround'
 " =======================
 " Autocomplete & Snippets
 " =======================
-  " Tab Completion
-	Plug 'ervandew/supertab'
-
 	" Snippets
 	Plug 'SirVer/ultisnips'
 	Plug 'honza/vim-snippets' " bring these in one at a time
@@ -307,7 +304,7 @@ Plug 'tpope/vim-surround'
 	let g:UltiSnipsExpandTrigger = "<tab>"
 	let g:UltiSnipsJumpForwardTrigger = "<leader><tab>"
 	let g:UltiSnipsJumpBackwardTrigger = "<leader><s-tab>"
-	let g:UltiSnipsSnippetDir = "~/utility/UltiSnips"
+	let g:UltiSnipsSnippetDir = "~/utility/vim/UltiSnips"
 
 	" Autocomplete
 	Plug 'Valloric/YouCompleteMe'
@@ -317,6 +314,9 @@ Plug 'tpope/vim-surround'
 	let g:ycm_autoclose_preview_window_after_completion = 1
 	let g:ycm_autoclose_preview_indow_after_insertion = 1
 	let g:SuperTabDefaultCompletionType = '<C-n>'
+
+	" Tab Completion
+	Plug 'ervandew/supertab'
 
 	" Autocomplete Parens
 	Plug 'jiangmiao/auto-pairs'
