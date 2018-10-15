@@ -398,4 +398,4 @@ key_bindings:
   - { key: Right, mods: Command,       chars: "\x00\x4c" }
   - { key: ;,     mods: Command,       chars: "\x00\x3a" }
   - { key: G,     mods: Command,       chars: "\x00\x71" }
-  - { key: R,     mods: Command,       chars: "\x00\x72" }
+  - { key: K,     mods: Command,       chars: "\x00R" }
