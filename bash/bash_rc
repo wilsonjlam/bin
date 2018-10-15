@@ -16,8 +16,9 @@ alias vimrc="nvim ~/.vimrc"
 #Directories
 export GOHOME="$WORKSPACE/GoHome"
 export WORKSPACE="$HOME/workspace"
-alias interviews="cd $WORKSPACE/interviews"
-alias personal="cd $HOME/personal"
+export PERSONAL="$HOME/personal"
+alias interviews="cd $PERSONAL/interview"
+alias personal="cd $PERSONAL"
 alias utility="cd $HOME/utility"
 alias wk="cd $WORKSPACE"
 
