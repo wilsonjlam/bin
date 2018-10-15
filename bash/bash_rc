@@ -4,21 +4,21 @@ export BASH_CONF="bashrc"
 #####################################################
 #General#############################################
 #####################################################
-alias bashprofile="vim ~/.bash_profile"
-alias bashrc="vim ~/.bashrc"
-alias workprofile="vim ~/utility/work/work_profile"
-alias hosts="vim /etc/hosts"
-alias profile="vim -O ~/.bash_profile ~/.bashrc"
-alias scripts="vim ~/utility/scripts"
-alias snippets="vim ~/.vim/bundle/ultisnips/Ultisnips"
+alias bashprofile="nvim ~/.bash_profile"
+alias bashrc="nvim ~/.bashrc"
+alias hosts="nvim /etc/hosts"
+alias profile="nvim -O ~/.bash_profile ~/.bashrc"
+alias scripts="nvim ~/utility/scripts"
+alias snippets="nvim ~/utility/vim/Ultisnips"
 alias src="source ~/.bash_profile"
-alias vimrc="vim ~/.vimrc"
+alias vimrc="nvim ~/.vimrc"
 
 #Directories
 export GOHOME="$WORKSPACE/GoHome"
 export WORKSPACE="$HOME/workspace"
-alias interviews="cd $WORKSPACE/interviews"
-alias personal="cd $HOME/personal"
+export PERSONAL="$HOME/personal"
+alias interviews="cd $PERSONAL/interview"
+alias personal="cd $PERSONAL"
 alias utility="cd $HOME/utility"
 alias wk="cd $WORKSPACE"
 

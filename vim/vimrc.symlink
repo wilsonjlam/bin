@@ -8,6 +8,7 @@ let mapleader=' '
 command! Src source ~/.vimrc
 
 inoremap jj <Esc>
+inoremap kk <Esc>
 noremap <C-\> =
 
 noremap j gj
@@ -44,8 +45,8 @@ hi SpecialKey ctermfg=darkgray guifg=gray35
 "Set a column ruler at 100 char
 set colorcolumn=120
 
-" set redrawtime=3000
-" set lazyredraw
+set redrawtime=3000
+set lazyredraw
 
 set scrolloff=5 " Always show 5 lines above/below the cursor
 
@@ -69,39 +70,32 @@ aug END
 command! Wsudo w !sudo tee % > /dev/null
 
 " #################################################################################################
-" VUNDLE ##########################################################################################
+" Plugins #########################################################################################
 " #################################################################################################
-filetype off
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-Plugin 'VundleVim/Vundle.vim'
+call plug#begin('~/.vim/bundle')
 
 " Vim asks you which file you meant if no matching filename is found
-Plugin 'EinfachToll/DidYouMean'
+Plug 'EinfachToll/DidYouMean'
 
 " Figure out indent settings
-Plugin 'tpope/vim-sleuth'
+Plug 'tpope/vim-sleuth'
 
 " Indent context aware pasting
-Bundle 'sickill/vim-pasta'
+Plug 'sickill/vim-pasta'
 
 " Commenting
-Plugin 'scrooloose/nerdcommenter'
+Plug 'scrooloose/nerdcommenter'
 let g:NERDSpaceDelims=1
 let g:NERDTrimTrailingWhitespace=1
 
-"cs<before><after>: change
-"ys<where><after>: add
-"ds<what>: delete
 ":help surround
-Plugin 'tpope/vim-surround'
+Plug 'tpope/vim-surround'
 
 " ==============
 " fzf
 " ==============
 	set rtp+=/usr/local/opt/fzf
-	Plugin 'junegunn/fzf.vim'
+	Plug 'junegunn/fzf.vim'
 	" Search with rg for the current word your cursor is over (* but rg)
 	command! -bang -nargs=* RgWord
 		\ call fzf#vim#grep(
@@ -146,24 +140,6 @@ Plugin 'tpope/vim-surround'
 
 
 " ==============
-" CtrlP
-" ==============
-	" Plugin 'kien/ctrlp.vim'
-	" if executable('rg')
-		" let g:ctrlp_user_command = "fd --absolute-path --follow --type=f . %s"
-	" endif
-	" let g:ctrlp_cmd = 'CtrlPMixed'
-	" let g:ctrlp_max_depth=50
-	" let g:ctrlp_max_files=300
-	" let g:ctrlp_working_path_mode="r"
-	" let g:ctrlp_switch_buffer = 'et'
-	" let g:ctrlp_extensions = ['dir', 'line']
-	" let g:ctrlp_clear_cache_on_exit = 0
-	" let g:ctrlp_dont_split = 'NERD' "don't split from the nerdtree window -- use it
-	" let g:ctrlp_custom_ignore = {'dir': '\v([\/]\.(git|hg|svn)|dist|bower_components|node_modules|coverage)$','file': '\v\.(exe|so|dll)|templates.js|.js.html$'}
-
-
-" ==============
 " Buffers Stuffs
 " ==============
 	" Don't write buffers to disk when opening a new one
@@ -172,7 +148,7 @@ Plugin 'tpope/vim-surround'
 	"   When on a buffer becomes hidden when it is |abandon|ed.
 	set hidden
 
-	Plugin 'qpkorr/vim-bufkill'
+	Plug 'qpkorr/vim-bufkill', {'on': 'BD'}
 	function! DeleteHiddenBuffers()
 		let tpbl=tabpagebuflist()
 		for buf in filter(range(1, bufnr('$')), 'bufexists(v:val) && index(tpbl, v:val)==-1 && index(["help", ""], getbufvar(v:val, "&buftype")) != -1')
@@ -181,7 +157,7 @@ Plugin 'tpope/vim-surround'
 	endfunction
 
 	" Pane Management
-	Plugin 't9md/vim-choosewin'
+	Plug 't9md/vim-choosewin', {'on': '<Plug>(choosewin)'}
 	nmap <leader><tab> <Plug>(choosewin)
 	let g:choosewin_overlay_enable = 1
 	map - 10<C-w>-
@@ -209,14 +185,14 @@ Plugin 'tpope/vim-surround'
 " ==============
 " Tmux
 " ==============
-	Plugin 'christoomey/vim-tmux-navigator'
+	Plug 'christoomey/vim-tmux-navigator'
 
 
 " ==============
 " Airline
 " ==============
-	Plugin 'vim-airline/vim-airline'
-	Plugin 'vim-airline/vim-airline-themes'
+	Plug 'vim-airline/vim-airline'
+	Plug 'vim-airline/vim-airline-themes'
 	set laststatus=2 " For airline to always show the status bar
 	if has ('gui_running')
 		set guifont=Meslo\ LG\ M\ Regular\ for\ Powerline:h11
@@ -255,7 +231,7 @@ Plugin 'tpope/vim-surround'
 " ==============
 " File Explorer
 " ==============
-	Plugin 'scrooloose/nerdtree'
+	Plug 'scrooloose/nerdtree'
 	let NERDTreeShowHidden=1
 	let NERDTreeShowLineNumbers=1
 	nmap `` :NERDTreeToggle<CR>
@@ -263,13 +239,13 @@ Plugin 'tpope/vim-surround'
 " ==============
 " Git Stuffs
 " ==============
-	Plugin 'airblade/vim-gitgutter'
+	Plug 'airblade/vim-gitgutter'
 	"avoid gutter popping in and out
 	"set signcolumn=yes
 
 	" Git commands (G<something>)
-	Plugin 'tpope/vim-fugitive'
-	Plugin 'shumphrey/fugitive-gitlab.vim'
+	Plug 'tpope/vim-fugitive'
+	Plug 'shumphrey/fugitive-gitlab.vim'
 	let g:fugitive_gitlab_domains = ['https://gitlab-app.eng.qops.net']
 	noremap <leader>g :Gbrowse!<CR>
 
@@ -277,7 +253,7 @@ Plugin 'tpope/vim-surround'
 " ==============
 " Movement
 " ==============
-	Plugin 'easymotion/vim-easymotion'
+	Plug 'easymotion/vim-easymotion'
 	map <leader> <Plug>(easymotion-prefix)
 	map f <Plug>(easymotion-fl)
 	map F <Plug>(easymotion-Fl)
@@ -314,28 +290,25 @@ Plugin 'tpope/vim-surround'
 	call SetGMark('A', HOME . '/utility/terminal/alacritty_macos.yml', 1)
 	call SetGMark('T', HOME . '/utility/tmux/tmux.conf.symlink', 1)
 	" Displays your marks in your git gutter
-	Plugin 'kshenoy/vim-signature'
-	" Plugin 'MattesGroeger/vim-bookmarks'
+	Plug 'kshenoy/vim-signature'
+	" Plug 'MattesGroeger/vim-bookmarks'
 	" nmap me <Plug>BookmarkAnnotate
 
 
 " =======================
 " Autocomplete & Snippets
 " =======================
-  " Tab Completion
-	Bundle 'ervandew/supertab'
-
 	" Snippets
-	Plugin 'SirVer/ultisnips'
-	"Plugin 'honza/vim-snippets' " bring these in one at a time
+	Plug 'SirVer/ultisnips'
+	Plug 'honza/vim-snippets' " bring these in one at a time
 	let g:UltiSnipsEditSplit="vertical"
 	let g:UltiSnipsExpandTrigger = "<tab>"
 	let g:UltiSnipsJumpForwardTrigger = "<leader><tab>"
 	let g:UltiSnipsJumpBackwardTrigger = "<leader><s-tab>"
-	let g:UltiSnipsSnippetDir = "~/.vim/bundle/ultisnips/UltiSnips"
+	let g:UltiSnipsSnippetDir = "~/utility/vim/UltiSnips"
 
 	" Autocomplete
-	Plugin 'Valloric/YouCompleteMe'
+	Plug 'Valloric/YouCompleteMe'
 	" make YCM compatible with UltiSnips (using supertab)
 	let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
 	let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
@@ -343,8 +316,11 @@ Plugin 'tpope/vim-surround'
 	let g:ycm_autoclose_preview_indow_after_insertion = 1
 	let g:SuperTabDefaultCompletionType = '<C-n>'
 
+	" Tab Completion
+	Plug 'ervandew/supertab'
+
 	" Autocomplete Parens
-	Plugin 'jiangmiao/auto-pairs'
+	Plug 'jiangmiao/auto-pairs'
 	" unmatched close jumps to next close, <c-v>} will avoid
 	let g:AutoPairsFlyMode = 0 " this works when you don't want it to
 	" let g:AutoPairsShortcutBackInsert = '<M-b>' "this doesn't work in macVim,
@@ -363,7 +339,7 @@ Plugin 'tpope/vim-surround'
 " =======
 " Linting
 " =======
-	Plugin 'w0rp/ale'
+	Plug 'w0rp/ale'
 	let g:ale_linters = {
 	\  'javascript': ['eslint', 'flow'],
 	\  'typescript': ['prettier', 'tslint', 'tsserver', 'typecheck'],
@@ -390,65 +366,81 @@ Plugin 'tpope/vim-surround'
 " Languages & Syntax Highlighting
 " ===============================
 	" Markdown
-	Plugin 'shime/vim-livedown'
+	Plug 'shime/vim-livedown', { 'for': 'markdown' }
 	let g:livedown_browser = "google chrome"
 
 	" XML
-	Plugin 'othree/xml.vim'
+	Plug 'othree/xml.vim', { 'for': 'xml' }
 
 	" CSS
-	Plugin 'ap/vim-css-color'
+	Plug 'ap/vim-css-color', { 'for': 'css' }
 
 	" Go Development
-	Plugin 'fatih/vim-go'
+	Plug 'fatih/vim-go', { 'for': 'go' }
 	let g:go_metalinter_autosave = 1
 	let g:go_metalinter_autosave_enabled = ['vet']
 
 	" Typescript Development
-	Plugin 'leafgarland/typescript-vim'
+	Plug 'leafgarland/typescript-vim', { 'for': 'typescript' }
 
 	" Angular Development
-	Plugin 'burnettk/vim-angular'
+	Plug 'burnettk/vim-angular', { 'for': 'javascript' }
 
 	" React Development
-	Plugin 'mxw/vim-jsx'
+	Plug 'mxw/vim-jsx', { 'for': 'javascript' }
 
 	" Nginx Development
-	Plugin 'chr4/nginx.vim'
+	Plug 'chr4/nginx.vim', { 'for': 'nginx' }
 
 	"ColorSchemes
 	nnoremap <leader>C :Colors<CR>
-	Plugin 'NLKNguyen/papercolor-theme'
-	Plugin 'fugalh/desert.vim'
-	Plugin 'w0ng/vim-hybrid'
-	Plugin 'zcodes/vim-colors-basic'
-	Plugin 'davidklsn/vim-sialoquent'
-	Plugin 'rhysd/vim-color-spring-night'
-	Plugin 'kamwitsta/nordisk'
-	Plugin 'tyrannicaltoucan/vim-quantum'
-	Plugin 'hzchirs/vim-material'
-	Plugin 'tyrannicaltoucan/vim-deep-space'
-	Plugin 'kristijanhusak/vim-hybrid-material'
-	Plugin 'chriskempson/base16-vim'
-	Plugin 'nightsense/forgotten'
-	Plugin 'mkarmona/colorsbox'
-	Plugin 'morhetz/gruvbox'
-	Plugin 'kaicataldo/material.vim'
-	Plugin 'chriskempson/vim-tomorrow-theme'
-	Plugin 'ayu-theme/ayu-vim'
-	let ayucolor="mirage"
-	Plugin 'sts10/vim-pink-moon'
-	Plugin 'nightsense/vim-crunchbang'
-	Plugin 'danilo-augusto/vim-afterglow'
+	Plug 'fugalh/desert.vim', { 'on': 'Colors' }
+	Plug 'w0ng/vim-hybrid', { 'on': 'Colors' }
+	Plug 'zcodes/vim-colors-basic', { 'on': 'Colors' }
+	Plug 'davidklsn/vim-sialoquent', { 'on': 'Colors' }
+	Plug 'rhysd/vim-color-spring-night', { 'on': 'Colors' }
+	Plug 'kamwitsta/nordisk', { 'on': 'Colors' }
+	Plug 'tyrannicaltoucan/vim-quantum', { 'on': 'Colors' }
+	Plug 'hzchirs/vim-material', { 'on': 'Colors' }
+	Plug 'tyrannicaltoucan/vim-deep-space', { 'on': 'Colors' }
+	Plug 'kristijanhusak/vim-hybrid-material', { 'on': 'Colors' }
+	Plug 'chriskempson/base16-vim', { 'on': 'Colors' }
+	Plug 'nightsense/seagrey', { 'on': 'Colors' }
+	Plug 'nightsense/forgotten', { 'on': 'Colors' }
+	Plug 'mkarmona/colorsbox', { 'on': 'Colors' }
+	Plug 'morhetz/gruvbox', { 'on': 'Colors' }
+	Plug 'kaicataldo/material.vim', { 'on': 'Colors' }
+	Plug 'chriskempson/vim-tomorrow-theme', { 'on': 'Colors' }
+	Plug 'tjammer/blayu.vim', { 'on': 'Colors' }
+	Plug 'BrainDeath0/Hypsteria', { 'on': 'Colors' }
+	Plug 'nightsense/snow', { 'on': 'Colors' }
+	Plug 'aradunovic/perun.vim', { 'on': 'Colors' }
+	Plug 'nightsense/simplifysimplify', { 'on': 'Colors' }
+	Plug 'nightsense/vrunchbang', { 'on': 'Colors' }
+	Plug 'nightsense/carbonized', { 'on': 'Colors' }
+	Plug 'nightsense/vim-crunchbang', { 'on': 'Colors' }
+	Plug 'nightsense/seabird', { 'on': 'Colors' }
+	Plug 'sts10/vim-pink-moon', { 'on': 'Colors' }
+	Plug 'ayu-theme/ayu-vim', { 'on': 'Colors' }
+		let ayucolor="mirage"
+	Plug 'danilo-augusto/vim-afterglow', { 'on': 'Colors' }
+	Plug 'arcticicestudio/nord-vim', { 'on': 'Colors' }
+	Plug 'zacanger/angr.vim', { 'on': 'Colors' }
+	Plug 'Blevs/vim-dzo', { 'on': 'Colors' }
+	Plug 'KeitaNakamura/neodark.vim', { 'on': 'Colors' }
+	Plug 'rakr/vim-one', { 'on': 'Colors' }
+	Plug 'easysid/mod8.vim', { 'on': 'Colors' }
+	Plug 'mhartington/oceanic-next', { 'on': 'Colors' }
+	Plug 'joshdick/onedark.vim', { 'on': 'Colors' }
 
 	" let g:hybrid_custom_term_colors=1
 	set background=dark
 	set termguicolors
-	" let base16colorspace=256
+	let base16colorspace=256
 
-call vundle#end()            " required vundle
-filetype plugin indent on
-"#########VUNDLE#################
+call plug#end()
+" #################################################################################################
+" Plugins #########################################################################################
+" #################################################################################################
 
-" Required to be outside of vundle
-colorscheme ayu
+colorscheme mod8
