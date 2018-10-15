@@ -8,6 +8,7 @@ let mapleader=' '
 command! Src source ~/.vimrc
 
 inoremap jj <Esc>
+inoremap kk <Esc>
 noremap <C-\> =
 
 noremap j gj
@@ -44,8 +45,8 @@ hi SpecialKey ctermfg=darkgray guifg=gray35
 "Set a column ruler at 100 char
 set colorcolumn=120
 
-" set redrawtime=3000
-" set lazyredraw
+set redrawtime=3000
+set lazyredraw
 
 set scrolloff=5 " Always show 5 lines above/below the cursor
 
@@ -393,7 +394,6 @@ Plug 'tpope/vim-surround'
 
 	"ColorSchemes
 	nnoremap <leader>C :Colors<CR>
-	Plug 'NLKNguyen/papercolor-theme', { 'on': 'Colors' }
 	Plug 'fugalh/desert.vim', { 'on': 'Colors' }
 	Plug 'w0ng/vim-hybrid', { 'on': 'Colors' }
 	Plug 'zcodes/vim-colors-basic', { 'on': 'Colors' }
@@ -415,8 +415,23 @@ Plug 'tpope/vim-surround'
 	Plug 'BrainDeath0/Hypsteria', { 'on': 'Colors' }
 	Plug 'nightsense/snow', { 'on': 'Colors' }
 	Plug 'aradunovic/perun.vim', { 'on': 'Colors' }
+	Plug 'nightsense/simplifysimplify', { 'on': 'Colors' }
+	Plug 'nightsense/vrunchbang', { 'on': 'Colors' }
+	Plug 'nightsense/carbonized', { 'on': 'Colors' }
+	Plug 'nightsense/vim-crunchbang', { 'on': 'Colors' }
+	Plug 'nightsense/seabird', { 'on': 'Colors' }
+	Plug 'ayu-theme/ayu-vim', { 'on': 'Colors' }
+	Plug 'danilo-augusto/vim-afterglow', { 'on': 'Colors' }
+	Plug 'arcticicestudio/nord-vim', { 'on': 'Colors' }
+	Plug 'zacanger/angr.vim', { 'on': 'Colors' }
+	Plug 'Blevs/vim-dzo', { 'on': 'Colors' }
+	Plug 'KeitaNakamura/neodark.vim', { 'on': 'Colors' }
+	Plug 'rakr/vim-one', { 'on': 'Colors' }
+	Plug 'easysid/mod8.vim', { 'on': 'Colors' }
+	Plug 'mhartington/oceanic-next', { 'on': 'Colors' }
+	Plug 'joshdick/onedark.vim', { 'on': 'Colors' }
 
-	let g:hybrid_custom_term_colors=1
+	" let g:hybrid_custom_term_colors=1
 	set background=dark
 	set termguicolors
 	let base16colorspace=256
@@ -426,4 +441,4 @@ call plug#end()
 " Plugins #########################################################################################
 " #################################################################################################
 
-colorscheme spring-night
+colorscheme mod8
