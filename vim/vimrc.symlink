@@ -147,7 +147,7 @@ Plug 'tpope/vim-surround'
 	"   When on a buffer becomes hidden when it is |abandon|ed.
 	set hidden
 
-	Plug 'qpkorr/vim-bufkill'
+	Plug 'qpkorr/vim-bufkill', {'on': 'BD'}
 	function! DeleteHiddenBuffers()
 		let tpbl=tabpagebuflist()
 		for buf in filter(range(1, bufnr('$')), 'bufexists(v:val) && index(tpbl, v:val)==-1 && index(["help", ""], getbufvar(v:val, "&buftype")) != -1')
@@ -156,7 +156,7 @@ Plug 'tpope/vim-surround'
 	endfunction
 
 	" Pane Management
-	Plug 't9md/vim-choosewin'
+	Plug 't9md/vim-choosewin', {'on': '<Plug>(choosewin)'}
 	nmap <leader><tab> <Plug>(choosewin)
 	let g:choosewin_overlay_enable = 1
 	map - 10<C-w>-
@@ -414,17 +414,16 @@ Plug 'tpope/vim-surround'
 	Plug 'tjammer/blayu.vim', { 'on': 'Colors' }
 	Plug 'BrainDeath0/Hypsteria', { 'on': 'Colors' }
 	Plug 'nightsense/snow', { 'on': 'Colors' }
+	Plug 'aradunovic/perun.vim', { 'on': 'Colors' }
 
-	" let g:hybrid_custom_term_colors=1
+	let g:hybrid_custom_term_colors=1
 	set background=dark
-	if has ('gui_running')
-		set termguicolors
-	endif
-	" let base16colorspace=256
+	set termguicolors
+	let base16colorspace=256
 
 call plug#end()
 " #################################################################################################
 " Plugins #########################################################################################
 " #################################################################################################
 
-colorscheme hybrid
+colorscheme spring-night
