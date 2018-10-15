@@ -387,7 +387,7 @@ Plugin 'tpope/vim-surround'
 
 
 " ===============================
-" LANGUAGES & SYNTAX HIGHLIGHTING
+" Languages & Syntax Highlighting
 " ===============================
 	" Markdown
 	Plugin 'shime/vim-livedown'
@@ -430,18 +430,20 @@ Plugin 'tpope/vim-surround'
 	Plugin 'tyrannicaltoucan/vim-deep-space'
 	Plugin 'kristijanhusak/vim-hybrid-material'
 	Plugin 'chriskempson/base16-vim'
-	Plugin 'nightsense/seagrey'
 	Plugin 'nightsense/forgotten'
 	Plugin 'mkarmona/colorsbox'
 	Plugin 'morhetz/gruvbox'
 	Plugin 'kaicataldo/material.vim'
 	Plugin 'chriskempson/vim-tomorrow-theme'
+	Plugin 'ayu-theme/ayu-vim'
+	let ayucolor="mirage"
+	Plugin 'sts10/vim-pink-moon'
+	Plugin 'nightsense/vim-crunchbang'
+	Plugin 'danilo-augusto/vim-afterglow'
 
 	" let g:hybrid_custom_term_colors=1
 	set background=dark
-	if has ('gui_running')
-		set termguicolors
-	endif
+	set termguicolors
 	" let base16colorspace=256
 
 call vundle#end()            " required vundle
@@ -449,4 +451,4 @@ filetype plugin indent on
 "#########VUNDLE#################
 
 " Required to be outside of vundle
-colorscheme hybrid
+colorscheme ayu
