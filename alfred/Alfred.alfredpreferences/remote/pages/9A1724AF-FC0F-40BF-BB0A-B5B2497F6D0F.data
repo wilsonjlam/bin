@@ -22,23 +22,6 @@
 			<key>actionconfig</key>
 			<dict>
 				<key>command</key>
-				<integer>5</integer>
-				<key>confirm</key>
-				<false/>
-			</dict>
-			<key>actionuid</key>
-			<string>remote.alfred.systemcommand</string>
-			<key>buttoniconid</key>
-			<string>C0DFB253-4113-4E4B-95FC-D05107468E5D</string>
-			<key>buttonlabel</key>
-			<string>Sleep</string>
-			<key>itemuid</key>
-			<string>265C62BB-37B4-433A-B8BE-1A31659AC889</string>
-		</dict>
-		<dict>
-			<key>actionconfig</key>
-			<dict>
-				<key>command</key>
 				<integer>11</integer>
 				<key>confirm</key>
 				<false/>
@@ -51,6 +34,23 @@
 			<string>Sleep Displays</string>
 			<key>itemuid</key>
 			<string>8C5B1BF4-FD05-4A6A-BD9A-68242296EC91</string>
+		</dict>
+		<dict>
+			<key>actionconfig</key>
+			<dict>
+				<key>command</key>
+				<integer>5</integer>
+				<key>confirm</key>
+				<false/>
+			</dict>
+			<key>actionuid</key>
+			<string>remote.alfred.systemcommand</string>
+			<key>buttoniconid</key>
+			<string>C0DFB253-4113-4E4B-95FC-D05107468E5D</string>
+			<key>buttonlabel</key>
+			<string>Sleep</string>
+			<key>itemuid</key>
+			<string>265C62BB-37B4-433A-B8BE-1A31659AC889</string>
 		</dict>
 		<dict>
 			<key>actionconfig</key>

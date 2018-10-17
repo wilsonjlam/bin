@@ -363,7 +363,7 @@ Plug 'tpope/vim-surround'
 
 
 " ===============================
-" LANGUAGES & SYNTAX HIGHLIGHTING
+" Languages & Syntax Highlighting
 " ===============================
 	" Markdown
 	Plug 'shime/vim-livedown', { 'for': 'markdown' }
@@ -420,7 +420,9 @@ Plug 'tpope/vim-surround'
 	Plug 'nightsense/carbonized', { 'on': 'Colors' }
 	Plug 'nightsense/vim-crunchbang', { 'on': 'Colors' }
 	Plug 'nightsense/seabird', { 'on': 'Colors' }
+	Plug 'sts10/vim-pink-moon', { 'on': 'Colors' }
 	Plug 'ayu-theme/ayu-vim', { 'on': 'Colors' }
+		let ayucolor="mirage"
 	Plug 'danilo-augusto/vim-afterglow', { 'on': 'Colors' }
 	Plug 'arcticicestudio/nord-vim', { 'on': 'Colors' }
 	Plug 'zacanger/angr.vim', { 'on': 'Colors' }
