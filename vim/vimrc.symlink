@@ -136,7 +136,7 @@ Plug 'tpope/vim-surround'
 		\ 'spinner': ['fg', 'Label'],
 		\ 'header':  ['fg', 'Comment'],
 		\}
-	let g:fzf_launcher = "~/utility/scripts/fzf_iterm_macvim.sh %s"
+	" let g:fzf_launcher = "~/utility/scripts/fzf_iterm_macvim.sh %s
 
 
 " ==============
@@ -308,7 +308,7 @@ Plug 'tpope/vim-surround'
 	let g:UltiSnipsSnippetDir = "~/utility/vim/UltiSnips"
 
 	" Autocomplete
-	Plug 'Valloric/YouCompleteMe'
+	Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
 	" make YCM compatible with UltiSnips (using supertab)
 	let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
 	let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
@@ -376,7 +376,7 @@ Plug 'tpope/vim-surround'
 	Plug 'ap/vim-css-color', { 'for': 'css' }
 
 	" Go Development
-	Plug 'fatih/vim-go', { 'for': 'go' }
+	Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries', 'for': 'go' }
 	let g:go_metalinter_autosave = 1
 	let g:go_metalinter_autosave_enabled = ['vet']
 
@@ -393,45 +393,46 @@ Plug 'tpope/vim-surround'
 	Plug 'chr4/nginx.vim', { 'for': 'nginx' }
 
 	"ColorSchemes
-	nnoremap <leader>C :Colors<CR>
-	Plug 'fugalh/desert.vim', { 'on': 'Colors' }
-	Plug 'w0ng/vim-hybrid', { 'on': 'Colors' }
-	Plug 'zcodes/vim-colors-basic', { 'on': 'Colors' }
-	Plug 'davidklsn/vim-sialoquent', { 'on': 'Colors' }
-	Plug 'rhysd/vim-color-spring-night', { 'on': 'Colors' }
-	Plug 'kamwitsta/nordisk', { 'on': 'Colors' }
-	Plug 'tyrannicaltoucan/vim-quantum', { 'on': 'Colors' }
-	Plug 'hzchirs/vim-material', { 'on': 'Colors' }
-	Plug 'tyrannicaltoucan/vim-deep-space', { 'on': 'Colors' }
-	Plug 'kristijanhusak/vim-hybrid-material', { 'on': 'Colors' }
-	Plug 'chriskempson/base16-vim', { 'on': 'Colors' }
-	Plug 'nightsense/seagrey', { 'on': 'Colors' }
-	Plug 'nightsense/forgotten', { 'on': 'Colors' }
-	Plug 'mkarmona/colorsbox', { 'on': 'Colors' }
-	Plug 'morhetz/gruvbox', { 'on': 'Colors' }
-	Plug 'kaicataldo/material.vim', { 'on': 'Colors' }
-	Plug 'chriskempson/vim-tomorrow-theme', { 'on': 'Colors' }
-	Plug 'tjammer/blayu.vim', { 'on': 'Colors' }
-	Plug 'BrainDeath0/Hypsteria', { 'on': 'Colors' }
-	Plug 'nightsense/snow', { 'on': 'Colors' }
-	Plug 'aradunovic/perun.vim', { 'on': 'Colors' }
-	Plug 'nightsense/simplifysimplify', { 'on': 'Colors' }
-	Plug 'nightsense/vrunchbang', { 'on': 'Colors' }
-	Plug 'nightsense/carbonized', { 'on': 'Colors' }
-	Plug 'nightsense/vim-crunchbang', { 'on': 'Colors' }
-	Plug 'nightsense/seabird', { 'on': 'Colors' }
-	Plug 'sts10/vim-pink-moon', { 'on': 'Colors' }
-	Plug 'ayu-theme/ayu-vim', { 'on': 'Colors' }
+	command! Colorscheme colorscheme
+	nnoremap <leader>C :Colorscheme <CR> :Colors<CR>
+	Plug 'w0ng/vim-hybrid', { 'on': 'Colorscheme' }
+	Plug 'fugalh/desert.vim', { 'on': 'Colorscheme' }
+	Plug 'zcodes/vim-colors-basic', { 'on': 'Colorscheme' }
+	Plug 'davidklsn/vim-sialoquent', { 'on': 'Colorscheme' }
+	Plug 'rhysd/vim-color-spring-night', { 'on': 'Colorscheme' }
+	Plug 'kamwitsta/nordisk', { 'on': 'Colorscheme' }
+	Plug 'tyrannicaltoucan/vim-quantum', { 'on': 'Colorscheme' }
+	Plug 'hzchirs/vim-material', { 'on': 'Colorscheme' }
+	Plug 'tyrannicaltoucan/vim-deep-space', { 'on': 'Colorscheme' }
+	Plug 'kristijanhusak/vim-hybrid-material', { 'on': 'Colorscheme' }
+	Plug 'chriskempson/base16-vim', { 'on': 'Colorscheme' }
+	Plug 'nightsense/seagrey', { 'on': 'Colorscheme' }
+	Plug 'nightsense/forgotten', { 'on': 'Colorscheme' }
+	Plug 'mkarmona/colorsbox', { 'on': 'Colorscheme' }
+	Plug 'morhetz/gruvbox', { 'on': 'Colorscheme' }
+	Plug 'kaicataldo/material.vim', { 'on': 'Colorscheme' }
+	Plug 'chriskempson/vim-tomorrow-theme', { 'on': 'Colorscheme' }
+	Plug 'tjammer/blayu.vim', { 'on': 'Colorscheme' }
+	Plug 'BrainDeath0/Hypsteria', { 'on': 'Colorscheme' }
+	Plug 'nightsense/snow', { 'on': 'Colorscheme' }
+	Plug 'aradunovic/perun.vim', { 'on': 'Colorscheme' }
+	Plug 'nightsense/simplifysimplify', { 'on': 'Colorscheme' }
+	Plug 'nightsense/vrunchbang', { 'on': 'Colorscheme' }
+	Plug 'nightsense/carbonized', { 'on': 'Colorscheme' }
+	Plug 'nightsense/vim-crunchbang', { 'on': 'Colorscheme' }
+	Plug 'nightsense/seabird', { 'on': 'Colorscheme' }
+	Plug 'sts10/vim-pink-moon', { 'on': 'Colorscheme' }
+	Plug 'ayu-theme/ayu-vim', { 'on': 'Colorscheme' }
 		let ayucolor="mirage"
-	Plug 'danilo-augusto/vim-afterglow', { 'on': 'Colors' }
-	Plug 'arcticicestudio/nord-vim', { 'on': 'Colors' }
-	Plug 'zacanger/angr.vim', { 'on': 'Colors' }
-	Plug 'Blevs/vim-dzo', { 'on': 'Colors' }
-	Plug 'KeitaNakamura/neodark.vim', { 'on': 'Colors' }
-	Plug 'rakr/vim-one', { 'on': 'Colors' }
-	Plug 'easysid/mod8.vim', { 'on': 'Colors' }
-	Plug 'mhartington/oceanic-next', { 'on': 'Colors' }
-	Plug 'joshdick/onedark.vim', { 'on': 'Colors' }
+	Plug 'danilo-augusto/vim-afterglow', { 'on': 'Colorscheme' }
+	Plug 'arcticicestudio/nord-vim', { 'on': 'Colorscheme' }
+	Plug 'zacanger/angr.vim', { 'on': 'Colorscheme' }
+	Plug 'Blevs/vim-dzo', { 'on': 'Colorscheme' }
+	Plug 'KeitaNakamura/neodark.vim', { 'on': 'Colorscheme' }
+	Plug 'rakr/vim-one', { 'on': 'Colorscheme' }
+	Plug 'easysid/mod8.vim', { 'on': 'Colorscheme' }
+	Plug 'mhartington/oceanic-next', { 'on': 'Colorscheme' }
+	Plug 'joshdick/onedark.vim', { 'on': 'Colorscheme' }
 
 	" let g:hybrid_custom_term_colors=1
 	set background=dark
