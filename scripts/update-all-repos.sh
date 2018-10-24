@@ -10,7 +10,6 @@ declare -a failedRepos
 handleFailure() {
 	echo "$BASH_COMMAND" failed with status $?
 	failedRepos+=("$(pwd | rev | cut -d '/' -f 1 | rev)")
-	exit $?
 }
 trap handleFailure ERR
 
