@@ -1,15 +1,19 @@
 from collections import Counter
-from datetime import datetime
+from datetime import timedelta
+
+import arrow
+from arrow.arrow import datetime
 from date_format_mappings import DEFAULT_WORKFLOW_SETTINGS, \
-    TIME_CALCULATION, VALID_FORMAT_OPTIONS
+    TIME_CALCULATION, VALID_FORMAT_OPTIONS, MAX_LOOKAHEAD_ATTEMPTS
 from date_formatters import DATE_FORMATTERS_MAP
+from date_functions import EXCLUSION_MAP
 from date_parser import DateParser
 from dateutil.relativedelta import relativedelta
+from dateutil.rrule import rruleset, rrule, DAILY
+from humanfriendly import *
 from utils import convert_date_time
 from versioning import update_settings
 from workflow import Workflow, ICON_ERROR
-from humanfriendly import *
-import arrow
 
 
 class FormatError(Exception):
@@ -34,6 +38,24 @@ class UnknownExclusionTypeError(Exception):
     This exception is thrown when we encounter an exclusion type that
     somehow makes it through the checking list. Shouldn't occur really,
     but if it does then we want to know about it.
+    """
+    pass
+
+
+class ExclusionTooFarAheadError(Exception):
+    """
+    We'll throw this bad boy if the exclusion calculations goes
+    further than a preset value. We don't want the process running years into the future
+    """
+    pass
+
+
+class ExclusionNoDaysFoundError(Exception):
+    """
+    We're going to check to make sure that the user doesn't
+    enter an exclusion clause that blocks out all the days in the
+    week. Should be easy to find. If the exclusion set has seven
+    items in it, then that's all the days in the week!
     """
     pass
 
@@ -70,9 +92,12 @@ def delta_arithmetic(date_time, operand):
 
 def do_timespans(command, settings):
     date_time, output_format = convert_date_time(command.dateTime, settings)
+    original_date_time = date_time
 
     for operand in command.operandList:
         date_time = delta_arithmetic(date_time, operand)
+
+    date_time = exclusion_check(original_date_time, date_time, command, settings)
 
     return date_time.strftime(output_format)
 
@@ -92,6 +117,81 @@ def do_subtraction(command, settings):
             date_time_2 = delta_arithmetic(date_time_2, operand)
 
     return normalised_days(command, date_time_1, date_time_2)
+
+
+def exclusion_check(original_date_time, date_time, command, settings):
+    if not hasattr(command, "exclusionCommands"):
+        return date_time
+
+    exclusion_day_set = build_exclusion_day_set(command.exclusionCommands)
+
+    # if there are seven elements in the exclusion day set then there is no way
+    # we can calculate the exclusions, so throw an error
+
+    if len(exclusion_day_set) >= 7:
+        raise ExclusionNoDaysFoundError
+
+    starting_date_time = original_date_time
+    lookahead_date = date_time
+    lookahead_count = 0
+
+    extra_days = calculate_rrule_exclusions(starting_date_time, lookahead_date, command.exclusionCommands, settings)
+
+    while extra_days > 0:
+
+        starting_date_time = lookahead_date
+        lookahead_date = lookahead_date + timedelta(days=extra_days)
+        lookahead_count = lookahead_count + 1
+
+        if lookahead_count >= MAX_LOOKAHEAD_ATTEMPTS:
+            raise ExclusionTooFarAheadError
+
+        extra_days = calculate_rrule_exclusions(starting_date_time, lookahead_date, command.exclusionCommands, settings)
+
+    return lookahead_date
+
+
+def build_exclusion_day_set(exclusion_commands):
+    excluded_days = set()
+
+    exclusion_types = exclusion_commands.exclusionList
+
+    for exclusionType in exclusion_types:
+
+        if hasattr(exclusionType, "exclusionMacro"):
+            excluded_days.update(EXCLUSION_MAP[exclusionType.exclusionMacro]['days'])
+
+    return excluded_days
+
+
+def calculate_rrule_exclusions(start_date, end_date, exclusion_commands, settings):
+    exclusion_ruleset = rruleset()
+
+    exclusion_types = exclusion_commands.exclusionList
+
+    for exclusion_type in exclusion_types:
+
+        if hasattr(exclusion_type, "exclusionRange"):
+            from_date, _ = convert_date_time(exclusion_type.exclusionRange.fromDateTime, settings)
+            to_date, _ = convert_date_time(exclusion_type.exclusionRange.toDateTime, settings)
+            exclusion_ruleset.rrule(rrule(freq=DAILY, dtstart=from_date, until=to_date))
+
+        elif hasattr(exclusion_type, "exclusionDateTime"):
+            real_date, _ = convert_date_time(exclusion_type.exclusionDateTime, settings)
+            exclusion_ruleset.rrule(rrule(freq=DAILY, dtstart=real_date, until=real_date))
+
+        elif hasattr(exclusion_type, "exclusionMacro"):
+            macro_value = exclusion_type.exclusionMacro
+            exclusion_rule = EXCLUSION_MAP[macro_value]['rule'](start=start_date, end=end_date)
+            exclusion_ruleset.rrule(exclusion_rule)
+        else:
+            # in that case, I have no idea what this is (the parser should have caught it) so just
+            # raise an error or something
+            raise UnknownExclusionTypeError
+
+    matched_dates = list(exclusion_ruleset.between(after=start_date, before=end_date, inc=True))
+
+    return len(matched_dates)
 
 
 def valid_command_format(command_format):
@@ -171,7 +271,6 @@ def normalised_days(command, date_time_1, date_time_2):
         raise FormatError
 
     if command.format == "long":
-
         difference = relativedelta(date_time_1, date_time_2)
 
         return "{years}, {months}, {days}, {hours}, {minutes}, {seconds}".format(
@@ -223,7 +322,7 @@ def normalised_days(command, date_time_1, date_time_2):
         # useless and prone to error.
         if (show_zero_items or count > 0) and TIME_CALCULATION[x]['interval'] != 'second':
             normalised_elements.append(pluralize(round_number(count), TIME_CALCULATION[x]['singular'],
-                                       TIME_CALCULATION[x]['plural']))
+                                                 TIME_CALCULATION[x]['plural']))
 
     # We put each part of the calculation in a list
     # so that Python can handle comma-separating them later on
@@ -270,6 +369,12 @@ def main(wf):
     except UnknownExclusionTypeError:
         output = "Invalid exclusion - Try again."
 
+    except ExclusionNoDaysFoundError:
+        output = "All days excluded"
+
+    except ExclusionTooFarAheadError:
+        output = "That's too far into the future"
+
     if output.startswith("Invalid"):
         wf.add_item(title=". . .", subtitle=output, valid=False, arg=args[0], icon=ICON_ERROR)
     else:
@@ -277,8 +382,10 @@ def main(wf):
 
     wf.send_feedback()
 
+
 # ## Python calling routine. Will only run this app if it is the main program
 # ## Otherwise it won't run because it is an included module -- clever!
+
 
 if __name__ == '__main__':
     workflow = Workflow(default_settings=DEFAULT_WORKFLOW_SETTINGS)

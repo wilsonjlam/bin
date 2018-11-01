@@ -1,12 +1,12 @@
 # This file contains all the functions that the workflow
 # uses for specialised dates.
-from datetime import datetime, date, timedelta
 from math import floor
 
+from arrow.arrow import datetime, timedelta
 # The DAY_MAP is specific to relative delta
 from date_format_mappings import DATE_MAPPINGS, TIME_MAPPINGS, DATE_TIME_MAPPINGS
 from dateutil.relativedelta import relativedelta, MO, TU, WE, TH, FR, SA, SU
-from dateutil.rrule import rrule, YEARLY
+from dateutil.rrule import rrule, YEARLY, DAILY
 
 DAY_MAP = {
 
@@ -71,13 +71,12 @@ def get_time_preprocessor(settings):
     return TIME_MAPPINGS[settings['time-format']]['pre-process']
 
 
-
 def _get_current_date():
-    return datetime.combine(date.today(), datetime.max.time())
+    return datetime.combine(datetime.today(), datetime.max.time())
 
 
 def _get_current_time():
-    return datetime.combine(date.today(), datetime.now().time())
+    return datetime.combine(datetime.today(), datetime.now().time())
 
 
 def current_date(settings):
@@ -109,6 +108,7 @@ def weekday(day_of_week_str):
     calculation.
     :return: a function that will calculate the day of week and return it along with the format
     """
+
     def _weekday(settings):
         return _get_current_date() + DAY_MAP[day_of_week_str.lower()], get_date_format(settings)
 
@@ -130,7 +130,7 @@ def end_of_year(settings):
 
 def next_month(settings):
     return datetime(year=_get_current_date().year, day=1, month=_get_current_date().month + 1), \
-        get_date_format(settings)
+           get_date_format(settings)
 
 
 def next_passover(settings):
@@ -138,6 +138,7 @@ def next_passover(settings):
     Credit goes to programmingpraxis.com for supplying
     the function for working out the date of the passover
     """
+
     def calc_passover_year(year):
         return datetime(year, 3, 21) + timedelta(rosh_hashanah(year))
 
@@ -155,7 +156,7 @@ def next_passover(settings):
         f = v - n
 
         # Monday .. Sunday = 0..6
-        dow = (date(year, 8, 31).weekday() + n) % 7
+        dow = (datetime(year, 8, 31).weekday() + n) % 7
 
         if dow in (2, 4, 6):
             n += 1
@@ -184,6 +185,7 @@ def bst(month_number):
     :param month_number:
     :return:
     """
+
     def _bst(settings):
         bst_rule = rrule(freq=YEARLY, bymonth=month_number, byweekday=SU(-1))
         return bst_rule.after(_get_current_date(), inc=False), get_date_format(settings)
@@ -199,8 +201,8 @@ def around_easter(days):
     :param days:
     :return:
     """
-    def _easter_offset(settings):
 
+    def _easter_offset(settings):
         easters = list(rrule(freq=YEARLY, byeaster=0, count=2))
         offset_date = easters[0] + timedelta(days=days)
 
@@ -225,9 +227,9 @@ def mothers_day_us(settings):
 
 
 def martin_luther_king_day(settings):
-
     mlk_day_rule = rrule(freq=YEARLY, bymonth=1, byweekday=MO(3))
     return mlk_day_rule.after(_get_current_date()), get_date_format(settings)
+
 
 DATE_FUNCTION_MAP = {
 
@@ -271,4 +273,79 @@ DATE_FUNCTION_MAP = {
     "mutter": mothers_day_us
 }
 
+# Note that the 'days' are not arrays; they're sets --> curly braces
+EXCLUSION_MAP = {
 
+    "weekdays":
+
+        {'days': {'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'},
+         'rule': lambda start, end: rrule(freq=DAILY, dtstart=start, until=end, byweekday=(MO, TU, WE, TH, FR))},
+
+    "weekends":
+        {'days': {'Saturday', 'Sunday'},
+         'rule': lambda start, end: rrule(freq=DAILY, dtstart=start, until=end, byweekday=(SA, SU))},
+
+    "mondays":
+        {'days': {'Monday'},
+         'rule': lambda start, end: rrule(freq=DAILY, dtstart=start, until=end, byweekday=MO)},
+
+    "tuesdays":
+        {'days':{'Tuesday'},
+         'rule': lambda start, end: rrule(freq=DAILY, dtstart=start, until=end, byweekday=TU)},
+
+    "wednesdays":
+        {'days': {'Wednesday'},
+         'rule': lambda start, end: rrule(freq=DAILY, dtstart=start, until=end, byweekday=WE)},
+
+    "thursdays":
+        {'days': {'Thursday'},
+         'rule': lambda start, end: rrule(freq=DAILY, dtstart=start, until=end, byweekday=TH)},
+
+    "fridays":
+        {'days': {'Friday'},
+         'rule': lambda start, end: rrule(freq=DAILY, dtstart=start, until=end, byweekday=FR)},
+
+    "saturdays":
+        {'days': {'Saturday'},
+         'rule': lambda start, end: rrule(freq=DAILY, dtstart=start, until=end, byweekday=SA)},
+
+    "sundays":
+        {'days': {'Sunday'},
+         'rule': lambda start, end: rrule(freq=DAILY, dtstart=start, until=end, byweekday=SU)},
+
+    "all except weekdays":
+        {'days': {'Saturday', 'Sunday'},
+         'rule': lambda start, end: rrule(freq=DAILY, dtstart=start, until=end, byweekday=(SA, SU))},
+
+    "all except weekends":
+        {'days': {'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'},
+         'rule': lambda start, end: rrule(freq=DAILY, dtstart=start, until=end, byweekday=(MO, TU, WE, TH, FR))},
+
+    "all except mondays":
+        {'days': {'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'},
+         'rule': lambda start, end: rrule(freq=DAILY, dtstart=start, until=end, byweekday=(TU, WE, TH, FR, SA, SU))},
+
+    "all except tuesdays":
+        {'days': {'Monday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'},
+         'rule': lambda start, end: rrule(freq=DAILY, dtstart=start, until=end, byweekday=(MO, WE, TH, FR, SA, SU))},
+
+    "all except wednesdays":
+        {'days': {'Monday', 'Tuesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'},
+         'rule': lambda start, end: rrule(freq=DAILY, dtstart=start, until=end, byweekday=(MO, TU, TH, FR, SA, SU))},
+
+    "all except thursdays":
+        {'days': {'Monday', 'Tuesday', 'Wednesday', 'Friday', 'Saturday', 'Sunday'},
+         'rule': lambda start, end: rrule(freq=DAILY, dtstart=start, until=end, byweekday=(MO, TU, WE, FR, SA, SU))},
+
+    "all except fridays":
+        {'days': {'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Saturday', 'Sunday'},
+         'rule': lambda start, end: rrule(freq=DAILY, dtstart=start, until=end, byweekday=(MO, TU, WE, TH, SA, SU))},
+
+    "all except saturdays":
+        {'days': {'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Sunday'},
+         'rule': lambda start, end: rrule(freq=DAILY, dtstart=start, until=end, byweekday=(MO, TU, WE, TH, FR, SU))},
+
+    "all except sundays":
+        {'days': {'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Sunday'},
+         'rule': lambda start, end: rrule(freq=DAILY, dtstart=start, until=end, byweekday=(MO, TU, WE, TH, FR, SA))}
+}
