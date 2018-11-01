@@ -165,13 +165,16 @@ Plug 'tpope/vim-surround'
 	map = 10<C-w><
 	map + 10<C-w>>
 
-	" Buffer Movement (cont)
+	" Buffer Movement
 	nnoremap <leader>bn :bn<CR> " Next buffer
 	nnoremap <leader>bp :bp<CR> " Previous buffer
 	nnoremap <leader>bv :vert sb 
 	nnoremap <leader>bx :sb 
 	nnoremap <leader>bs :sb 
 	nnoremap <leader>b :b 
+	" Tab Movement
+	nnoremap <leader>[ :tabNext<CR>
+	nnoremap <leader>] :tabnext<CR>
 
 	" Buffer CLeanup
 	nnoremap <leader>q :q<CR> " Close the buffer
@@ -241,7 +244,7 @@ Plug 'tpope/vim-surround'
 " ==============
 	Plug 'airblade/vim-gitgutter'
 	"avoid gutter popping in and out
-	"set signcolumn=yes
+	" set signcolumn=yes
 
 	" Git commands (G<something>)
 	Plug 'tpope/vim-fugitive'
@@ -444,4 +447,4 @@ call plug#end()
 " Plugins #########################################################################################
 " #################################################################################################
 
-colorscheme mod8
+colorscheme spring-night
