@@ -73,6 +73,7 @@ command! Wsudo w !sudo tee % > /dev/null
 " Plugins #########################################################################################
 " #################################################################################################
 call plug#begin('~/.vim/bundle')
+Plug 'junegunn/vim-peekaboo'
 
 " Vim asks you which file you meant if no matching filename is found
 Plug 'EinfachToll/DidYouMean'
