@@ -4,14 +4,16 @@ export BASH_CONF="bashrc"
 #####################################################
 #General#############################################
 #####################################################
-alias bashprofile="nvim ~/.bash_profile"
-alias bashrc="nvim ~/.bashrc"
+alias bashprofile="nvim $HOME/.bash_profile"
+alias bashrc="nvim $HOME/.bashrc"
 alias hosts="nvim /etc/hosts"
-alias profile="nvim -O ~/.bash_profile ~/.bashrc"
-alias scripts="nvim ~/utility/scripts"
-alias snippets="nvim ~/utility/vim/Ultisnips"
-alias src="source ~/.bash_profile"
-alias vimrc="nvim ~/.vimrc"
+alias profile="nvim -O $HOME/.bash_profile $HOME/.bashrc"
+alias scripts="nvim $HOME/utility/scripts"
+alias snippets="nvim $HOME/utility/vim/Ultisnips"
+alias src="source $HOME/.bash_profile"
+alias vimrc="nvim $HOME/.vimrc"
+alias workprofile="nvim $HOME/utility/work/profile"
+alias workscripts="nvim $HOME/utility/work/scripts"
 
 #Directories
 export GOHOME="$WORKSPACE/GoHome"
@@ -21,6 +23,7 @@ alias interviews="cd $PERSONAL/interview"
 alias personal="cd $PERSONAL"
 alias utility="cd $HOME/utility"
 alias wk="cd $WORKSPACE"
+alias work="cd $HOME/utility/work"
 
 #Commands
 alias dc="docker-compose"

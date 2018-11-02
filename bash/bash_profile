@@ -1,8 +1,8 @@
 # shellcheck source=.bashrc
 source "$HOME/.bashrc"
-if [[ -f $HOME/utility/work/work_profile ]]; then
-	# shellcheck source=utility/work/work_profile
-	source "$HOME/utility/work/work_profile"
+if [[ -f $HOME/utility/work/profile ]]; then
+	# shellcheck source=$HOME/utility/work/profile
+	source "$HOME/utility/work/profile"
 fi
 
 export PATH=/usr/local/bin:/usr/local/sbin:$PATH #homebrew
