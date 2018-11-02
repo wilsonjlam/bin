@@ -107,12 +107,12 @@ Plug 'tpope/vim-surround'
 		\           : fzf#vim#with_preview('right:50%:hidden', '?'),
 		\   <bang>0)
 	" Rg search the repo (takes in options like cli rg)
-	command! -bang -nargs=* Rg
-		\ call fzf#vim#grep(
-		\   'rg -S --column --line-number --no-heading --color=always --colors=match:fg:221 --colors=path:fg:110 --colors=line:fg:143 --colors=column:fg:109 '.<q-args>, 1,
-		\   <bang>0 ? fzf#vim#with_preview('up:60%')
-		\           : fzf#vim#with_preview('right:50%:hidden', '?'),
-		\   <bang>0)
+	" command! -bang -nargs=* Rg
+		" \ call fzf#vim#grep(
+		" \   'rg -S --column --line-number --no-heading --color=always --colors=match:fg:221 --colors=path:fg:110 --colors=line:fg:143 --colors=column:fg:109 '.<q-args>, 1,
+		" \   <bang>0 ? fzf#vim#with_preview('up:60%')
+		" \           : fzf#vim#with_preview('right:50%:hidden', '?'),
+		" \   <bang>0)
 	noremap <leader>/ :Gcd <bar> Rg 
 	noremap <leader>8 :RgWord<CR>
 	noremap <leader>l :BLines<CR>
@@ -120,10 +120,11 @@ Plug 'tpope/vim-surround'
 	noremap <leader>m :Marks<CR>
 	noremap <leader>h :Helptags<CR>
 	noremap <C-t> :Tags<CR>
-	noremap <C-f> :Gcd <bar> FZF<CR>
+	noremap <C-f> :Gcd <bar> Files<CR>
 	noremap <C-b> :Buffers<CR>
+	" let g:fzf_layout = { 'down': '~30%' } " for regular vim
+	let g:fzf_layout = { 'window': '30%split enew' } " for neovim
 	let g:fzf_history_dir = '~/.local/share/fzf-history'
-	let g:fzf_layout = { 'down': '~30%' }
 	let g:fzf_colors =
 		\{'fg':      ['fg', 'Normal'],
 		\ 'bg':      ['bg', 'Normal'],
