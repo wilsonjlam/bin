@@ -123,7 +123,7 @@ Plug 'tpope/vim-surround'
 	noremap <C-f> :Gcd <bar> Files<CR>
 	noremap <C-b> :Buffers<CR>
 	" let g:fzf_layout = { 'down': '~30%' } " for regular vim
-	let g:fzf_layout = { 'window': '30%split enew' } " for neovim
+	let g:fzf_layout = { 'window': '30%split new' } " for neovim
 	let g:fzf_history_dir = '~/.local/share/fzf-history'
 	let g:fzf_colors =
 		\{'fg':      ['fg', 'Normal'],

@@ -76,9 +76,9 @@ fvim() {
 	fi
 
 	if [[ $file_search ]]; then
-		file="$(fnd --hidden --follow --exclude "*.git/" "$search_term" "$directory" | fzf-tmux --ansi -0 -1)"
+		file="$(fnd --hidden --follow --exclude "*.git/" "$search_term" "$directory" | fzf-tmux -m --ansi -0 -1)"
 	else
-		file="$(cd -P "$directory"; rg "$search_term" | fzf-tmux --ansi -0 -1 | awk -F: '{print $1 " +" $2}')"
+		file="$(cd -P "$directory"; rg "$search_term" | fzf-tmux -m --ansi -0 -1 | awk -F: '{print $1 " +" $2}')"
 	fi
 
 	if [[ -n $file ]]; then
