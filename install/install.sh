@@ -2,7 +2,7 @@
 
 set -euv
 
-install_dir="$(dirname $BASH_SOURCE)"
+install_dir="$(dirname "$BASH_SOURCE")"
 
 #directories
 if [ ! -d "$HOME/workspace" ]; then
@@ -24,6 +24,7 @@ curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | 
 ./"$install_dir"/links.sh
 
 set +v
+# shellcheck source=$HOME/.bash_profile
 source "$HOME/.bash_profile"
 set -v
 
@@ -32,7 +33,6 @@ set -v
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 vim -c PlugInstall -c qa
-~/.vim/bundle/YouCompleteMe/install.py
 
 #alacritty
 ./"$install_dir"/install_alacritty.sh
