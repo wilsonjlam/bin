@@ -1,6 +1,7 @@
 {
   "alfredsnippet" : {
     "snippet" : "Browser: Safari\nUser: sfbb_4@qualtrics.com\/sfbb2018\nProblemType: \nComponent: \nDescription: ",
+    "dontautoexpand" : true,
     "uid" : "6D37E8E4-4DC8-4FE9-94BF-EE2E6D09A0D9",
     "name" : "Bug",
     "keyword" : "BUG"
