@@ -4,10 +4,11 @@ fd
 fzf
 htop
 jq
-ripgrep
-tmux
-tree
 neovim
 pyenv
+ripgrep
+shellcheck
+tmux
+tree
 vim
 yarn
