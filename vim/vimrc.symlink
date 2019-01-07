@@ -257,7 +257,7 @@ Plug 'tpope/vim-surround'
 	noremap <leader>g :Gbrowse!<CR>
 
 	" Git commit browser
-	Plug 'junegunn/gv.vim'
+	Plug 'junegunn/gv.vim', {'on': 'GV'}
 
 	set diffopt=iwhite
 
