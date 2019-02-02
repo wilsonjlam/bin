@@ -19,7 +19,7 @@ alias workscripts="nvim $HOME/utility/work/scripts"
 export GOHOME="$WORKSPACE/GoHome"
 export WORKSPACE="$HOME/workspace"
 export PERSONAL="$HOME/personal"
-alias interviews="cd $PERSONAL/interview"
+alias interviews="cd $PERSONAL/interviews"
 alias personal="cd $PERSONAL"
 alias utility="cd $HOME/utility"
 alias wk="cd $WORKSPACE"
@@ -44,7 +44,7 @@ alias utest="grunt karma:unit"
 
 up() {
 	local path
-	path=$(git rev-parse --show-toplevel);
+	path=$(git rev-parse --show-toplevel)
 	if [ $? == 0 ]; then
 		cd "$path" || exit
 	fi

@@ -256,6 +256,11 @@ Plug 'tpope/vim-surround'
 	let g:fugitive_gitlab_domains = ['https://gitlab-app.eng.qops.net']
 	noremap <leader>g :Gbrowse!<CR>
 
+	" Git commit browser
+	Plug 'junegunn/gv.vim', {'on': 'GV'}
+
+	set diffopt=iwhite
+
 
 " ==============
 " Movement
