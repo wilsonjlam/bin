@@ -1,13 +1,20 @@
 [user]
 	email = wilson.j.lam@gmail.com
 	name = Wilson Lam
-[push]
-	default = simple
+
 [core]
 	editor = vim
 	excludesfile = ~/.gitignore_global
+
+[push]
+	default = simple
+
+[rebase]
+	autoSquash = true
+
 [color]
 	ui = true
+
 [alias]
 	co = checkout
 	br = branch
