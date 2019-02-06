@@ -5,14 +5,22 @@ set ff=unix
 
 let mapleader=' '
 
+" Easier to get updates to vimrc
 command! Src source ~/.vimrc
+" Dot Files
+let HOME = expand('~')
+noremap <leader>. :Files ~/utility<CR>
 
-inoremap jj <Esc>
-inoremap kk <Esc>
 noremap <C-\> =
 
-noremap j gj
-noremap k gk
+" Make navigating long (wrapped) lines normal
+noremap <silent> k gk
+noremap <silent> j gj
+noremap <silent> 0 g0
+noremap <silent> $ g$
+noremap <silent> ^ g^
+noremap <silent> _ g_
+
 set backspace=indent,eol,start
 
 " Remap the search current word to allow for easier pasting of the searched word
@@ -99,22 +107,19 @@ Plug 'tpope/vim-surround'
 " ==============
 	set rtp+=/usr/local/opt/fzf
 	Plug 'junegunn/fzf.vim'
-	" Search with rg for the current word your cursor is over (* but rg)
-	command! -bang -nargs=* RgWord
+	
+	" Rg search the repo (takes in options like cli rg)
+	command! -bang -nargs=* Rgcli
 		\ call fzf#vim#grep(
-		\   'rg -S --column --line-number --no-heading --color=always --colors=match:fg:221 --colors=path:fg:110 --colors=line:fg:143 --colors=column:fg:109 ' . expand("<cword>"), 1,
+		\   'rg -S --column --line-number --no-heading --color=always --colors=match:fg:221 --colors=path:fg:110 --colors=line:fg:143 --colors=column:fg:109 '.<q-args>, 1,
 		\   <bang>0 ? fzf#vim#with_preview('up:60%')
 		\           : fzf#vim#with_preview('right:50%:hidden', '?'),
 		\   <bang>0)
-	" Rg search the repo (takes in options like cli rg)
-	" command! -bang -nargs=* Rg
-		" \ call fzf#vim#grep(
-		" \   'rg -S --column --line-number --no-heading --color=always --colors=match:fg:221 --colors=path:fg:110 --colors=line:fg:143 --colors=column:fg:109 '.<q-args>, 1,
-		" \   <bang>0 ? fzf#vim#with_preview('up:60%')
-		" \           : fzf#vim#with_preview('right:50%:hidden', '?'),
-		" \   <bang>0)
+	" nnoremap <silent> <expr> <c-p> (expand('%') =~ 'NERD_tree' ?"\<c-w>\<c-w>" : '').":GFiles\<cr>"
 	noremap <leader>/ :Gcd <bar> Rg 
-	noremap <leader>8 :RgWord<CR>
+	" Search with rg for the current word your cursor is over (* but rg)
+	noremap <leader>8 :Gcd <bar> Rg <C-R><C-W><CR>
+	vnoremap <Leader>/ y:Rg <C-R>"<CR>
 	noremap <leader>l :BLines<CR>
 	noremap <leader>L :BLines 
 	noremap <leader>m :Marks<CR>
@@ -122,8 +127,7 @@ Plug 'tpope/vim-surround'
 	noremap <C-t> :Tags<CR>
 	noremap <C-f> :Gcd <bar> Files<CR>
 	noremap <C-b> :Buffers<CR>
-	" let g:fzf_layout = { 'down': '~30%' } " for regular vim
-	let g:fzf_layout = { 'window': '30%split new' } " for neovim
+	let g:fzf_layout = { 'down': '30%' }
 	let g:fzf_history_dir = '~/.local/share/fzf-history'
 	let g:fzf_colors =
 		\{'fg':      ['fg', 'Normal'],
@@ -283,24 +287,14 @@ Plug 'tpope/vim-surround'
 " ==============
 " Marks
 " ==============
-  " Tell vim to remember certain things when we exit
-  "  '100  :  marks will be remembered for up to 100 previously edited files
-  "  "100 :  will save up to 100 lines for each register
-  "  :20  :  up to 20 lines of command-line history will be remembered
-  "  %    :  saves and restores the buffer list
-  "  n... :  where to save the viminfo files
+	" Tell vim to remember certain things when we exit
+	"  '100  :  marks will be remembered for up to 100 previously edited files
+	"  "100 :  will save up to 100 lines for each register
+	"  :20  :  up to 20 lines of command-line history will be remembered
+	"  %    :  saves and restores the buffer list
+	"  n... :  where to save the viminfo files
 	" set viminfo='100,\"30,:20,%,n~/.viminfo
-	function! SetGMark(mark, filename, line_nr)
-		let l:mybuf = bufnr(a:filename, 1)
-		call setpos("'".a:mark, [l:mybuf, a:line_nr, 1, 0])
-	endf
-	let HOME = expand('~')
-	call SetGMark('V', HOME . '/.vimrc', 1)
-	call SetGMark('P', HOME . '/.bash_profile', 1)
-	call SetGMark('B', HOME . '/.bashrc', 1)
-	call SetGMark('F', HOME . '/utility/bash/fzf.sh', 1)
-	call SetGMark('A', HOME . '/utility/terminal/alacritty_macos.yml', 1)
-	call SetGMark('T', HOME . '/utility/tmux/tmux.conf.symlink', 1)
+
 	" Displays your marks in your git gutter
 	Plug 'kshenoy/vim-signature'
 	" Plug 'MattesGroeger/vim-bookmarks'
