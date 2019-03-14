@@ -13,6 +13,8 @@ noremap <leader>. :Files ~/utility<CR>
 
 noremap <C-\> =
 
+set clipboard=unnamed " Use system clipboard, CHANGE TO unnamedplus FOR LINUX
+
 " Make navigating long (wrapped) lines normal
 noremap <silent> k gk
 noremap <silent> j gj
@@ -34,11 +36,12 @@ set softtabstop=4
 set shiftround " Use a multiple of shiftwidth when indenting with < and >
 set noexpandtab " Don't expand tabs into spaces
 
+" smartcase searching
 set ignorecase
 set smartcase
 set incsearch
-
 set hlsearch " makes highlight show up on search
+
 set list
 set listchars=tab:·\ ,trail:«"makes tabs show as "·    "
 
@@ -50,6 +53,7 @@ set mouse+=a
 hi LineNr term=bold cterm=NONE ctermfg=DarkGrey ctermbg=NONE gui=NONE guifg=DarkGrey guibg=NONE " http://vim.wikia.com/wiki/Display_line_numbers
 hi Folded guibg=grey10 guifg=grey50
 hi SpecialKey ctermfg=darkgray guifg=gray35
+
 "Set a column ruler at 100 char
 set colorcolumn=120
 
@@ -265,6 +269,8 @@ Plug 'tpope/vim-surround'
 
 	set diffopt=iwhite
 
+	" Stash Viewing
+	Plug 'aacunningham/vim-fuzzy-stash'
 
 " ==============
 " Movement
@@ -351,7 +357,7 @@ Plug 'tpope/vim-surround'
 	\  'typescript': ['prettier', 'tslint', 'tsserver', 'typecheck'],
 	\  'php': ['php -l', 'phpmd', 'phpstan', 'phpcbf', 'php-cs-fixer'],
 	\}
-	let g:ale_lint_delay = 500 "delay 1s after text change before lintng
+	let g:ale_lint_delay = 1000 "delay 1s after text change before lintng
 	let g:ale_lint_on_insert_leave = 1
 	let g:ale_sign_error = 'E' " could use emoji
 	let g:ale_sign_warning = 'W' " could use emoji

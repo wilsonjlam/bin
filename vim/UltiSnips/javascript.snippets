@@ -82,6 +82,10 @@ snippet expect "expect statement" b
 expect(${1:ACTUAL})${2:ASSERTION};
 endsnippet
 
+snippet inject "angular inject dependencies" b
+${1:DEPENDENCY} = $injector.get('$1');
+endsnippet
+
 snippet before "before statement" b
 before(function() {
 	${1:BODY}
@@ -120,7 +124,6 @@ $provide.factory('${1:THING_TO_PROVIDE}', function() {
 	var service = {
 		${2: Attributes}
 	};
-
 	return service;
 });
 endsnippet
@@ -130,7 +133,6 @@ $provide.service('${1:THING_TO_PROVIDE}', function() {
 	var service = {
 		${2: Attributes}
 	};
-
 	return service;
 });
 endsnippet
@@ -138,7 +140,6 @@ endsnippet
 snippet $pd "provide decorator" b
 $provide.decorator('${1:THING_TO_DECORATE}', function($delegate) {
 	${2: DECORATE}
-
 	return $delegate;
 });
 endsnippet
