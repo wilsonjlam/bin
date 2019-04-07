@@ -3,6 +3,8 @@ set foldmethod=indent
 set nofoldenable " optionally you can set foldlevel=x where it'll fold everything fold-level above x
 set ff=unix
 
+set clipboard=unnamed
+
 let mapleader=' '
 
 " Easier to get updates to vimrc
@@ -383,8 +385,6 @@ Plug 'tpope/vim-surround'
 
 	" Go Development
 	Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries', 'for': 'go' }
-	let g:go_metalinter_autosave = 1
-	let g:go_metalinter_autosave_enabled = ['vet']
 
 	" Typescript Development
 	Plug 'leafgarland/typescript-vim', { 'for': 'typescript' }
