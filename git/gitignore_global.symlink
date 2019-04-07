@@ -6,8 +6,6 @@
 *.tern-project
 yarn.lock
 
-*.txt
-
 # CTags
 tags
 
