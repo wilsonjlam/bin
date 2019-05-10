@@ -69,7 +69,21 @@
 			<key>itemuid</key>
 			<string>A822A49A-D9B5-4686-99EC-936447BA51A2</string>
 		</dict>
-		<dict/>
+		<dict>
+			<key>actionconfig</key>
+			<dict>
+				<key>path</key>
+				<string>/System/Library/PreferencePanes/Bluetooth.prefPane</string>
+			</dict>
+			<key>actionuid</key>
+			<string>remote.alfred.launchfile</string>
+			<key>buttoniconid</key>
+			<string>383AD930-FFC4-4E4C-BF1F-71F8A625F81E</string>
+			<key>buttonlabel</key>
+			<string>Bluetooth</string>
+			<key>itemuid</key>
+			<string>5AAD059F-AB71-4BDC-8F9E-23F30CB4DD85</string>
+		</dict>
 		<dict>
 			<key>actionconfig</key>
 			<dict>
@@ -121,40 +135,8 @@
 			<key>itemuid</key>
 			<string>2171D932-DD0A-427E-AF0B-98193C75C372</string>
 		</dict>
-		<dict>
-			<key>actionconfig</key>
-			<dict>
-				<key>command</key>
-				<integer>2</integer>
-				<key>confirm</key>
-				<false/>
-			</dict>
-			<key>actionuid</key>
-			<string>remote.alfred.systemcommand</string>
-			<key>buttoniconid</key>
-			<string>440CCDAE-E7D3-4C0B-921C-483E6E8B048A</string>
-			<key>buttonlabel</key>
-			<string>Show Trash</string>
-			<key>itemuid</key>
-			<string>D29EA702-510A-442A-B6B0-784EBCF3860F</string>
-		</dict>
-		<dict>
-			<key>actionconfig</key>
-			<dict>
-				<key>command</key>
-				<integer>3</integer>
-				<key>confirm</key>
-				<false/>
-			</dict>
-			<key>actionuid</key>
-			<string>remote.alfred.systemcommand</string>
-			<key>buttoniconid</key>
-			<string>EAEF2A70-45BF-4891-9305-7400DE403ECD</string>
-			<key>buttonlabel</key>
-			<string>Empty Trash</string>
-			<key>itemuid</key>
-			<string>7A8EEED3-EE7F-410F-AC09-5B3AC4F4D1D3</string>
-		</dict>
+		<dict/>
+		<dict/>
 		<dict>
 			<key>actionconfig</key>
 			<dict>
