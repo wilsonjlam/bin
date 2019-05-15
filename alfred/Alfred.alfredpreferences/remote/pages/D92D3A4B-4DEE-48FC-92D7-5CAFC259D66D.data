@@ -13,6 +13,8 @@
 			<dict>
 				<key>path</key>
 				<string>/Applications/Safari.app</string>
+				<key>toggle</key>
+				<false/>
 			</dict>
 			<key>actionuid</key>
 			<string>remote.alfred.launchfile</string>

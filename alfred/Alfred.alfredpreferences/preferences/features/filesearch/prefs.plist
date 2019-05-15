@@ -6,5 +6,7 @@
 	<false/>
 	<key>ignoreCalendar</key>
 	<false/>
+	<key>ignoreHistory</key>
+	<false/>
 </dict>
 </plist>

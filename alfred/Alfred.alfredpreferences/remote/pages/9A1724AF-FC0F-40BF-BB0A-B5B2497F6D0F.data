@@ -74,6 +74,8 @@
 			<dict>
 				<key>path</key>
 				<string>/System/Library/PreferencePanes/Bluetooth.prefPane</string>
+				<key>toggle</key>
+				<false/>
 			</dict>
 			<key>actionuid</key>
 			<string>remote.alfred.launchfile</string>
