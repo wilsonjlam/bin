@@ -6,7 +6,6 @@ if [[ -f $HOME/utility/work/profile ]]; then
 fi
 
 export PATH=/usr/local/bin:/usr/local/sbin:$PATH #homebrew
-export PATH="$HOME/.cargo/bin:$PATH" #rust
 
 # More sensical CLI word-based movements/editing
 	bind '"\C-f":vi-next-word'

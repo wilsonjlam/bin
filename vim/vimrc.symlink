@@ -3,6 +3,8 @@ set foldmethod=indent
 set nofoldenable " optionally you can set foldlevel=x where it'll fold everything fold-level above x
 set ff=unix
 
+set clipboard=unnamed
+
 let mapleader=' '
 
 " Easier to get updates to vimrc
@@ -54,10 +56,10 @@ hi LineNr term=bold cterm=NONE ctermfg=DarkGrey ctermbg=NONE gui=NONE guifg=Dark
 hi Folded guibg=grey10 guifg=grey50
 hi SpecialKey ctermfg=darkgray guifg=gray35
 
-"Set a column ruler at 100 char
+"Set a column ruler at 120 char
 set colorcolumn=120
 
-set redrawtime=3000
+set redrawtime=3000 " Delayed redraw of 3s
 set lazyredraw
 
 set scrolloff=5 " Always show 5 lines above/below the cursor
@@ -148,7 +150,7 @@ Plug 'tpope/vim-surround'
 		\ 'spinner': ['fg', 'Label'],
 		\ 'header':  ['fg', 'Comment'],
 		\}
-	" let g:fzf_launcher = "~/utility/scripts/fzf_iterm_macvim.sh %s
+	" let g:fzf_launcher = "~/utility/scripts/fzf_iterm_macvim.sh %s " to make iterm fzf faster
 
 
 " ==============
@@ -190,6 +192,7 @@ Plug 'tpope/vim-surround'
 
 	" Buffer CLeanup
 	nnoremap <leader>q :q<CR> " Close the buffer
+	nnoremap <leader>bq :q<CR> " Close the buffer " I'm silly and forget sometimes and do this
 	nnoremap <leader>bd :bd<CR> " Delete the current buffer
 	nnoremap <leader>bD :BD<CR> " Delete the current buffer without closing out the pane
 	nnoremap <leader>bo :only<CR> " Make your current buffer the only buffer
@@ -262,7 +265,8 @@ Plug 'tpope/vim-surround'
 	Plug 'tpope/vim-fugitive'
 	Plug 'shumphrey/fugitive-gitlab.vim'
 	let g:fugitive_gitlab_domains = ['https://gitlab-app.eng.qops.net']
-	noremap <leader>g :Gbrowse!<CR>
+	noremap <leader>gs :Gst<CR>
+	noremap <leader>gb :Gbrowse!<CR>
 
 	" Git commit browser
 	Plug 'junegunn/gv.vim', {'on': 'GV'}
@@ -389,8 +393,6 @@ Plug 'tpope/vim-surround'
 
 	" Go Development
 	Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries', 'for': 'go' }
-	let g:go_metalinter_autosave = 1
-	let g:go_metalinter_autosave_enabled = ['vet']
 
 	" Typescript Development
 	Plug 'leafgarland/typescript-vim', { 'for': 'typescript' }
