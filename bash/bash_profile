@@ -69,6 +69,7 @@ export PATH="$HOME/.cargo/bin:$PATH" #rust
 		light_red="\[\e[91m\]"
 		light_yellow="\[\e[93m\]"
 		light_white="\[\e[97m\]"
+
 	#Functions
 		parent_working_directory() {
 			pwd | awk '{n = split($0, a, "/"); printf "%s/%s", a[n-1], a[n]}'

@@ -18,9 +18,9 @@
 [alias]
 	co = checkout
 	br = branch
-	ci = commit
 	st = status
-	cm = commit
+	cc = commit
+	ca = commit --amend
 	stdiff = diff --staged
 	diffst = diff --staged
 	pushup = push -u origin HEAD
@@ -34,5 +34,5 @@
 	show-merge = "!sh -c 'merge=$(git find-merge $0 $1) && [ -n \"$merge\" ] && git show $merge'"
 
 #necessary for fetching via go get from our internal gitlab
-[url "ssh://git@gitlab-app.eng.qops.net:10022/"]
-	insteadOf = https://gitlab-app.eng.qops.net/
+; [url "ssh://git@gitlab-app.eng.qops.net:10022/"]
+	; insteadOf = https://gitlab-app.eng.qops.net/

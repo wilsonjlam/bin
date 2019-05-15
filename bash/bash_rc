@@ -6,7 +6,7 @@ export BASH_CONF="bashrc"
 #####################################################
 alias bashprofile="nvim $HOME/.bash_profile"
 alias bashrc="nvim $HOME/.bashrc"
-alias hosts="nvim /etc/hosts"
+alias hosts="vim /etc/hosts"
 alias profile="nvim -O $HOME/.bash_profile $HOME/.bashrc"
 alias scripts="nvim $HOME/utility/scripts"
 alias snippets="nvim $HOME/utility/vim/Ultisnips"
