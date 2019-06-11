@@ -21,6 +21,8 @@
 	st = status
 	cc = commit
 	ca = commit --amend
+	rb = rebase
+	rbc = rebase --continue
 	stdiff = diff --staged
 	diffst = diff --staged
 	pushup = push -u origin HEAD
