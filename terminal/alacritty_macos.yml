@@ -389,10 +389,6 @@ key_bindings:
   - { key: Key0,     mods: Command, action: ResetFontSize                }
   - { key: Equals,   mods: Command, action: IncreaseFontSize             }
   - { key: Minus,    mods: Command, action: DecreaseFontSize             }
-  # - { key: K,        mods: Command, action: ClearHistory                 }
-  # - { key: K,        mods: Command, chars: "\x0c"                        }
-  # - { key: L,        mods: Control, action: ClearLogNotice               }
-  # - { key: L,        mods: Control, chars: "\x0c"                        }
   - { key: PageUp,   mods: Shift,   chars: "\x1b[5;2~"                   }
   - { key: PageUp,   mods: Control, chars: "\x1b[5;5~"                   }
   - { key: PageUp,                  chars: "\x1b[5~"                     }
@@ -488,6 +484,7 @@ key_bindings:
 
 # Tmux bindings for alacritty
   - { key: Space, mods: Alt,           chars: "\x00"     }
+
   # creating/closing tmux panes and tabs
   - { key: D,     mods: Command,       chars: "\x00\x76" }
   - { key: D,     mods: Command|Shift, chars: "\x00\x73" }
