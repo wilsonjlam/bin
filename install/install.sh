@@ -17,12 +17,6 @@ fi
 brew install < "$install_dir/brew/list"
 brew cask install < "$install_dir/brew/cask_list"
 
-#neovim
-pip3 install neovim
-
-#nvm
-curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
-
 #dot files
 ./"$install_dir"/links.sh
 

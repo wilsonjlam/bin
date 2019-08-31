@@ -4,16 +4,16 @@ export BASH_CONF="bashrc"
 #####################################################
 #General#############################################
 #####################################################
-alias bashprofile="nvim $HOME/.bash_profile"
-alias bashrc="nvim $HOME/.bashrc"
+alias bashprofile="vim $HOME/.bash_profile"
+alias bashrc="vim $HOME/.bashrc"
 alias hosts="vim /etc/hosts"
-alias profile="nvim -O $HOME/.bash_profile $HOME/.bashrc"
-alias scripts="nvim $HOME/utility/scripts"
-alias snippets="nvim $HOME/utility/vim/Ultisnips"
+alias profile="vim -O $HOME/.bash_profile $HOME/.bashrc"
+alias scripts="vim $HOME/utility/scripts"
+alias snippets="vim $HOME/utility/vim/Ultisnips"
 alias src="source $HOME/.bash_profile"
-alias vimrc="nvim $HOME/.vimrc"
-alias workprofile="nvim $HOME/utility/work/profile"
-alias workscripts="nvim $HOME/utility/work/scripts"
+alias vimrc="vim $HOME/.vimrc"
+alias workprofile="vim $HOME/utility/work/profile"
+alias workscripts="vim $HOME/utility/work/scripts"
 
 #Directories
 export GOHOME="$WORKSPACE/GoHome"

@@ -44,7 +44,7 @@ fd() {
 #open something in vim using fzf
 #optional arguments to specify something to search for (e.g. using rg to grep something then vim-ing the file)
 fvim() {
-	local directory edit file_search search_term
+	local directory file_search search_term
 	while [[ $# -gt 0	]]; do
 		local key
 		key="$1"
@@ -52,10 +52,6 @@ fvim() {
 			-d|--directory)
 				shift
 				directory="$1"
-				;;
-			-e|--edit) #-a or --all to search for hidden directories as well
-				shift
-				edit=true
 				;;
 			-f|--file)
 				shift
@@ -82,11 +78,7 @@ fvim() {
 	fi
 
 	if [[ -n $file ]]; then
-		if [ $EDIT ]; then
-			mvim $file
-		else
-			nvim $file
-		fi
+		vim "$file"
 	fi
 }
 
