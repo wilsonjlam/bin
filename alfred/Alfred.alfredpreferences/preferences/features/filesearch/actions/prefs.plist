@@ -25,6 +25,8 @@
 		<key>alfred.action.showpackagecontents</key>
 		<true/>
 	</dict>
+	<key>escapeCopiedPath</key>
+	<true/>
 	<key>showWithFn</key>
 	<false/>
 </dict>

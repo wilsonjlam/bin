@@ -60,6 +60,19 @@
 			<key>utf8</key>
 			<true/>
 		</dict>
+		<key>3ED999C9-FCF1-4A83-A2C7-3CA9010D847C</key>
+		<dict>
+			<key>enabled</key>
+			<false/>
+			<key>keyword</key>
+			<string>b</string>
+			<key>text</key>
+			<string>bunnylol</string>
+			<key>url</key>
+			<string>https://our.intern.facebook.com/intern/bunny/?q={query}</string>
+			<key>utf8</key>
+			<true/>
+		</dict>
 		<key>44FED259-F9E0-4ED2-9196-6E6E521A1ED1</key>
 		<dict>
 			<key>enabled</key>
