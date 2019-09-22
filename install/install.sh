@@ -1,8 +1,9 @@
 #!/bin/bash
 
-set -euv
+set -eu
 
-install_dir="$(dirname "$BASH_SOURCE")"
+INSTALL_DIR="$(dirname "$BASH_SOURCE")"
+echo $INSTALL_DIR
 
 #directories
 if [ ! -d "$HOME/workspace" ]; then
@@ -13,12 +14,16 @@ if [ ! -d "$HOME/personal" ]; then
 	mkdir ~/personal
 fi
 
+if [ ! -d "$HOME/tmp" ]; then
+	mkdir ~/tmp
+fi
+
 #brew installations
-brew install < "$install_dir/brew/list"
-brew cask install < "$install_dir/brew/cask_list"
+cat "$INSTALL_DIR/brew/list" | xargs brew install 
+cat "$INSTALL_DIR/brew/cask_list" | xargs brew cask install
 
 #dot files
-./"$install_dir"/links.sh
+./"$INSTALL_DIR"/links.sh
 
 set +v
 # shellcheck source=$HOME/.bash_profile
