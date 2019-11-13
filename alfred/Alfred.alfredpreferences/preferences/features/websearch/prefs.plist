@@ -7,7 +7,7 @@
 		<key>0B756643-F036-43D5-986C-C7301CFB0218</key>
 		<dict>
 			<key>enabled</key>
-			<true/>
+			<false/>
 			<key>keyword</key>
 			<string>odowiki</string>
 			<key>spaces</key>
@@ -22,7 +22,7 @@
 		<key>0E7CFB12-B850-479A-BB32-D56B77B2DF2B</key>
 		<dict>
 			<key>enabled</key>
-			<true/>
+			<false/>
 			<key>keyword</key>
 			<string>odoemp</string>
 			<key>text</key>
@@ -50,7 +50,7 @@
 		<key>2A96A261-1951-4070-90CB-C46839AE551B</key>
 		<dict>
 			<key>enabled</key>
-			<true/>
+			<false/>
 			<key>keyword</key>
 			<string>odobrand</string>
 			<key>text</key>
@@ -195,7 +195,7 @@
 		<key>F95E097F-A02D-40FC-9233-DA3AB2DCF48E</key>
 		<dict>
 			<key>enabled</key>
-			<true/>
+			<false/>
 			<key>keyword</key>
 			<string>odoticket</string>
 			<key>text</key>
