@@ -512,4 +512,4 @@ key_bindings:
   - { key: G,     mods: Command,       chars: "\x00\x71" }
 
   # clearning tmux panes
-  - { key: K,     mods: Command,       chars: "\x00R"    }
+  - { key: K,     mods: Command,       action: ClearHistory    }

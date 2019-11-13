@@ -13,9 +13,6 @@ bind ` source-file ~/.tmux.conf
 # display commands
 bind ? list-commands
 
-# clear screen
-bind R send-keys -R \; clear-history
-
 # speed up sec
 set -sg escape-time 0
 
