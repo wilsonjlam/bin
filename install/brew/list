@@ -1,14 +1,11 @@
 bash-completion
 cmake
-docker-compose
 fd
 fzf
 htop
 jq
-pyenv
 ripgrep
 shellcheck
 tmux
 tree
 vim
-yarn
