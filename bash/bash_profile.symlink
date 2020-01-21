@@ -1,6 +1,6 @@
 # shellcheck source=.bashrc
 source "$HOME/.bashrc"
-if [[ -f $HOME/work_profile ]]; then
+if [[ -f $HOME/.work_profile ]]; then
 	# shellcheck source=$HOME/.work_profile
 	source "$HOME/.work_profile"
 fi
