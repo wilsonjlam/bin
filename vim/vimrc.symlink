@@ -110,6 +110,10 @@ Plug 'scrooloose/nerdcommenter'
 let g:NERDSpaceDelims=1
 let g:NERDTrimTrailingWhitespace=1
 
+" Highligthed yanking
+Plug 'machakann/vim-highlightedyank'
+let g:highlightedyank_highlight_duration = 150
+
 ":help surround
 Plug 'tpope/vim-surround'
 
