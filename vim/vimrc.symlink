@@ -110,7 +110,7 @@ Plug 'scrooloose/nerdcommenter'
 let g:NERDSpaceDelims=1
 let g:NERDTrimTrailingWhitespace=1
 
-" Highligthed yanking
+" Highlighted yanking
 Plug 'machakann/vim-highlightedyank'
 let g:highlightedyank_highlight_duration = 150
 
@@ -425,7 +425,7 @@ Plug 'tpope/vim-surround'
 	Plug 'aradunovic/perun.vim', { 'on': 'Colorscheme' }
 	Plug 'arcticicestudio/nord-vim', { 'on': 'Colorscheme' }
 	Plug 'ayu-theme/ayu-vim', { 'on': 'Colorscheme' }
-		let ayucolor="mirage"
+	  let ayucolor="mirage"
 	Plug 'chriskempson/base16-vim', { 'on': 'Colorscheme' }
 	Plug 'chriskempson/vim-tomorrow-theme', { 'on': 'Colorscheme' }
 	Plug 'danilo-augusto/vim-afterglow', { 'on': 'Colorscheme' }
@@ -436,7 +436,7 @@ Plug 'tpope/vim-surround'
 	Plug 'idbrii/vim-sandydune', { 'on': 'Colorscheme' }
 	Plug 'joshdick/onedark.vim', { 'on': 'Colorscheme' }
 	Plug 'junegunn/seoul256.vim', { 'on': 'Colorscheme' }
-		let g:seoul256_background = 234
+	  let g:seoul256_background = 234
 	Plug 'kaicataldo/material.vim', { 'on': 'Colorscheme' }
 	Plug 'kamwitsta/nordisk', { 'on': 'Colorscheme' }
 	Plug 'kristijanhusak/vim-hybrid-material', { 'on': 'Colorscheme' }
@@ -444,6 +444,7 @@ Plug 'tpope/vim-surround'
 	Plug 'mkarmona/colorsbox', { 'on': 'Colorscheme' }
 	Plug 'mkarmona/materialbox', { 'on': 'Colorscheme' }
 	Plug 'morhetz/gruvbox', { 'on': 'Colorscheme' }
+	Plug 'nanotech/jellybeans.vim', { 'on': 'Colorscheme' }
 	Plug 'nightsense/carbonized', { 'on': 'Colorscheme' }
 	Plug 'nightsense/forgotten', { 'on': 'Colorscheme' }
 	Plug 'nightsense/seagrey', { 'on': 'Colorscheme' }
@@ -470,4 +471,4 @@ call plug#end()
 " Plugins #########################################################################################
 " #################################################################################################
 
-colorscheme materialbox
+colorscheme Tomorrow-Night
