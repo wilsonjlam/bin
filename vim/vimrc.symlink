@@ -420,7 +420,6 @@ Plug 'tpope/vim-surround'
 	"ColorSchemes
 	command! Colorscheme colorscheme
 	nnoremap <leader>C :Colorscheme <CR> :Colors<CR>
-	Plug 'Blevs/vim-dzo', { 'on': 'Colorscheme' }
 	Plug 'BrainDeath0/Hypsteria', { 'on': 'Colorscheme' }
 	Plug 'aradunovic/perun.vim', { 'on': 'Colorscheme' }
 	Plug 'arcticicestudio/nord-vim', { 'on': 'Colorscheme' }
@@ -429,7 +428,6 @@ Plug 'tpope/vim-surround'
 	Plug 'chriskempson/base16-vim', { 'on': 'Colorscheme' }
 	Plug 'chriskempson/vim-tomorrow-theme', { 'on': 'Colorscheme' }
 	Plug 'danilo-augusto/vim-afterglow', { 'on': 'Colorscheme' }
-	Plug 'davidklsn/vim-sialoquent', { 'on': 'Colorscheme' }
 	Plug 'easysid/mod8.vim', { 'on': 'Colorscheme' }
 	Plug 'fugalh/desert.vim', { 'on': 'Colorscheme' }
 	Plug 'hzchirs/vim-material', { 'on': 'Colorscheme' }
@@ -444,20 +442,11 @@ Plug 'tpope/vim-surround'
 	Plug 'mkarmona/colorsbox', { 'on': 'Colorscheme' }
 	Plug 'mkarmona/materialbox', { 'on': 'Colorscheme' }
 	Plug 'morhetz/gruvbox', { 'on': 'Colorscheme' }
-	Plug 'nanotech/jellybeans.vim', { 'on': 'Colorscheme' }
-	Plug 'nightsense/carbonized', { 'on': 'Colorscheme' }
-	Plug 'nightsense/forgotten', { 'on': 'Colorscheme' }
-	Plug 'nightsense/seagrey', { 'on': 'Colorscheme' }
-	Plug 'nightsense/simplifysimplify', { 'on': 'Colorscheme' }
 	Plug 'nightsense/snow', { 'on': 'Colorscheme' }
 	Plug 'nightsense/vim-crunchbang', { 'on': 'Colorscheme' }
 	Plug 'rhysd/vim-color-spring-night', { 'on': 'Colorscheme' }
 	Plug 'sts10/vim-pink-moon', { 'on': 'Colorscheme' }
-	Plug 'tjammer/blayu.vim', { 'on': 'Colorscheme' }
-	Plug 'tyrannicaltoucan/vim-deep-space', { 'on': 'Colorscheme' }
-	Plug 'tyrannicaltoucan/vim-quantum', { 'on': 'Colorscheme' }
 	Plug 'w0ng/vim-hybrid', { 'on': 'Colorscheme' }
-	Plug 'zacanger/angr.vim', { 'on': 'Colorscheme' }
 	Plug 'zcodes/vim-colors-basic', { 'on': 'Colorscheme' }
 
 
@@ -471,4 +460,4 @@ call plug#end()
 " Plugins #########################################################################################
 " #################################################################################################
 
-colorscheme Tomorrow-Night
+colorscheme colorsbox-stnight
