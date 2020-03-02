@@ -81,7 +81,11 @@ export PATH=/usr/local/bin:/usr/local/sbin:$PATH #homebrew
 		}
 
 		parse_git_branch() {
-			git branch 2>/dev/null | grep -e '\*' | sed -e 's/* \(.*\)/(\1)/'
+			if [[ $(git rev-parse --git-dir 2> /dev/null) ]]; then
+				git branch 2>/dev/null | grep -e '\*' | sed -e 's/* \(.*\)/(\1)/'
+			elif [[ $(hg st 2> /dev/null) ]]; then
+				hg show | head -n 1 | awk '{split($0, array, " "); print array[3]}'
+			fi
 		}
 export PS1="$blue\$(trim_hostname)#$green\$(parent_working_directory)$light_red\$(parse_git_branch):$light_gray\$$gray"
 

@@ -32,6 +32,7 @@ alias freshinstall="rm -rf node_modules bower_components; nvm use; yarn; bower i
 alias repos="~/utility/scripts/update-all-repos.sh"
 alias rg="rg -S --column --line-number --color=always --colors=match:fg:yellow --colors=path:fg:blue --colors=line:fg:green --colors=column:fg:cyan"
 alias tree="tree -C -a -I *.git*"
+alias upgrade="$HOME/utility/scripts/upgrades.sh"
 alias nx="nvm exec yarn"
 
 #Grunt Commands
@@ -45,6 +46,10 @@ alias utest="grunt karma:unit"
 up() {
 	local path
 	path=$(git rev-parse --show-toplevel)
+	if [ $? == 0 ]; then
+		cd "$path" || exit
+	fi
+	path=$(hg root)
 	if [ $? == 0 ]; then
 		cd "$path" || exit
 	fi
