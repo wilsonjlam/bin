@@ -1,8 +1,8 @@
 # shellcheck source=.bashrc
 source "$HOME/.bashrc"
-if [[ -f $HOME/utility/work/profile ]]; then
-	# shellcheck source=$HOME/utility/work/profile
-	source "$HOME/utility/work/profile"
+if [[ -f $HOME/.work_profile ]]; then
+	# shellcheck source=$HOME/.work_profile
+	source "$HOME/.work_profile"
 fi
 
 export PATH=/usr/local/bin:/usr/local/sbin:$PATH #homebrew
@@ -22,10 +22,12 @@ export PATH=/usr/local/bin:/usr/local/sbin:$PATH #homebrew
 	export PATH=$PATH:/usr/local/opt/go/libexec/bin:$GOPATH/bin #golang
 
 #FZF
-	export FZF_DEFAULT_COMMAND="fd -H -E *.git*"
-	export FZF_DEFAULT_OPTS="--ansi --preview='head -$LINES {}' --preview-window=right:50%:hidden --bind=?:toggle-preview"
-	# shellcheck source=utility/bash/fzf.sh
-	source "$HOME/utility/bash/fzf.sh"
+	if [[ -f $HOME/utility/bash/fzf.sh ]]; then
+		# shellcheck source=utility/bash/fzf.sh
+		source "$HOME/utility/bash/fzf.sh"
+		export FZF_DEFAULT_COMMAND="fd -H -E *.git*"
+		export FZF_DEFAULT_OPTS="--ansi --preview='head -$LINES {}' --preview-window=right:50%:hidden --bind=?:toggle-preview"
+	fi
 
 #Prompt
 	#Colors
@@ -79,7 +81,11 @@ export PATH=/usr/local/bin:/usr/local/sbin:$PATH #homebrew
 		}
 
 		parse_git_branch() {
-			git branch 2>/dev/null | grep -e '\*' | sed -e 's/* \(.*\)/(\1)/'
+			if [[ $(git rev-parse --git-dir 2> /dev/null) ]]; then
+				git branch 2>/dev/null | grep -e '\*' | sed -e 's/* \(.*\)/(\1)/'
+			elif [[ $(hg st 2> /dev/null) ]]; then
+				hg show | head -n 1 | awk '{split($0, array, " "); print substr(array[2], 0, 7)}'
+			fi
 		}
 export PS1="$blue\$(trim_hostname)#$green\$(parent_working_directory)$light_red\$(parse_git_branch):$light_gray\$$gray"
 
@@ -96,5 +102,7 @@ export PS1="$blue\$(trim_hostname)#$green\$(parent_working_directory)$light_red\
 # BEGIN: Block added by chef, to set environment strings
 # Please see https://fburl.com/AndroidProvisioning if you do not use bash
 # or if you would rather this bit of code 'live' somewhere else
-. ~/.fbchef/environment
+if [[ -f $HOME/.fbcheff/evnvironment ]]; then
+	. ~/.fbchef/environment
+fi
 # END: Block added by chef

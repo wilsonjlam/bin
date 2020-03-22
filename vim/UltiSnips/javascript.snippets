@@ -6,17 +6,6 @@ snippet error "console.error" b
 console.error('${1:STUFF}');
 endsnippet
 
-snippet angular.factory "Angular Factory" b
-angular.module('${1:MODULE}')
-	.factory('${2:FACTORY}', $2);
-
-$2.$inject = ['${3:DEPENDENCY}'];
-
-function $2($3) {
-	${4:BODY}
-}
-endsnippet
-
 snippet .then "then"
 .then(function() {
 	${1:BODY}
@@ -38,7 +27,6 @@ endsnippet
 #####################
 #  Testing Things
 #####################
-
 snippet stub "sandbox.stub"
 sandbox.stub()
 endsnippet
@@ -82,10 +70,6 @@ snippet expect "expect statement" b
 expect(${1:ACTUAL})${2:ASSERTION};
 endsnippet
 
-snippet inject "angular inject dependencies" b
-${1:DEPENDENCY} = $injector.get('$1');
-endsnippet
-
 snippet before "before statement" b
 before(function() {
 	${1:BODY}
@@ -109,12 +93,30 @@ afterEach(function() {
 	${1:BODY}
 });
 endsnippet
+#####################
+#  Angular Things
+#####################
+snippet angular.factory "Angular Factory" b
+angular.module('${1:MODULE}')
+	.factory('${2:FACTORY}', $2);
+
+$2.$inject = ['${3:DEPENDENCY}'];
+
+function $2($3) {
+	${4:BODY}
+}
+endsnippet
+
+snippet inject "angular inject dependencies" b
+${1:DEPENDENCY} = $injector.get('$1');
+endsnippet
 
 snippet module "module" b
 module(function($provide) {
 	${1:BODY}
 });
 endsnippet
+
 snippet $pv "provide value" b
 $provide.value('${1:THING_TO_PROVIDE}', ${2:VALUE});
 endsnippet
