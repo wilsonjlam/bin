@@ -12,7 +12,7 @@ alias scripts="vim $HOME/utility/scripts"
 alias snippets="vim $HOME/utility/vim/Ultisnips"
 alias src="source $HOME/.bash_profile"
 alias vimrc="vim $HOME/.vimrc"
-alias workprofile="vim $HOME/utility/work/profile"
+alias workprofile="vim $HOME/.work_profile"
 alias workscripts="vim $HOME/utility/work/scripts"
 
 #Directories
@@ -45,14 +45,15 @@ alias utest="grunt karma:unit"
 
 up() {
 	local path
-	path=$(git rev-parse --show-toplevel)
+	path=$(git rev-parse --show-toplevel 2> /dev/null)
 	if [ $? == 0 ]; then
 		cd "$path" || exit
 	fi
-	path=$(hg root)
+	path=$(hg root 2> /dev/null)
 	if [ $? == 0 ]; then
 		cd "$path" || exit
 	fi
+	echo "no git or hg repo found"
 }
 
 clone() {
