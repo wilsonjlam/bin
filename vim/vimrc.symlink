@@ -272,8 +272,6 @@ Plug 'tpope/vim-surround'
 
 	" Git commands (G<something>)
 	Plug 'tpope/vim-fugitive'
-	Plug 'shumphrey/fugitive-gitlab.vim'
-	let g:fugitive_gitlab_domains = ['https://gitlab-app.eng.qops.net']
 	noremap <leader>gs :Gst<CR>
 	noremap <leader>gb :Gbrowse!<CR>
 
@@ -339,6 +337,7 @@ Plug 'tpope/vim-surround'
 	let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
 	let g:ycm_autoclose_preview_window_after_completion = 1
 	let g:ycm_autoclose_preview_indow_after_insertion = 1
+	let g:ycm_filepath_blacklist = {}
 	let g:SuperTabDefaultCompletionType = '<C-n>'
 
 	" Tab Completion
@@ -387,7 +386,6 @@ Plug 'tpope/vim-surround'
 	let g:ale_sign_column_always=1
 	let g:ale_set_balloons = 1
 	let g:ale_open_list = 1
-
 
 " ===============================
 " Languages & Syntax Highlighting
@@ -460,4 +458,4 @@ call plug#end()
 " Plugins #########################################################################################
 " #################################################################################################
 
-colorscheme colorsbox-stnight
+colorscheme spring-night
