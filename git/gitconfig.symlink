@@ -19,7 +19,7 @@
 	co = checkout
 	br = branch
 	st = status
-	cm = commit
+	cc = commit
 	ca = commit --amend
 	rb = rebase
 	rbc = rebase --continue
