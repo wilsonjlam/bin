@@ -47,17 +47,17 @@ up() {
 	local path
 	path=$(git rev-parse --show-toplevel 2> /dev/null)
 	if [ $? == 0 ]; then
-		cd "$path" || exit
+		cd "$path" && return
 	fi
 	path=$(hg root 2> /dev/null)
 	if [ $? == 0 ]; then
-		cd "$path" || exit
+		cd "$path" && return
 	fi
 	echo "no git or hg repo found"
 }
 
 clone() {
-	cd ~/workspace || exit
+	cd ~/workspace || return
 	git clone "$1"
-	cd "$(echo "$1" | rev | cut -d '.' -f 2 | cut -d '/' -f 1 | rev)" || exit
+	cd "$(echo "$1" | rev | cut -d '.' -f 2 | cut -d '/' -f 1 | rev)"
 }
