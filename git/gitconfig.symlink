@@ -26,9 +26,11 @@
 	stdiff = diff --staged
 	diffst = diff --staged
 	pushup = push -u origin HEAD
-	tree     = log --graph --decorate --color --all --date=short --abbrev-commit \
+	tree     = log --graph --decorate --color --all --date=short \
 				   --pretty=format:'%C(bold white)%h - %ad - %ar%C(bold yellow)%d %n%C(reset) %s - %an'
 	graph    = log --graph --oneline --abbrev-commit --decorate --color
+	sl       = log --graph --since='1 weeks ago' \
+				   --pretty=format:'%C(bold yellow)%h - %ar%C(bold red)%d %n%C(reset) %s%n'
 	fupstream = "!git reset --hard $(git rev-parse @{u})"
 	find = log --color -S
 	contains = branch --contains
