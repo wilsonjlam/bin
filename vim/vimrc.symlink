@@ -17,6 +17,9 @@ noremap <C-\> =
 
 set clipboard=unnamed " Use system clipboard, CHANGE TO unnamedplus FOR LINUX
 
+imap <silent> jj <Esc>
+imap <silent> kk <Esc>
+
 " Make navigating long (wrapped) lines normal
 noremap <silent> k gk
 noremap <silent> j gj
