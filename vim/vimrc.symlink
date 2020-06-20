@@ -198,6 +198,15 @@ Plug 'tpope/vim-surround'
 	nnoremap <leader>bx :sb 
 	nnoremap <leader>bs :sb 
 	nnoremap <leader>b :b 
+	" Move this buffer into a split right but keep focus on your original pane
+	nnoremap <C-w><C-l> :bp +vert\ sbn\ +TmuxNavigateLeft<CR>
+	" Move this buffer into a split left but keep focus on your original pane
+	nnoremap <C-w><C-h> :vert sb +bp<CR>
+	" Move this buffer into a split below but keep focus on your original pane
+	nnoremap <C-w><C-j> :bp +sbn\ +TmuxNavigateUp<CR>
+	" Move this buffer into a split above but keep focus on your original pane
+	nnoremap <C-w><C-k> :sb +bp<CR>
+
 	" Tab Movement
 	nnoremap <leader>[ :tabNext<CR>
 	nnoremap <leader>] :tabnext<CR>
@@ -461,4 +470,4 @@ call plug#end()
 " Plugins #########################################################################################
 " #################################################################################################
 
-colorscheme spring-night
+colorscheme colorsbox-stnight
