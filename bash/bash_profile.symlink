@@ -7,6 +7,7 @@ fi
 
 export PATH=/usr/local/bin:/usr/local/sbin:$PATH #homebrew
 
+
 # More sensical CLI word-based movements/editing
 	bind '"\C-f":vi-next-word'
 	bind '"\C-b":vi-prev-word'
@@ -15,11 +16,11 @@ export PATH=/usr/local/bin:/usr/local/sbin:$PATH #homebrew
 	bind '"\C-d":kill-word'
 
 #NodeJS
-	export NODE_ENV='development'  #for certain repos this will help you build non-minified for local development
+	# export NODE_ENV='development'  #for certain repos this will help you build non-minified for local development
 
 #Golang
-	export GOPATH=$HOME/workspace/GoHome
-	export PATH=$PATH:/usr/local/opt/go/libexec/bin:$GOPATH/bin #golang
+	# export GOPATH=$HOME/workspace/GoHome
+	# export PATH=$PATH:/usr/local/opt/go/libexec/bin:$GOPATH/bin #golang
 
 #FZF
 	if [[ -f $HOME/utility/bash/fzf.sh ]]; then
@@ -83,10 +84,12 @@ export PATH=/usr/local/bin:/usr/local/sbin:$PATH #homebrew
 		parse_git_branch() {
 			if [[ $(git rev-parse --git-dir 2> /dev/null) ]]; then
 				git branch 2>/dev/null | grep -e '\*' | sed -e 's/* \(.*\)/(\1)/'
-			elif [[ $(hg st 2> /dev/null) ]]; then
-				hg show | head -n 1 | awk '{split($0, array, " "); print substr(array[2], 0, 7)}'
+			elif [[ $(hg root 2> /dev/null) ]]; then
+				hg book 2>/dev/null | grep -e '\*' | sed -e 's/ * \(\S*\).*/(\1)/'
+				# hg show | head -n 1 | awk '{split($0, array, " "); print substr(array[2], 0, 7)}'
 			fi
 		}
+
 export PS1="$blue\$(trim_hostname)#$green\$(parent_working_directory)$light_red\$(parse_git_branch):$light_gray\$$gray"
 
 #Bash Completion
