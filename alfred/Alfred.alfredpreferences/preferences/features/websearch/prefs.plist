@@ -73,6 +73,19 @@
 			<key>utf8</key>
 			<true/>
 		</dict>
+		<key>42D46E9E-E778-4F50-89AA-368B0F5D101F</key>
+		<dict>
+			<key>enabled</key>
+			<true/>
+			<key>keyword</key>
+			<string>s</string>
+			<key>text</key>
+			<string>Intern Search</string>
+			<key>url</key>
+			<string>https://our.intern.facebook.com/intern/bunny/?q=s+{query}</string>
+			<key>utf8</key>
+			<true/>
+		</dict>
 		<key>44FED259-F9E0-4ED2-9196-6E6E521A1ED1</key>
 		<dict>
 			<key>enabled</key>
@@ -163,6 +176,19 @@
 			<string>SoundCloud</string>
 			<key>url</key>
 			<string>https://soundcloud.com/search?q={query}</string>
+			<key>utf8</key>
+			<true/>
+		</dict>
+		<key>E0486AAD-B58E-4666-BD83-9858095F6459</key>
+		<dict>
+			<key>enabled</key>
+			<true/>
+			<key>keyword</key>
+			<string>work</string>
+			<key>text</key>
+			<string>Workplace Search</string>
+			<key>url</key>
+			<string>https://our.intern.facebook.com/intern/bunny/?q=work+{query}</string>
 			<key>utf8</key>
 			<true/>
 		</dict>
