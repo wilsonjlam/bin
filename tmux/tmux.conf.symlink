@@ -1,7 +1,7 @@
 set-window-option -g mode-keys vi
 
 # Set prefix key to c-f instead of default c-b unbind C-b
-set -g prefix C-Space
+set-option -g prefix C-Space
 bind C-Space send-prefix
 
 # vim compatibility
@@ -35,7 +35,7 @@ set -g visual-activity on
 set -g display-panes-time 2000
 
 # tmux messages are displayed for 4 seconds
-set -g display-time 2000
+set -g display-time 5000
 
 # emacs key bindings in tmux command prompt (prefix + :) are better than
 # vi keys, even for vim users
@@ -48,8 +48,14 @@ set -g focus-events on
 set -g terminal-overrides 'xterm*:smcup@:rmcup@'
 set -g mouse on
 # copy text with mouse selection without pressing any key
-bind-key -T copy-mode-vi MouseDragEnd1Pane send -X copy-selection-and-cancel\; run "tmux save -|pbcopy >/dev/null 2>&1"
-
+bind-key -T copy-mode-vi MouseDragEnd1Pane \
+    send -X copy-selection-and-cancel\; \
+    run "tmux save -|pbcopy >/dev/null 2>&1"
+bind-key -T copy-mode-vi DoubleClick1Pane \
+    select-pane \; \
+    copy-mode -M\; \
+    send -X select-word\; \
+    send -X copy-pipe-and-cancel "pbcopy"
 
 # Set title
 set -g set-titles on
