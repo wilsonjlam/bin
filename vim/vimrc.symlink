@@ -89,385 +89,393 @@ command! Wsudo w !sudo tee % > /dev/null
 " #################################################################################################
 " Plugins #########################################################################################
 " #################################################################################################
+
+" Try to install VimPlug automatically
 if empty(glob('~/.vim/autoload/plug.vim'))
   silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
     \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
-call plug#begin('~/.vim/bundle')
-" Peekaboo see your registers pop up
-Plug 'junegunn/vim-peekaboo'
-let g:peekaboo_window = "vert bo 80new"
 
-" Vim asks you which file you meant if no matching filename is found
-Plug 'EinfachToll/DidYouMean'
+if !empty(glob('~/.vim/autoload/plug.vim'))
+	call plug#begin('~/.vim/bundle')
+	" Peekaboo see your registers pop up
+	Plug 'junegunn/vim-peekaboo'
+	let g:peekaboo_window = "vert bo 80new"
 
-" Figure out indent settings
-Plug 'tpope/vim-sleuth'
+	" Vim asks you which file you meant if no matching filename is found
+	Plug 'EinfachToll/DidYouMean'
 
-" Indent context aware pasting
-Plug 'sickill/vim-pasta'
+	" Figure out indent settings
+	Plug 'tpope/vim-sleuth'
 
-" Commenting
-Plug 'scrooloose/nerdcommenter'
-let g:NERDSpaceDelims=1
-let g:NERDTrimTrailingWhitespace=1
+	" Indent context aware pasting
+	Plug 'sickill/vim-pasta'
 
-" Highlighted yanking
-Plug 'machakann/vim-highlightedyank'
-let g:highlightedyank_highlight_duration = 150
+	" Commenting
+	Plug 'scrooloose/nerdcommenter'
+	let g:NERDSpaceDelims=1
+	let g:NERDTrimTrailingWhitespace=1
 
-":help surround
-Plug 'tpope/vim-surround'
+	" Highlighted yanking
+	Plug 'machakann/vim-highlightedyank'
+	let g:highlightedyank_highlight_duration = 150
 
-" ==============
-" fzf
-" ==============
-	set rtp+=/usr/local/opt/fzf
-	Plug 'junegunn/fzf.vim'
-	
-	" Rg search the repo (takes in options like cli rg)
-	command! -bang -nargs=* Rgcli
-		\ call fzf#vim#grep(
-		\   'rg -S --column --line-number --no-heading --color=always --colors=match:fg:221 --colors=path:fg:110 --colors=line:fg:143 --colors=column:fg:109 '.<q-args>, 1,
-		\   <bang>0 ? fzf#vim#with_preview('up:60%')
-		\           : fzf#vim#with_preview('right:50%:hidden', '?'),
-		\   <bang>0)
-	" nnoremap <silent> <expr> <c-p> (expand('%') =~ 'NERD_tree' ?"\<c-w>\<c-w>" : '').":GFiles\<cr>"
-	noremap <leader>/ :Gcd <bar> Rg 
-	" Search with rg for the current word your cursor is over (* but rg)
-	noremap <leader>8 :Gcd <bar> Rg <C-R><C-W><CR>
-	vnoremap <Leader>/ y:Rg <C-R>"<CR>
-	noremap <leader>l :BLines<CR>
-	noremap <leader>L :BLines 
-	noremap <leader>m :Marks<CR>
-	noremap <leader>h :Helptags<CR>
-	noremap <C-t> :Tags<CR>
-	noremap <C-f> :Gcd <bar> Files<CR>
-	noremap <C-b> :Buffers<CR>
-	let g:fzf_layout = { 'down': '30%' }
-	let g:fzf_history_dir = '~/.local/share/fzf-history'
-	let g:fzf_colors =
-		\{'fg':      ['fg', 'Normal'],
-		\ 'bg':      ['bg', 'Normal'],
-		\ 'hl':      ['fg', 'Comment'],
-		\ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
-		\ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
-		\ 'hl+':     ['fg', 'Statement'],
-		\ 'info':    ['fg', 'PreProc'],
-		\ 'border':  ['fg', 'Ignore'],
-		\ 'prompt':  ['fg', 'Conditional'],
-		\ 'pointer': ['fg', 'Exception'],
-		\ 'marker':  ['fg', 'Keyword'],
-		\ 'spinner': ['fg', 'Label'],
-		\ 'header':  ['fg', 'Comment'],
+	":help surround
+	Plug 'tpope/vim-surround'
+
+	" ==============
+	" fzf
+	" ==============
+		set rtp+=/usr/local/opt/fzf
+		Plug 'junegunn/fzf.vim'
+		
+		" Rg search the repo (takes in options like cli rg)
+		command! -bang -nargs=* Rgcli
+			\ call fzf#vim#grep(
+			\   'rg -S --column --line-number --no-heading --color=always --colors=match:fg:221 --colors=path:fg:110 --colors=line:fg:143 --colors=column:fg:109 '.<q-args>, 1,
+			\   <bang>0 ? fzf#vim#with_preview('up:60%')
+			\           : fzf#vim#with_preview('right:50%:hidden', '?'),
+			\   <bang>0)
+		" nnoremap <silent> <expr> <c-p> (expand('%') =~ 'NERD_tree' ?"\<c-w>\<c-w>" : '').":GFiles\<cr>"
+		noremap <leader>/ :Gcd <bar> Rg 
+		" Search with rg for the current word your cursor is over (* but rg)
+		noremap <leader>8 :Gcd <bar> Rg <C-R><C-W><CR>
+		vnoremap <Leader>/ y:Rg <C-R>"<CR>
+		noremap <leader>l :BLines<CR>
+		noremap <leader>L :BLines 
+		noremap <leader>m :Marks<CR>
+		noremap <leader>h :Helptags<CR>
+		noremap <C-t> :Tags<CR>
+		noremap <C-f> :Gcd <bar> Files<CR>
+		noremap <C-b> :Buffers<CR>
+		let g:fzf_layout = { 'down': '30%' }
+		let g:fzf_history_dir = '~/.local/share/fzf-history'
+		let g:fzf_colors =
+			\{'fg':      ['fg', 'Normal'],
+			\ 'bg':      ['bg', 'Normal'],
+			\ 'hl':      ['fg', 'Comment'],
+			\ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+			\ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+			\ 'hl+':     ['fg', 'Statement'],
+			\ 'info':    ['fg', 'PreProc'],
+			\ 'border':  ['fg', 'Ignore'],
+			\ 'prompt':  ['fg', 'Conditional'],
+			\ 'pointer': ['fg', 'Exception'],
+			\ 'marker':  ['fg', 'Keyword'],
+			\ 'spinner': ['fg', 'Label'],
+			\ 'header':  ['fg', 'Comment'],
+			\}
+		" let g:fzf_launcher = "~/utility/scripts/fzf_iterm_macvim.sh %s " to make iterm fzf faster
+
+
+	" ==============
+	" Buffers Stuffs
+	" ==============
+		" Don't write buffers to disk when opening a new one
+		" From documentation:
+		"   When off a buffer is unloaded when it is |abandon|ed.
+		"   When on a buffer becomes hidden when it is |abandon|ed.
+		set hidden
+
+		Plug 'qpkorr/vim-bufkill', {'on': 'BD'}
+		function! DeleteHiddenBuffers()
+			let tpbl=tabpagebuflist()
+			for buf in filter(range(1, bufnr('$')), 'bufexists(v:val) && index(tpbl, v:val)==-1 && index(["help", ""], getbufvar(v:val, "&buftype")) != -1')
+			silent execute 'bwipeout' buf
+			endfor
+		endfunction
+
+		" Pane Management
+		Plug 't9md/vim-choosewin', {'on': '<Plug>(choosewin)'}
+		nmap <leader><tab> <Plug>(choosewin)
+		let g:choosewin_overlay_enable = 1
+		map - 10<C-w>-
+		map _ 10<C-w>+
+		map = 10<C-w><
+		map + 10<C-w>>
+
+		" Buffer Movement
+		nnoremap <leader>bn :bn<CR> " Next buffer
+		nnoremap <leader>bp :bp<CR> " Previous buffer
+		nnoremap <leader>bv :vert sb 
+		nnoremap <leader>bx :sb 
+		nnoremap <leader>bs :sb 
+		nnoremap <leader>b :b 
+		" Move this buffer into a split right but keep focus on your original pane
+		nnoremap <C-w><C-l> :bp +vert\ sbn\ +TmuxNavigateLeft<CR>
+		" Move this buffer into a split left but keep focus on your original pane
+		nnoremap <C-w><C-h> :vert sb +bp<CR>
+		" Move this buffer into a split below but keep focus on your original pane
+		nnoremap <C-w><C-j> :bp +sbn\ +TmuxNavigateUp<CR>
+		" Move this buffer into a split above but keep focus on your original pane
+		nnoremap <C-w><C-k> :sb +bp<CR>
+
+		" Tab Movement
+		nnoremap <leader>[ :tabNext<CR>
+		nnoremap <leader>] :tabnext<CR>
+
+		" Buffer CLeanup
+		nnoremap <leader>q :q<CR> " Close the buffer
+		nnoremap <leader>bq :q<CR> " Close the buffer " I'm silly and forget sometimes and do this
+		nnoremap <leader>bd :bd<CR> " Delete the current buffer
+		nnoremap <leader>bD :BD<CR> " Delete the current buffer without closing out the pane
+		nnoremap <leader>bo :only<CR> " Make your current buffer the only buffer
+		nnoremap <leader>bW :windo bd<CR> :call DeleteHiddenBuffers()<CR>" For deleting all buffers in a tab
+		nnoremap <leader>bu :call DeleteHiddenBuffers()<CR> " Deletes all hidden buffers
+
+
+	" ==============
+	" Tmux
+	" ==============
+		Plug 'christoomey/vim-tmux-navigator'
+
+
+	" ==============
+	" Airline
+	" ==============
+		Plug 'vim-airline/vim-airline'
+		Plug 'vim-airline/vim-airline-themes'
+		set laststatus=2 " For airline to always show the status bar
+		if has ('gui_running')
+			set guifont=Meslo\ LG\ M\ Regular\ for\ Powerline:h11
+		endif
+		let g:airline_theme = 'bubblegum'
+		let g:airline_powerline_fonts = 1
+		let g:airline_detect_modified = 1
+		let g:airline#extensions#wordcount#enabled = 0
+		" Airline Buffers
+		let g:airline#extensions#tabline#enabled = 1 " Set Airline to show buffers at the top of the screen
+		let g:airline#extensions#tabline#fnamemod = ':t' "show just the filename
+		let g:airline#extensions#tabline#buffer_nr_show = 1
+		let g:airline#extensions#tabline#buffer_nr_format = '[%s] '
+		let g:airline#extensions#tabline#switch_buffers_and_tabs = 1
+		" Airline Sections
+		function! AirlineInit()
+			call airline#parts#define_minwidth('linenr', 500)
+			call airline#parts#define_minwidth('maxlinenr', 500)
+			" let g:airline_section_a = airline#section#create(['mode'])       "(mode, crypt, paste, spell, iminsert)
+			let g:airline_section_b = airline#section#create(['branch'])       "(hunks, branch)
+			let g:airline_section_c = airline#section#create(['path'])       "(bufferline or filename)
+			" let g:airline_section_gutter  (readonly, csv)
+			let g:airline_section_x = airline#section#create(['filetype'])       "(tagbar, filetype, virtualenv)
+			let g:airline_section_y = [] " (fileencoding, fileformat)
+			let g:airline_section_z = airline#section#create(['linenr', 'maxlinenr', ' ', '%{col(".")}'])       "(percentage, line number, column number)
+			let g:airline_section_error = [] " (ycm_error_count, syntastic-err, eclim)
+			let g:airline_section_warning = [] " (ycm_warning_count, syntastic-warn, whitespace)
+		endfunction
+		autocmd User AirlineAfterInit call AirlineInit()
+
+		" Airline Extensions
+		let g:airline#extensions#branch#displayed_head_limit = 15
+		let g:airline#extensions#tabline#enabled = 1
+
+
+	" ==============
+	" File Explorer
+	" ==============
+		Plug 'scrooloose/nerdtree'
+		let NERDTreeShowHidden=1
+		let NERDTreeShowLineNumbers=1
+		nmap `` :NERDTreeToggle<CR>
+
+	" ==============
+	" Git Stuffs
+	" ==============
+		Plug 'airblade/vim-gitgutter'
+		"avoid gutter popping in and out
+		" set signcolumn=yes
+
+		" Git commands (G<something>)
+		Plug 'tpope/vim-fugitive'
+		noremap <leader>gs :Gst<CR>
+		noremap <leader>gb :Gbrowse!<CR>
+
+		" Git commit browser
+		Plug 'junegunn/gv.vim', {'on': 'GV'}
+
+		set diffopt=iwhite
+
+		" Stash Viewing
+		Plug 'aacunningham/vim-fuzzy-stash'
+
+	" ==============
+	" Movement
+	" ==============
+		Plug 'easymotion/vim-easymotion'
+		map <leader> <Plug>(easymotion-prefix)
+		map f <Plug>(easymotion-fl)
+		map F <Plug>(easymotion-Fl)
+		map t <Plug>(easymotion-tl)
+		map T <Plug>(easymotion-Tl)
+		map yf y<Plug>(easymotion-fl)
+		map yF y<Plug>(easymotion-Fl)
+		map yt y<Plug>(easymotion-tl)
+		map yT y<Plug>(easymotion-Tl)
+		map W <leader>W
+		map B <leader>B
+		map E <leader>E
+
+
+	" ==============
+	" Marks
+	" ==============
+		" Tell vim to remember certain things when we exit
+		"  '100  :  marks will be remembered for up to 100 previously edited files
+		"  "100 :  will save up to 100 lines for each register
+		"  :20  :  up to 20 lines of command-line history will be remembered
+		"  %    :  saves and restores the buffer list
+		"  n... :  where to save the viminfo files
+		" set viminfo='100,\"30,:20,%,n~/.viminfo
+
+		" Displays your marks in your git gutter
+		Plug 'kshenoy/vim-signature'
+		" Plug 'MattesGroeger/vim-bookmarks'
+		" nmap me <Plug>BookmarkAnnotate
+
+
+	" =======================
+	" Autocomplete & Snippets
+	" =======================
+		" Snippets
+		Plug 'SirVer/ultisnips'
+		Plug 'honza/vim-snippets' " bring these in one at a time
+		let g:UltiSnipsEditSplit="vertical"
+		let g:UltiSnipsExpandTrigger = "<tab>"
+		let g:UltiSnipsJumpForwardTrigger = "<leader><tab>"
+		let g:UltiSnipsJumpBackwardTrigger = "<leader><s-tab>"
+		let g:UltiSnipsSnippetDir = "~/utility/vim/UltiSnips"
+
+		" Autocomplete
+		Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
+		" make YCM compatible with UltiSnips (using supertab)
+		let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
+		let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
+		let g:ycm_autoclose_preview_window_after_completion = 1
+		let g:ycm_autoclose_preview_indow_after_insertion = 1
+		let g:ycm_filepath_blacklist = {}
+		let g:SuperTabDefaultCompletionType = '<C-n>'
+
+		" Tab Completion
+		Plug 'ervandew/supertab'
+
+		" Autocomplete Parens
+		Plug 'jiangmiao/auto-pairs'
+		" unmatched close jumps to next close, <c-v>} will avoid
+		let g:AutoPairsFlyMode = 0 " this works when you don't want it to
+		" let g:AutoPairsShortcutBackInsert = '<M-b>' "this doesn't work in macVim,
+		" need to remap
+		" Default: {'(':')', '[':']', '{':'}',"'":"'",'"':'"', '`':'`'}
+		let g:AutoPairs ={
+		\ '(':')',
+		\ '[':']',
+		\ '{':'}',
+		\ "'":"'",
+		\ '"':'"',
 		\}
-	" let g:fzf_launcher = "~/utility/scripts/fzf_iterm_macvim.sh %s " to make iterm fzf faster
+		let g:AutoPairsCenterLine = 0
 
 
-" ==============
-" Buffers Stuffs
-" ==============
-	" Don't write buffers to disk when opening a new one
-	" From documentation:
-	"   When off a buffer is unloaded when it is |abandon|ed.
-	"   When on a buffer becomes hidden when it is |abandon|ed.
-	set hidden
+	" =======
+	" Linting
+	" =======
+		Plug 'w0rp/ale'
+		" \  'javascript': ['eslint', 'flow'],
+		let g:ale_linters = {
+		\  'typescript': ['prettier', 'tslint', 'tsserver', 'typecheck'],
+		\  'php': ['php -l', 'phpmd', 'phpstan', 'phpcbf', 'php-cs-fixer'],
+		\}
+		let g:ale_lint_delay = 1000 "delay 1s after text change before lintng
+		let g:ale_lint_on_insert_leave = 1
+		let g:ale_sign_error = 'E' " could use emoji
+		let g:ale_sign_warning = 'W' " could use emoji
+		let g:ale_statusline_format = ['X %d', '? %d', '']
+		" %linter% is the name of the linter that provided the message
+		" %s is the error or warning message
+		let g:ale_echo_msg_format = '%linter% says %s'
+		let g:ale_keep_list_window_open = 0
+		let g:ale_set_loclist = 0
+		let g:ale_set_quickfix = 1
+		" Map keys to navigate between lines with errors and warnings.
+		nnoremap <leader>an :ALENextWrap<cr>
+		nnoremap <leader>ap :ALEPreviousWrap<cr>
+		let g:ale_sign_column_always=1
+		let g:ale_set_balloons = 1
+		let g:ale_open_list = 1
 
-	Plug 'qpkorr/vim-bufkill', {'on': 'BD'}
-	function! DeleteHiddenBuffers()
-		let tpbl=tabpagebuflist()
-		for buf in filter(range(1, bufnr('$')), 'bufexists(v:val) && index(tpbl, v:val)==-1 && index(["help", ""], getbufvar(v:val, "&buftype")) != -1')
-		silent execute 'bwipeout' buf
-		endfor
-	endfunction
+	" ===============================
+	" Languages & Syntax Highlighting
+	" ===============================
+		" Markdown
+		Plug 'shime/vim-livedown', { 'for': 'markdown' }
+		let g:livedown_browser = "google chrome"
 
-	" Pane Management
-	Plug 't9md/vim-choosewin', {'on': '<Plug>(choosewin)'}
-	nmap <leader><tab> <Plug>(choosewin)
-	let g:choosewin_overlay_enable = 1
-	map - 10<C-w>-
-	map _ 10<C-w>+
-	map = 10<C-w><
-	map + 10<C-w>>
+		" XML
+		Plug 'othree/xml.vim', { 'for': 'xml' }
 
-	" Buffer Movement
-	nnoremap <leader>bn :bn<CR> " Next buffer
-	nnoremap <leader>bp :bp<CR> " Previous buffer
-	nnoremap <leader>bv :vert sb 
-	nnoremap <leader>bx :sb 
-	nnoremap <leader>bs :sb 
-	nnoremap <leader>b :b 
-	" Move this buffer into a split right but keep focus on your original pane
-	nnoremap <C-w><C-l> :bp +vert\ sbn\ +TmuxNavigateLeft<CR>
-	" Move this buffer into a split left but keep focus on your original pane
-	nnoremap <C-w><C-h> :vert sb +bp<CR>
-	" Move this buffer into a split below but keep focus on your original pane
-	nnoremap <C-w><C-j> :bp +sbn\ +TmuxNavigateUp<CR>
-	" Move this buffer into a split above but keep focus on your original pane
-	nnoremap <C-w><C-k> :sb +bp<CR>
+		" CSS
+		Plug 'ap/vim-css-color', { 'for': 'css' }
 
-	" Tab Movement
-	nnoremap <leader>[ :tabNext<CR>
-	nnoremap <leader>] :tabnext<CR>
+		" Go Development
+		Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries', 'for': 'go' }
 
-	" Buffer CLeanup
-	nnoremap <leader>q :q<CR> " Close the buffer
-	nnoremap <leader>bq :q<CR> " Close the buffer " I'm silly and forget sometimes and do this
-	nnoremap <leader>bd :bd<CR> " Delete the current buffer
-	nnoremap <leader>bD :BD<CR> " Delete the current buffer without closing out the pane
-	nnoremap <leader>bo :only<CR> " Make your current buffer the only buffer
-	nnoremap <leader>bW :windo bd<CR> :call DeleteHiddenBuffers()<CR>" For deleting all buffers in a tab
-	nnoremap <leader>bu :call DeleteHiddenBuffers()<CR> " Deletes all hidden buffers
+		" Typescript Development
+		Plug 'leafgarland/typescript-vim', { 'for': 'typescript' }
 
+		" Angular Development
+		Plug 'burnettk/vim-angular', { 'for': 'javascript' }
 
-" ==============
-" Tmux
-" ==============
-	Plug 'christoomey/vim-tmux-navigator'
+		" React Development
+		Plug 'mxw/vim-jsx', { 'for': 'javascript' }
 
+		" Nginx Development
+		Plug 'chr4/nginx.vim', { 'for': 'nginx' }
 
-" ==============
-" Airline
-" ==============
-	Plug 'vim-airline/vim-airline'
-	Plug 'vim-airline/vim-airline-themes'
-	set laststatus=2 " For airline to always show the status bar
-	if has ('gui_running')
-		set guifont=Meslo\ LG\ M\ Regular\ for\ Powerline:h11
-	endif
-	let g:airline_theme = 'bubblegum'
-	let g:airline_powerline_fonts = 1
-	let g:airline_detect_modified = 1
-	let g:airline#extensions#wordcount#enabled = 0
-	" Airline Buffers
-	let g:airline#extensions#tabline#enabled = 1 " Set Airline to show buffers at the top of the screen
-	let g:airline#extensions#tabline#fnamemod = ':t' "show just the filename
-	let g:airline#extensions#tabline#buffer_nr_show = 1
-	let g:airline#extensions#tabline#buffer_nr_format = '[%s] '
-	let g:airline#extensions#tabline#switch_buffers_and_tabs = 1
-	" Airline Sections
-	function! AirlineInit()
-		call airline#parts#define_minwidth('linenr', 500)
-		call airline#parts#define_minwidth('maxlinenr', 500)
-		" let g:airline_section_a = airline#section#create(['mode'])       "(mode, crypt, paste, spell, iminsert)
-		let g:airline_section_b = airline#section#create(['branch'])       "(hunks, branch)
-		let g:airline_section_c = airline#section#create(['path'])       "(bufferline or filename)
-		" let g:airline_section_gutter  (readonly, csv)
-		let g:airline_section_x = airline#section#create(['filetype'])       "(tagbar, filetype, virtualenv)
-		let g:airline_section_y = [] " (fileencoding, fileformat)
-		let g:airline_section_z = airline#section#create(['linenr', 'maxlinenr', ' ', '%{col(".")}'])       "(percentage, line number, column number)
-		let g:airline_section_error = [] " (ycm_error_count, syntastic-err, eclim)
-		let g:airline_section_warning = [] " (ycm_warning_count, syntastic-warn, whitespace)
-	endfunction
-	autocmd User AirlineAfterInit call AirlineInit()
+		"ColorSchemes
+		command! Colorscheme colorscheme
+		nnoremap <leader>C :Colorscheme <CR> :Colors<CR>
+		Plug 'BrainDeath0/Hypsteria', { 'on': 'Colorscheme' }
+		Plug 'aradunovic/perun.vim', { 'on': 'Colorscheme' }
+		Plug 'arcticicestudio/nord-vim', { 'on': 'Colorscheme' }
+		Plug 'ayu-theme/ayu-vim', { 'on': 'Colorscheme' }
+		let ayucolor="mirage"
+		Plug 'chriskempson/base16-vim', { 'on': 'Colorscheme' }
+		Plug 'chriskempson/vim-tomorrow-theme', { 'on': 'Colorscheme' }
+		Plug 'danilo-augusto/vim-afterglow', { 'on': 'Colorscheme' }
+		Plug 'easysid/mod8.vim', { 'on': 'Colorscheme' }
+		Plug 'fugalh/desert.vim', { 'on': 'Colorscheme' }
+		Plug 'hzchirs/vim-material', { 'on': 'Colorscheme' }
+		Plug 'idbrii/vim-sandydune', { 'on': 'Colorscheme' }
+		Plug 'joshdick/onedark.vim', { 'on': 'Colorscheme' }
+		Plug 'junegunn/seoul256.vim', { 'on': 'Colorscheme' }
+		let g:seoul256_background = 234
+		Plug 'kaicataldo/material.vim', { 'on': 'Colorscheme' }
+		Plug 'kamwitsta/nordisk', { 'on': 'Colorscheme' }
+		Plug 'kristijanhusak/vim-hybrid-material', { 'on': 'Colorscheme' }
+		Plug 'mhartington/oceanic-next', { 'on': 'Colorscheme' }
+		Plug 'mkarmona/colorsbox', { 'on': 'Colorscheme' }
+		Plug 'mkarmona/materialbox', { 'on': 'Colorscheme' }
+		Plug 'morhetz/gruvbox', { 'on': 'Colorscheme' }
+		Plug 'nightsense/snow', { 'on': 'Colorscheme' }
+		Plug 'nightsense/vim-crunchbang', { 'on': 'Colorscheme' }
+		Plug 'rhysd/vim-color-spring-night', { 'on': 'Colorscheme' }
+		Plug 'sts10/vim-pink-moon', { 'on': 'Colorscheme' }
+		Plug 'w0ng/vim-hybrid', { 'on': 'Colorscheme' }
+		Plug 'zcodes/vim-colors-basic', { 'on': 'Colorscheme' }
 
-	" Airline Extensions
-	let g:airline#extensions#branch#displayed_head_limit = 15
-	let g:airline#extensions#tabline#enabled = 1
+		" let g:hybrid_custom_term_colors=1
+		set background=dark
+		set termguicolors
+		let base16colorspace=256
 
-
-" ==============
-" File Explorer
-" ==============
-	Plug 'scrooloose/nerdtree'
-	let NERDTreeShowHidden=1
-	let NERDTreeShowLineNumbers=1
-	nmap `` :NERDTreeToggle<CR>
-
-" ==============
-" Git Stuffs
-" ==============
-	Plug 'airblade/vim-gitgutter'
-	"avoid gutter popping in and out
-	" set signcolumn=yes
-
-	" Git commands (G<something>)
-	Plug 'tpope/vim-fugitive'
-	noremap <leader>gs :Gst<CR>
-	noremap <leader>gb :Gbrowse!<CR>
-
-	" Git commit browser
-	Plug 'junegunn/gv.vim', {'on': 'GV'}
-
-	set diffopt=iwhite
-
-	" Stash Viewing
-	Plug 'aacunningham/vim-fuzzy-stash'
-
-" ==============
-" Movement
-" ==============
-	Plug 'easymotion/vim-easymotion'
-	map <leader> <Plug>(easymotion-prefix)
-	map f <Plug>(easymotion-fl)
-	map F <Plug>(easymotion-Fl)
-	map t <Plug>(easymotion-tl)
-	map T <Plug>(easymotion-Tl)
-	map yf y<Plug>(easymotion-fl)
-	map yF y<Plug>(easymotion-Fl)
-	map yt y<Plug>(easymotion-tl)
-	map yT y<Plug>(easymotion-Tl)
-	map W <leader>W
-	map B <leader>B
-	map E <leader>E
-
-
-" ==============
-" Marks
-" ==============
-	" Tell vim to remember certain things when we exit
-	"  '100  :  marks will be remembered for up to 100 previously edited files
-	"  "100 :  will save up to 100 lines for each register
-	"  :20  :  up to 20 lines of command-line history will be remembered
-	"  %    :  saves and restores the buffer list
-	"  n... :  where to save the viminfo files
-	" set viminfo='100,\"30,:20,%,n~/.viminfo
-
-	" Displays your marks in your git gutter
-	Plug 'kshenoy/vim-signature'
-	" Plug 'MattesGroeger/vim-bookmarks'
-	" nmap me <Plug>BookmarkAnnotate
-
-
-" =======================
-" Autocomplete & Snippets
-" =======================
-	" Snippets
-	Plug 'SirVer/ultisnips'
-	Plug 'honza/vim-snippets' " bring these in one at a time
-	let g:UltiSnipsEditSplit="vertical"
-	let g:UltiSnipsExpandTrigger = "<tab>"
-	let g:UltiSnipsJumpForwardTrigger = "<leader><tab>"
-	let g:UltiSnipsJumpBackwardTrigger = "<leader><s-tab>"
-	let g:UltiSnipsSnippetDir = "~/utility/vim/UltiSnips"
-
-	" Autocomplete
-	Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
-	" make YCM compatible with UltiSnips (using supertab)
-	let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
-	let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
-	let g:ycm_autoclose_preview_window_after_completion = 1
-	let g:ycm_autoclose_preview_indow_after_insertion = 1
-	let g:ycm_filepath_blacklist = {}
-	let g:SuperTabDefaultCompletionType = '<C-n>'
-
-	" Tab Completion
-	Plug 'ervandew/supertab'
-
-	" Autocomplete Parens
-	Plug 'jiangmiao/auto-pairs'
-	" unmatched close jumps to next close, <c-v>} will avoid
-	let g:AutoPairsFlyMode = 0 " this works when you don't want it to
-	" let g:AutoPairsShortcutBackInsert = '<M-b>' "this doesn't work in macVim,
-	" need to remap
-	" Default: {'(':')', '[':']', '{':'}',"'":"'",'"':'"', '`':'`'}
-	let g:AutoPairs ={
-	\ '(':')',
-	\ '[':']',
-	\ '{':'}',
-	\ "'":"'",
-	\ '"':'"',
-	\}
-	let g:AutoPairsCenterLine = 0
-
-
-" =======
-" Linting
-" =======
-	Plug 'w0rp/ale'
-	" \  'javascript': ['eslint', 'flow'],
-	let g:ale_linters = {
-	\  'typescript': ['prettier', 'tslint', 'tsserver', 'typecheck'],
-	\  'php': ['php -l', 'phpmd', 'phpstan', 'phpcbf', 'php-cs-fixer'],
-	\}
-	let g:ale_lint_delay = 1000 "delay 1s after text change before lintng
-	let g:ale_lint_on_insert_leave = 1
-	let g:ale_sign_error = 'E' " could use emoji
-	let g:ale_sign_warning = 'W' " could use emoji
-	let g:ale_statusline_format = ['X %d', '? %d', '']
-	" %linter% is the name of the linter that provided the message
-	" %s is the error or warning message
-	let g:ale_echo_msg_format = '%linter% says %s'
-	let g:ale_keep_list_window_open = 0
-	let g:ale_set_loclist = 0
-	let g:ale_set_quickfix = 1
-	" Map keys to navigate between lines with errors and warnings.
-	nnoremap <leader>an :ALENextWrap<cr>
-	nnoremap <leader>ap :ALEPreviousWrap<cr>
-	let g:ale_sign_column_always=1
-	let g:ale_set_balloons = 1
-	let g:ale_open_list = 1
-
-" ===============================
-" Languages & Syntax Highlighting
-" ===============================
-	" Markdown
-	Plug 'shime/vim-livedown', { 'for': 'markdown' }
-	let g:livedown_browser = "google chrome"
-
-	" XML
-	Plug 'othree/xml.vim', { 'for': 'xml' }
-
-	" CSS
-	Plug 'ap/vim-css-color', { 'for': 'css' }
-
-	" Go Development
-	Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries', 'for': 'go' }
-
-	" Typescript Development
-	Plug 'leafgarland/typescript-vim', { 'for': 'typescript' }
-
-	" Angular Development
-	Plug 'burnettk/vim-angular', { 'for': 'javascript' }
-
-	" React Development
-	Plug 'mxw/vim-jsx', { 'for': 'javascript' }
-
-	" Nginx Development
-	Plug 'chr4/nginx.vim', { 'for': 'nginx' }
-
-	"ColorSchemes
-	command! Colorscheme colorscheme
-	nnoremap <leader>C :Colorscheme <CR> :Colors<CR>
-	Plug 'BrainDeath0/Hypsteria', { 'on': 'Colorscheme' }
-	Plug 'aradunovic/perun.vim', { 'on': 'Colorscheme' }
-	Plug 'arcticicestudio/nord-vim', { 'on': 'Colorscheme' }
-	Plug 'ayu-theme/ayu-vim', { 'on': 'Colorscheme' }
-	  let ayucolor="mirage"
-	Plug 'chriskempson/base16-vim', { 'on': 'Colorscheme' }
-	Plug 'chriskempson/vim-tomorrow-theme', { 'on': 'Colorscheme' }
-	Plug 'danilo-augusto/vim-afterglow', { 'on': 'Colorscheme' }
-	Plug 'easysid/mod8.vim', { 'on': 'Colorscheme' }
-	Plug 'fugalh/desert.vim', { 'on': 'Colorscheme' }
-	Plug 'hzchirs/vim-material', { 'on': 'Colorscheme' }
-	Plug 'idbrii/vim-sandydune', { 'on': 'Colorscheme' }
-	Plug 'joshdick/onedark.vim', { 'on': 'Colorscheme' }
-	Plug 'junegunn/seoul256.vim', { 'on': 'Colorscheme' }
-	  let g:seoul256_background = 234
-	Plug 'kaicataldo/material.vim', { 'on': 'Colorscheme' }
-	Plug 'kamwitsta/nordisk', { 'on': 'Colorscheme' }
-	Plug 'kristijanhusak/vim-hybrid-material', { 'on': 'Colorscheme' }
-	Plug 'mhartington/oceanic-next', { 'on': 'Colorscheme' }
-	Plug 'mkarmona/colorsbox', { 'on': 'Colorscheme' }
-	Plug 'mkarmona/materialbox', { 'on': 'Colorscheme' }
-	Plug 'morhetz/gruvbox', { 'on': 'Colorscheme' }
-	Plug 'nightsense/snow', { 'on': 'Colorscheme' }
-	Plug 'nightsense/vim-crunchbang', { 'on': 'Colorscheme' }
-	Plug 'rhysd/vim-color-spring-night', { 'on': 'Colorscheme' }
-	Plug 'sts10/vim-pink-moon', { 'on': 'Colorscheme' }
-	Plug 'w0ng/vim-hybrid', { 'on': 'Colorscheme' }
-	Plug 'zcodes/vim-colors-basic', { 'on': 'Colorscheme' }
-
-
-	" let g:hybrid_custom_term_colors=1
-	set background=dark
-	set termguicolors
-	let base16colorspace=256
-
-call plug#end()
+	call plug#end()
+endif
 " #################################################################################################
 " Plugins #########################################################################################
 " #################################################################################################
 
-colorscheme colorsbox-stnight
+try
+	colorscheme colorsbox-stnight
+catch
+	colorscheme slate
+endtry
