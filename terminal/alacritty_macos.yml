@@ -498,6 +498,3 @@ key_bindings:
 
   # selecting tmux panes
   - { key: G,     mods: Command,       chars: "\x00\x71" }
-
-  # clearning tmux panes
-  - { key: K,     mods: Command,       action: ClearHistory    }

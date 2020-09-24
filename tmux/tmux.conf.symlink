@@ -1,8 +1,7 @@
 set-window-option -g mode-keys vi
 
-# Set prefix key to c-f instead of default c-b unbind C-b
+# Set prefix key
 set-option -g prefix C-Space
-bind C-Space send-prefix
 
 # vim compatibility
 set -g default-terminal "xterm-256color"
