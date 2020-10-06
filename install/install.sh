@@ -5,16 +5,22 @@ set -eu
 INSTALL_DIR="$(dirname "$BASH_SOURCE")"
 echo $INSTALL_DIR
 
+echo "defaults write .GlobalPreferences com.apple.mouse.scaling 0"
+defaults write .GlobalPreferences com.apple.mouse.scaling 0
+
 #directories
 if [ ! -d "$HOME/workspace" ]; then
+	echo "mkdir ~/workspace"
 	mkdir ~/workspace
 fi
 
 if [ ! -d "$HOME/personal" ]; then
+	echo "mkdir ~/personal"
 	mkdir ~/personal
 fi
 
 if [ ! -d "$HOME/tmp" ]; then
+	echo "mkdir ~/tmp"
 	mkdir ~/tmp
 fi
 

@@ -1,7 +1,5 @@
 utility
 =======
-defaults write .GlobalPreferences com.apple.mouse.scaling 0
-
 Some of my settings and scripts for storage and sharing purposes
 
 ## Installation
