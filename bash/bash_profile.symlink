@@ -85,7 +85,7 @@ export PATH=/usr/local/bin:/usr/local/sbin:$PATH #homebrew
 			if [[ $(git rev-parse --git-dir 2> /dev/null) ]]; then
 				git branch 2>/dev/null | grep -e '\*' | sed -e 's/* \(.*\)/(\1)/'
 			elif [[ $(hg root 2> /dev/null) ]]; then
-				hg book 2>/dev/null | grep -e '\*' | sed -e 's/ * \(\S*\).*/(\1)/'
+				hg book 2>/dev/null | grep -e '\*' | sed -e 's/ \* \(\S*\).*/(\1)/'
 				# hg show | head -n 1 | awk '{split($0, array, " "); print substr(array[2], 0, 7)}'
 			fi
 		}
