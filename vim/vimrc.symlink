@@ -434,8 +434,6 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
 		"ColorSchemes
 		command! Colorscheme colorscheme
 		nnoremap <leader>C :Colorscheme <CR> :Colors<CR>
-		Plug 'BrainDeath0/Hypsteria', { 'on': 'Colorscheme' }
-		Plug 'aradunovic/perun.vim', { 'on': 'Colorscheme' }
 		Plug 'arcticicestudio/nord-vim', { 'on': 'Colorscheme' }
 		Plug 'ayu-theme/ayu-vim', { 'on': 'Colorscheme' }
 		let ayucolor="mirage"
@@ -450,14 +448,12 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
 		Plug 'junegunn/seoul256.vim', { 'on': 'Colorscheme' }
 		let g:seoul256_background = 234
 		Plug 'kaicataldo/material.vim', { 'on': 'Colorscheme' }
-		Plug 'kamwitsta/nordisk', { 'on': 'Colorscheme' }
 		Plug 'kristijanhusak/vim-hybrid-material', { 'on': 'Colorscheme' }
-		Plug 'mhartington/oceanic-next', { 'on': 'Colorscheme' }
 		Plug 'mkarmona/colorsbox', { 'on': 'Colorscheme' }
 		Plug 'mkarmona/materialbox', { 'on': 'Colorscheme' }
 		Plug 'morhetz/gruvbox', { 'on': 'Colorscheme' }
-		Plug 'nightsense/snow', { 'on': 'Colorscheme' }
 		Plug 'nightsense/vim-crunchbang', { 'on': 'Colorscheme' }
+		Plug 'nightsense/forgotten', { 'on': 'Colorscheme' }
 		Plug 'rhysd/vim-color-spring-night', { 'on': 'Colorscheme' }
 		Plug 'sts10/vim-pink-moon', { 'on': 'Colorscheme' }
 		Plug 'w0ng/vim-hybrid', { 'on': 'Colorscheme' }
