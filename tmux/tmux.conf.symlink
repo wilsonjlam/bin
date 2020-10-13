@@ -2,6 +2,7 @@ set-window-option -g mode-keys vi
 
 # Set prefix key
 set-option -g prefix C-Space
+bind C-Space send-prefix
 
 # vim compatibility
 set -g default-terminal "xterm-256color"
@@ -14,6 +15,8 @@ bind ? list-commands
 
 # speed up sec
 set -sg escape-time 0
+
+# bind-key k clear-history
 
 # Reattach each new window to the user bootstrap namespace
 # https://github.com/ChrisJohnsen/tmux-MacOSX-pasteboard
@@ -111,3 +114,15 @@ setw -g window-status-current-format "#[fg=colour236,bg=colour240,nobold,nounder
 
 set -g window-style 'fg=colour245,bg=colour236'
 set -g window-active-style 'fg=colour250,bg=black'
+
+# Nested Tmux
+bind -T root Z \
+    set prefix None \;\
+    set key-table off \;\
+    if -F '#{pane_in_mode}' 'send-keys -X cancel' \;\
+    refresh-client -S \;\
+
+bind -T off Z \
+  set -u prefix \;\
+  set -u key-table \;\
+  refresh-client -S
