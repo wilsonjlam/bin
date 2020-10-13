@@ -444,7 +444,6 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
 		Plug 'fugalh/desert.vim', { 'on': 'Colorscheme' }
 		Plug 'hzchirs/vim-material', { 'on': 'Colorscheme' }
 		Plug 'idbrii/vim-sandydune', { 'on': 'Colorscheme' }
-		Plug 'joshdick/onedark.vim', { 'on': 'Colorscheme' }
 		Plug 'junegunn/seoul256.vim', { 'on': 'Colorscheme' }
 		let g:seoul256_background = 234
 		Plug 'kaicataldo/material.vim', { 'on': 'Colorscheme' }
