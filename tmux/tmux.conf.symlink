@@ -116,13 +116,13 @@ set -g window-style 'fg=colour245,bg=colour236'
 set -g window-active-style 'fg=colour250,bg=black'
 
 # Nested Tmux
-bind -T root Z \
-    set prefix None \;\
-    set key-table off \;\
-    if -F '#{pane_in_mode}' 'send-keys -X cancel' \;\
-    refresh-client -S \;\
+bind -T root \; \
+  set prefix None \;\
+  set key-table off \;\
+  if -F '#{pane_in_mode}' 'send-keys -X cancel' \;\
+  refresh-client -S \;\
 
-bind -T off Z \
+bind -T off \; \
   set -u prefix \;\
   set -u key-table \;\
   refresh-client -S

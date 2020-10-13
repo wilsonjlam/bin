@@ -69,7 +69,7 @@
 			<key>text</key>
 			<string>bunnylol</string>
 			<key>url</key>
-			<string>https://our.intern.facebook.com/intern/bunny/?q={query}</string>
+			<string>https://internalfb.com/intern/bunny/?q={query}</string>
 			<key>utf8</key>
 			<true/>
 		</dict>
@@ -82,7 +82,7 @@
 			<key>text</key>
 			<string>Intern Search</string>
 			<key>url</key>
-			<string>https://our.intern.facebook.com/intern/bunny/?q=s+{query}</string>
+			<string>https://internalfb.com/intern/bunny/?q=s+{query}</string>
 			<key>utf8</key>
 			<true/>
 		</dict>
@@ -188,7 +188,7 @@
 			<key>text</key>
 			<string>Workplace Search</string>
 			<key>url</key>
-			<string>https://our.intern.facebook.com/intern/bunny/?q=work+{query}</string>
+			<string>https://internalfb.com/intern/bunny/?q=work+{query}</string>
 			<key>utf8</key>
 			<true/>
 		</dict>
