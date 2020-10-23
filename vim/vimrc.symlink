@@ -406,6 +406,10 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
 	" ===============================
 	" Languages & Syntax Highlighting
 	" ===============================
+		" Autoformat
+		Plug 'Chiel92/vim-autoformat'
+		au BufWrite * :Autoformat
+
 		" Markdown
 		Plug 'shime/vim-livedown', { 'for': 'markdown' }
 		let g:livedown_browser = "google chrome"
@@ -452,7 +456,6 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
 		Plug 'mkarmona/materialbox', { 'on': 'Colorscheme' }
 		Plug 'morhetz/gruvbox', { 'on': 'Colorscheme' }
 		Plug 'nightsense/vim-crunchbang', { 'on': 'Colorscheme' }
-		Plug 'nightsense/forgotten', { 'on': 'Colorscheme' }
 		Plug 'rhysd/vim-color-spring-night', { 'on': 'Colorscheme' }
 		Plug 'sts10/vim-pink-moon', { 'on': 'Colorscheme' }
 		Plug 'w0ng/vim-hybrid', { 'on': 'Colorscheme' }
