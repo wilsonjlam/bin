@@ -151,7 +151,7 @@ set -g window-style 'fg=colour245,bg=colour236'
 set -g window-active-style 'fg=colour250,bg=black'
 
 # Nested Tmux
-bind -T root \; \
+bind -T root C-q \
   set prefix None \;\
   set key-table off \;\
   set status-style "fg=$color_status_text,bg=$color_window_off_status_bg" \;\
@@ -160,7 +160,7 @@ bind -T root \; \
   if -F '#{pane_in_mode}' 'send-keys -X cancel' \;\
   refresh-client -S \;\
 
-bind -T off \; \
+bind -T off C-q \
   set -u prefix \;\
   set -u key-table \;\
   set -u status-style \;\
