@@ -443,16 +443,15 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
 	nnoremap <leader>C :Colorscheme <CR> :Colors<CR>
 	Plug 'arcticicestudio/nord-vim', { 'on': 'Colorscheme' }
 	Plug 'ayu-theme/ayu-vim', { 'on': 'Colorscheme' }
-	let ayucolor="mirage"
+		let ayucolor="dark"
 	Plug 'chriskempson/base16-vim', { 'on': 'Colorscheme' }
 	Plug 'chriskempson/vim-tomorrow-theme', { 'on': 'Colorscheme' }
-	Plug 'danilo-augusto/vim-afterglow', { 'on': 'Colorscheme' }
 	Plug 'easysid/mod8.vim', { 'on': 'Colorscheme' }
 	Plug 'fugalh/desert.vim', { 'on': 'Colorscheme' }
 	Plug 'hzchirs/vim-material', { 'on': 'Colorscheme' }
 	Plug 'idbrii/vim-sandydune', { 'on': 'Colorscheme' }
 	Plug 'junegunn/seoul256.vim', { 'on': 'Colorscheme' }
-	let g:seoul256_background = 234
+		let g:seoul256_background = 233
 	Plug 'kaicataldo/material.vim', { 'on': 'Colorscheme' }
 	Plug 'kristijanhusak/vim-hybrid-material', { 'on': 'Colorscheme' }
 	Plug 'mkarmona/colorsbox', { 'on': 'Colorscheme' }
