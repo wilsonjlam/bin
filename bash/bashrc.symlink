@@ -61,3 +61,5 @@ clone() {
 	git clone "$1"
 	cd "$(echo "$1" | rev | cut -d '.' -f 2 | cut -d '/' -f 1 | rev)"
 }
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash

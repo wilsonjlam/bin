@@ -52,6 +52,7 @@ bind ? list-commands
 set -sg escape-time 0
 
 # bind-key k clear-history
+set-option -g history-limit 5000
 
 # Reattach each new window to the user bootstrap namespace
 # https://github.com/ChrisJohnsen/tmux-MacOSX-pasteboard
