@@ -73,6 +73,18 @@ export PATH=/usr/local/bin:/usr/local/sbin:$PATH #homebrew
 		light_white="\[\e[97m\]"
 
 	#Functions
+		error_prompt() {
+			local last_error=$?
+			local status_mark;
+			if [[ $last_error == 0 ]]; then
+				status_mark="${green}[\342\234\223]"
+			else
+				status_mark="${red}[\342\234\227]"
+			fi
+			PS1="${blue}\$(trim_hostname)#${green}\$(parent_working_directory)${light_red}\$(parse_git_branch)${status_mark}${light_gray}:${gray}"
+			return $last_error
+		}
+
 		parent_working_directory() {
 			pwd | awk '{n = split($0, a, "/"); printf "%s/%s", a[n-1], a[n]}'
 		}
@@ -89,7 +101,7 @@ export PATH=/usr/local/bin:/usr/local/sbin:$PATH #homebrew
 			fi
 		}
 
-export PS1="$blue\$(trim_hostname)#$green\$(parent_working_directory)$light_red\$(parse_git_branch):$light_gray\$$gray"
+	export PROMPT_COMMAND="error_prompt"
 
 #Bash Completion
 	if [ -f /usr/local/etc/bash_completion ]; then
