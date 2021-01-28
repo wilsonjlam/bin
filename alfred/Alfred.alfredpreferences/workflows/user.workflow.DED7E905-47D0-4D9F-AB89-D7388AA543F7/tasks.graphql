@@ -1,0 +1,286 @@
+query TasksTableViewRootQuery(
+  $query: TaskSearchQuery
+  $orderby_column: String
+  $orderby_sort: SortDirection
+  $folderFilters: String
+) {
+  list: task_search_query(query: $query) {
+    __typename
+    ...TasksTableViewRoot_list_2DGstu
+    ... on Node {
+      __isNode: __typename
+      id
+    }
+  }
+}
+
+fragment TasksCollectionTableViewMoreLink_collection on InternalTaskCollectionWithQuery {
+  __isInternalTaskCollectionWithQuery: __typename
+  query
+  task_collection_items(filters: $folderFilters) {
+    count
+  }
+}
+
+fragment TasksCollectionTable_collection_2DGstu on InternalTaskCollectionWithQuery {
+  __isInternalTaskCollectionWithQuery: __typename
+  __typename
+  ... on InternalTaskSmartFolder {
+    id
+    viewer_user_type
+    smart_folder_sort_order
+    smart_folder_sort_column
+  }
+  ... on InternalTaskSimpleFolder {
+    id
+    viewer_user_type
+    ...TasksFolderActionBar_folder
+  }
+  ... on InternalTagBackedProject {
+    id
+    viewer_user_type
+  }
+  ... on InternalTaskPrimaryNav {
+    task_primary_nav_type
+    task_primary_nav_preferences {
+      task_sort_column
+      task_sort_order
+      id
+    }
+  }
+  ...TasksTableHeaderRow_search
+  ...TasksTableViewList_list_Ir6a0
+}
+
+fragment TasksFolderActionBarRight_folder on InternalTaskSimpleFolder {
+  id
+  __typename
+  ...TasksFolderHeaderQuickFilters_folder
+  ...TasksTableColumnSelectorFieldHeader_search
+}
+
+fragment TasksFolderActionBar_folder on InternalTaskFolder {
+  __isInternalTaskFolder: __typename
+  ...TasksFolderCreateSectionButton_folder
+  ...TasksFolderActionBarRight_folder
+  ...TasksFolderHeaderGroupByToggle_folder
+}
+
+fragment TasksFolderCreateSectionButton_folder on InternalTaskSimpleFolder {
+  id
+  viewer_user_type
+}
+
+fragment TasksFolderHeaderGroupByToggle_folder on InternalTaskFolder {
+  __isInternalTaskFolder: __typename
+  __typename
+  viewer_editable_group_by_types
+}
+
+fragment TasksFolderHeaderQuickFilters_folder on InternalTaskSimpleFolder {
+  id
+  task_folder_user_preferences {
+    hide_closed_filter
+    priorities_filter
+    owners_filter(first: 1) {
+      edges {
+        node {
+          __typename
+          full_name
+          unencoded_id
+          id
+        }
+      }
+    }
+    id
+  }
+}
+
+fragment TasksTableColumnSelectorFieldHeader_search on InternalTaskCollectionWithQuery {
+  __isInternalTaskCollectionWithQuery: __typename
+  __typename
+  query
+  ...TasksTableSelectorDeleteTagColumnDialog_search
+  ...TasksTableSelectorNewTagColumnDialog_search
+  ...TasksTableSelectorNewTagsColumnDialog_search
+  ... on InternalTaskSmartFolder {
+    id
+  }
+  ... on InternalTaskSimpleFolder {
+    id
+  }
+  ... on InternalTaskPrimaryNav {
+    task_primary_nav_type
+  }
+}
+
+
+fragment TasksTableColumnSelectorField_section on InternalTaskSimpleFolderHeader {
+  id
+  __typename
+  simple_folder {
+    id
+  }
+}
+
+fragment TasksTableHeaderRow_search on InternalTaskSearch {
+  __isInternalTaskSearch: __typename
+  ...TasksTableColumnSelectorFieldHeader_search
+}
+
+fragment TasksTableSelectorDeleteTagColumnDialog_search on InternalTaskSearch {
+  __isInternalTaskSearch: __typename
+  ... on InternalTaskSmartFolder {
+    folderID: id
+  }
+  ... on InternalTaskSimpleFolder {
+    folderID: id
+  }
+  ... on InternalTaskCollectionWithQuery {
+    __isInternalTaskCollectionWithQuery: __typename
+    query
+  }
+}
+
+fragment TasksTableSelectorNewTagColumnDialog_search on InternalTaskSearch {
+  __isInternalTaskSearch: __typename
+  ... on InternalTaskSmartFolder {
+    folderID: id
+  }
+  ... on InternalTaskSimpleFolder {
+    folderID: id
+  }
+  ... on InternalTaskCollectionWithQuery {
+    __isInternalTaskCollectionWithQuery: __typename
+    query
+  }
+}
+
+fragment TasksTableSelectorNewTagsColumnDialog_search on InternalTaskSearch {
+  __isInternalTaskSearch: __typename
+  ... on InternalTaskSmartFolder {
+    folderID: id
+  }
+  ... on InternalTaskSimpleFolder {
+    folderID: id
+  }
+  ... on InternalTaskCollectionWithQuery {
+    __isInternalTaskCollectionWithQuery: __typename
+    query
+  }
+}
+
+fragment TasksTableViewListTask_folder on InternalTaskSimpleFolder {
+  __typename
+  id
+}
+
+fragment TasksTableViewListTask_section on InternalTaskFolderSection {
+  __isInternalTaskFolderSection: __typename
+  __typename
+  id
+  ...TasksTableColumnSelectorField_section
+}
+
+fragment TasksTableViewList_list_Ir6a0 on InternalTaskCollectionWithQuery {
+  __isInternalTaskCollectionWithQuery: __typename
+  __typename
+  ... on InternalTaskPrimaryNav {
+    task_primary_nav_type
+  }
+  query
+  items: task_collection_items(filters: $folderFilters, first: 1000, orderby_sort: $orderby_sort, orderby_column: $orderby_column) {
+    search_error
+    searchable_private_task_info {
+      __typename
+      task_id
+      task_number
+      ...TasksTableViewSearchablePrivateTask_searchablePrivateTaskInfo
+      id
+    }
+    edges {
+      cursor
+      node {
+        ...TasksTableViewListTask_section
+        ... on InternalTask {
+          task_number
+          starred_status
+          unread_status
+          is_closed
+          task_priority
+          task_progress_status
+          item_title
+          updated_time
+          created_time
+          task_owner {
+            full_name
+            unixname
+            user_id
+            badge_photo {
+              downloadable_uri
+            }
+          }
+          task_tags {
+            nodes {
+              name
+            }
+          }
+        }
+        __typename
+        id
+      }
+    }
+    page_info {
+      has_next_page
+      has_previous_page
+      start_cursor
+      end_cursor
+    }
+  }
+  ...TasksCollectionTableViewMoreLink_collection
+  ...TasksTableViewListTask_folder
+  ...TasksTableViewListTask_section
+  ... on InternalTaskSimpleFolderHeader {
+    id
+    simple_folder {
+      ...TasksTableViewListTask_folder
+      ...TasksTableViewNewTask_folder
+      id
+    }
+    ...TasksTableViewNewTask_header
+  }
+}
+
+fragment TasksTableViewNewTask_folder on InternalTaskSimpleFolder {
+  id
+}
+
+fragment TasksTableViewNewTask_header on InternalTaskSimpleFolderHeader {
+  id
+}
+
+fragment TasksTableViewRoot_list_2DGstu on InternalTaskCollectionWithQuery {
+  __isInternalTaskCollectionWithQuery: __typename
+  __typename
+  ... on InternalTaskPrimaryNav {
+    name
+  }
+  ... on InternalTaskFolder {
+    __isInternalTaskFolder: __typename
+    id
+  }
+  ... on InternalTaskSimpleFolder {
+    section_count: task_folder_sections {
+      count
+    }
+  }
+  ...TasksFolderActionBar_folder
+  ...TasksTableHeaderRow_search
+  ...TasksCollectionTable_collection_2DGstu
+}
+
+fragment TasksTableViewSearchablePrivateTask_searchablePrivateTaskInfo on InternalPrivateTaskPublicInfo {
+  task_id
+  task_number
+  public_title
+}

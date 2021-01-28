@@ -1,0 +1,13 @@
+{
+  "query": {
+    "q": "219718609343440"
+  },
+  "orderby_column": null,
+  "orderby_sort": null,
+  "fetch_unpublished": false,
+  "folderFilters": null,
+  "table_columns_identifier": {
+    "folder_id": 219718609343440,
+    "primary_nav": null
+  }
+}
