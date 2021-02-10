@@ -458,6 +458,8 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
 	Plug 'sts10/vim-pink-moon', { 'on': 'Colorscheme' }
 	Plug 'w0ng/vim-hybrid', { 'on': 'Colorscheme' }
 	Plug 'zcodes/vim-colors-basic', { 'on': 'Colorscheme' }
+	Plug 'franbach/miramare', { 'on': 'Colorscheme' }
+	Plug 'sainnhe/gruvbox-material', { 'on': 'Colorscheme' }
 
 	" let g:hybrid_custom_term_colors=1
 	set background=dark
@@ -471,7 +473,7 @@ endif
 " #################################################################################################
 
 try
-	colorscheme spring-night
+	colorscheme gruvbox-material
 catch
 	colorscheme slate
 endtry
