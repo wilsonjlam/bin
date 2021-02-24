@@ -92,9 +92,12 @@ command! Wsudo w !sudo tee % > /dev/null
 
 " Try to install VimPlug automatically
 if empty(glob('~/.vim/autoload/plug.vim'))
-	silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-	\ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-	autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+	try
+		silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+		\ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+		autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+	catch
+	endtry
 endif
 
 if !empty(glob('~/.vim/autoload/plug.vim'))
