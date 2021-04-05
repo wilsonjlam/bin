@@ -3,6 +3,9 @@
 set -eu
 
 INSTALL_DIR=$(dirname "${BASH_SOURCE[0]}")
+trim_output() {
+    tr '\n' ' ' < "$INSTALL_DIR/external_dependencies/$1"
+}
 
 echo "Disabling mouse acceleration"
 defaults write .GlobalPreferences com.apple.mouse.scaling 0
@@ -31,14 +34,14 @@ fi
 
 echo "Installing Brew formulae"
 # shellcheck disable=SC2046 # Intended splitting of brew formulae
-brew install $(tr '\n' ' ' < "$INSTALL_DIR"/external_dependencies/brew_formulae)
+brew install $(trim_output brew_formulae)
 echo "Installing Brew casks"
 # shellcheck disable=SC2046 # Intended splitting of brew formulae
-brew install --cask $(tr '\n' ' ' < "$INSTALL_DIR"/external_dependencies/brew_casks)
+brew install --cask $(trim_output brew_casks)
 
 echo "Installing NPM packages"
 # shellcheck disable=SC2046 # Intended splitting of brew formulae
-npm install -g $(tr '\n' ' ' < "$INSTALL_DIR"/external_dependencies/npm_packages)
+npm install -g $(trim_output npm_packages)
 
 #dot files
 echo "Linking Dotfiles"
