@@ -29,19 +29,23 @@ if [ -z "$(which brew)" ]; then
 	/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 fi
 
-echo "Installing Brew List"
-echo "$INSTALL_DIR/brew/list"
+echo "Installing Brew formulae"
 # shellcheck disable=SC2046 # Intended splitting of brew formulae
-brew install $(tr '\n' ' ' < "$INSTALL_DIR"/brew/list)
-echo "Installing Brew Cask"
+brew install $(tr '\n' ' ' < "$INSTALL_DIR"/external_dependencies/brew_formulae)
+echo "Installing Brew casks"
 # shellcheck disable=SC2046 # Intended splitting of brew formulae
-brew install --cask $(tr '\n' ' ' < "$INSTALL_DIR/brew/cask_list")
+brew install --cask $(tr '\n' ' ' < "$INSTALL_DIR"/external_dependencies/brew_casks)
+
+echo "Installing NPM packages"
+# shellcheck disable=SC2046 # Intended splitting of brew formulae
+npm install -g $(tr '\n' ' ' < "$INSTALL_DIR"/external_dependencies/npm_packages)
 
 #dot files
 echo "Linking Dotfiles"
 ./"$INSTALL_DIR"/links.sh
 
 set +v
+echo "Sourcing .bash_profile"
 # shellcheck source=$HOME/.bash_profile
 source "$HOME/.bash_profile"
 set -v
