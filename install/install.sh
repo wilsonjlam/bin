@@ -2,10 +2,9 @@
 
 set -eu
 
-INSTALL_DIR="$(dirname "$BASH_SOURCE")"
-echo $INSTALL_DIR
+INSTALL_DIR=$(dirname "${BASH_SOURCE[0]}")
 
-echo "defaults write .GlobalPreferences com.apple.mouse.scaling 0"
+echo "Disabling mouse acceleration"
 defaults write .GlobalPreferences com.apple.mouse.scaling 0
 
 #directories
@@ -31,9 +30,12 @@ if [ -z "$(which brew)" ]; then
 fi
 
 echo "Installing Brew List"
-cat "$INSTALL_DIR/brew/list" | xargs brew install 
+echo "$INSTALL_DIR/brew/list"
+# shellcheck disable=SC2046 # Intended splitting of brew formulae
+brew install $(tr '\n' ' ' < "$INSTALL_DIR"/brew/list)
 echo "Installing Brew Cask"
-cat "$INSTALL_DIR/brew/cask_list" | xargs brew cask install
+# shellcheck disable=SC2046 # Intended splitting of brew formulae
+brew install --cask $(tr '\n' ' ' < "$INSTALL_DIR/brew/cask_list")
 
 #dot files
 echo "Linking Dotfiles"
