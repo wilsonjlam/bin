@@ -2,10 +2,12 @@
 
 set -eu
 
-INSTALL_DIR="$(dirname "$BASH_SOURCE")"
-echo $INSTALL_DIR
+INSTALL_DIR=$(dirname "${BASH_SOURCE[0]}")
+trim_output() {
+    tr '\n' ' ' < "$INSTALL_DIR/external_dependencies/$1"
+}
 
-echo "defaults write .GlobalPreferences com.apple.mouse.scaling 0"
+echo "Disabling mouse acceleration"
 defaults write .GlobalPreferences com.apple.mouse.scaling 0
 
 #directories
@@ -30,16 +32,23 @@ if [ -z "$(which brew)" ]; then
 	/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 fi
 
-echo "Installing Brew List"
-cat "$INSTALL_DIR/brew/list" | xargs brew install 
-echo "Installing Brew Cask"
-cat "$INSTALL_DIR/brew/cask_list" | xargs brew cask install
+echo "Installing Brew formulae"
+# shellcheck disable=SC2046 # Intended splitting of brew formulae
+brew install $(trim_output brew_formulae)
+echo "Installing Brew casks"
+# shellcheck disable=SC2046 # Intended splitting of brew formulae
+brew install --cask $(trim_output brew_casks)
+
+echo "Installing NPM packages"
+# shellcheck disable=SC2046 # Intended splitting of brew formulae
+npm install -g $(trim_output npm_packages)
 
 #dot files
 echo "Linking Dotfiles"
 ./"$INSTALL_DIR"/links.sh
 
 set +v
+echo "Sourcing .bash_profile"
 # shellcheck source=$HOME/.bash_profile
 source "$HOME/.bash_profile"
 set -v

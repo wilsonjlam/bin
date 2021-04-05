@@ -35,14 +35,6 @@ alias tree="tree -C -a -I *.git*"
 alias upgrade="$HOME/utility/scripts/upgrades.sh"
 alias nx="nvm exec yarn"
 
-#Grunt Commands
-alias debug="grunt karma:debug"
-alias kdebug="grunt karma:debug"
-alias etest="grunt test:e2e_chrome"
-alias mtest="grunt mocha_istanbul:server"
-alias ttest="grunt test"
-alias utest="grunt karma:unit"
-
 up() {
 	local path
 	path=$(git rev-parse --show-toplevel 2> /dev/null)
