@@ -382,11 +382,10 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
 	" =======
 	" Linting
 	" =======
-	Plug 'w0rp/ale'
+	Plug 'dense-analysis/ale'
 	" \	'javascript': ['eslint', 'flow'],
 	let g:ale_linters = {
 	\	'typescript': ['prettier', 'tslint', 'tsserver', 'typecheck'],
-	\	'php': ['php -l', 'phpmd', 'phpstan', 'phpcbf', 'php-cs-fixer'],
 	\}
 	let g:ale_lint_delay = 1000 "delay 1s after text change before lintng
 	let g:ale_lint_on_insert_leave = 1
@@ -437,6 +436,9 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
 
 	" React Development
 	Plug 'mxw/vim-jsx', { 'for': 'javascript' }
+
+	" Hack Development
+	Plug 'hhvm/vim-hack', { 'for': 'php' }
 
 	" Nginx Development
 	Plug 'chr4/nginx.vim', { 'for': 'nginx' }
