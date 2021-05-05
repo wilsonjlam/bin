@@ -4,34 +4,6 @@
 <dict>
 	<key>customSites</key>
 	<dict>
-		<key>0B756643-F036-43D5-986C-C7301CFB0218</key>
-		<dict>
-			<key>enabled</key>
-			<false/>
-			<key>keyword</key>
-			<string>odowiki</string>
-			<key>spaces</key>
-			<string>+</string>
-			<key>text</key>
-			<string>Odo Wiki</string>
-			<key>url</key>
-			<string>https://odo.corp.qualtrics.com/wiki/index.php?search={query}</string>
-			<key>utf8</key>
-			<true/>
-		</dict>
-		<key>0E7CFB12-B850-479A-BB32-D56B77B2DF2B</key>
-		<dict>
-			<key>enabled</key>
-			<false/>
-			<key>keyword</key>
-			<string>odoemp</string>
-			<key>text</key>
-			<string>odoemployee</string>
-			<key>url</key>
-			<string>https://odo.corp.qualtrics.com/?a=Employee&amp;b=EmployeeProfile&amp;eid={query}</string>
-			<key>utf8</key>
-			<true/>
-		</dict>
 		<key>24E0F1C6-EEB2-4F18-BB7F-08351F3B5F62</key>
 		<dict>
 			<key>enabled</key>
@@ -44,19 +16,6 @@
 			<string>gitlab</string>
 			<key>url</key>
 			<string>https://gitlab-app.eng.qops.net/search?utf8=%E2%9C%93&amp;snippets=&amp;scope=&amp;search={query}</string>
-			<key>utf8</key>
-			<true/>
-		</dict>
-		<key>2A96A261-1951-4070-90CB-C46839AE551B</key>
-		<dict>
-			<key>enabled</key>
-			<false/>
-			<key>keyword</key>
-			<string>odobrand</string>
-			<key>text</key>
-			<string>Odo Brand</string>
-			<key>url</key>
-			<string>https://odo.corp.qualtrics.com/?a=ResearchSuite&amp;b=RSBrandProfile&amp;bid={query}</string>
 			<key>utf8</key>
 			<true/>
 		</dict>
@@ -111,19 +70,6 @@
 			<string>Thesaurus</string>
 			<key>url</key>
 			<string>https://merriam-webster.com/thesaurus/{query}</string>
-			<key>utf8</key>
-			<true/>
-		</dict>
-		<key>6A0DF445-FD34-4E8D-A2ED-F019BEEBEC5B</key>
-		<dict>
-			<key>enabled</key>
-			<true/>
-			<key>keyword</key>
-			<string>discourse</string>
-			<key>text</key>
-			<string>discourse</string>
-			<key>url</key>
-			<string>https://discourse.eng.qops.net/search?q={query}</string>
 			<key>utf8</key>
 			<true/>
 		</dict>
@@ -215,19 +161,6 @@
 			<string>gitlab groups</string>
 			<key>url</key>
 			<string>https://gitlab-app.eng.qops.net/explore/groups?utf8=%E2%9C%93&amp;filter={query}</string>
-			<key>utf8</key>
-			<true/>
-		</dict>
-		<key>F95E097F-A02D-40FC-9233-DA3AB2DCF48E</key>
-		<dict>
-			<key>enabled</key>
-			<false/>
-			<key>keyword</key>
-			<string>odoticket</string>
-			<key>text</key>
-			<string>odoticket</string>
-			<key>url</key>
-			<string>https://odo.corp.qualtrics.com/?a=QUni&amp;b=EB_Viewer&amp;iid={query}</string>
 			<key>utf8</key>
 			<true/>
 		</dict>
