@@ -1,8 +1,0 @@
-{
-  "alfredsnippet" : {
-    "snippet" : "{date:short}\nPriority Review\nEpic check in\nEpic planning (epic schedule)\nSprint planning\nBacklog grooming\n",
-    "uid" : "26FCCD7B-3F3D-431D-88BA-D06426DBA8EC",
-    "name" : "Sprint Planning Notes",
-    "keyword" : "SPRINT"
-  }
-}
