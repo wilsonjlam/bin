@@ -446,19 +446,15 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
 	"ColorSchemes
 	command! Colorscheme colorscheme
 	nnoremap <leader>C :Colorscheme <CR> :Colors<CR>
-	Plug 'ayu-theme/ayu-vim', { 'on': 'Colorscheme' }
-		let ayucolor="dark"
-	Plug 'chriskempson/base16-vim', { 'on': 'Colorscheme' }
+	" Plug 'chriskempson/base16-vim', { 'on': 'Colorscheme' }
 	Plug 'chriskempson/vim-tomorrow-theme', { 'on': 'Colorscheme' }
 	Plug 'hzchirs/vim-material', { 'on': 'Colorscheme' }
 	Plug 'junegunn/seoul256.vim', { 'on': 'Colorscheme' }
 		let g:seoul256_background = 233
 	Plug 'kaicataldo/material.vim', { 'on': 'Colorscheme' }
 	Plug 'kristijanhusak/vim-hybrid-material', { 'on': 'Colorscheme' }
-	Plug 'mkarmona/colorsbox', { 'on': 'Colorscheme' }
 	Plug 'mkarmona/materialbox', { 'on': 'Colorscheme' }
 	Plug 'morhetz/gruvbox', { 'on': 'Colorscheme' }
-	Plug 'nightsense/vim-crunchbang', { 'on': 'Colorscheme' }
 	Plug 'rhysd/vim-color-spring-night', { 'on': 'Colorscheme' }
 	Plug 'sts10/vim-pink-moon', { 'on': 'Colorscheme' }
 	Plug 'w0ng/vim-hybrid', { 'on': 'Colorscheme' }
@@ -478,7 +474,7 @@ endif
 " #################################################################################################
 
 try
-	colorscheme gruvbox-material
+	colorscheme miramare
 catch
 	colorscheme slate
 endtry
