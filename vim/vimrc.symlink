@@ -132,44 +132,43 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
 	" ==============
 	set rtp+=/usr/local/opt/fzf
 	Plug 'junegunn/fzf.vim'
-
-	" Rg search the repo (takes in options like cli rg)
-	command! -bang -nargs=* Rgcli
-	\ call fzf#vim#grep(
-	\	 'rg -S --column --line-number --no-heading --color=always --colors=match:fg:221 --colors=path:fg:110 --colors=line:fg:143 --colors=column:fg:109 '.<q-args>, 1,
-	\	 <bang>0 ? fzf#vim#with_preview('up:60%')
-	\					 : fzf#vim#with_preview('right:50%:hidden', '?'),
-	\	 <bang>0)
-	" nnoremap <silent> <expr> <c-p> (expand('%') =~ 'NERD_tree' ?"\<c-w>\<c-w>" : '').":GFiles\<cr>"
-	noremap <leader>/ :Gcd <bar> Rg
-	" Search with rg for the current word your cursor is over (* but rg)
-	noremap <leader>8 :Gcd <bar> Rg <C-R><C-W><CR>
-	vnoremap <Leader>/ y:Rg <C-R>"<CR>
-	noremap <leader>l :BLines<CR>
-	noremap <leader>L :BLines
-	noremap <leader>m :Marks<CR>
-	noremap <leader>h :Helptags<CR>
-	noremap <C-t> :Tags<CR>
-	noremap <C-f> :Gcd <bar> Files<CR>
-	noremap <C-b> :Buffers<CR>
-	let g:fzf_layout = { 'down': '30%' }
-	let g:fzf_history_dir = '~/.local/share/fzf-history'
-	let g:fzf_colors =
-	\{'fg':			['fg', 'Normal'],
-	\ 'bg':			['bg', 'Normal'],
-	\ 'hl':			['fg', 'Comment'],
-	\ 'fg+':		 ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
-	\ 'bg+':		 ['bg', 'CursorLine', 'CursorColumn'],
-	\ 'hl+':		 ['fg', 'Statement'],
-	\ 'info':		['fg', 'PreProc'],
-	\ 'border':	['fg', 'Ignore'],
-	\ 'prompt':	['fg', 'Conditional'],
-	\ 'pointer': ['fg', 'Exception'],
-	\ 'marker':	['fg', 'Keyword'],
-	\ 'spinner': ['fg', 'Label'],
-	\ 'header':	['fg', 'Comment'],
-	\}
-	" let g:fzf_launcher = "~/utility/scripts/fzf_iterm_macvim.sh %s " to make iterm fzf faster
+		" Rg search the repo (takes in options like cli rg)
+		command! -bang -nargs=* Rgcli
+		\ call fzf#vim#grep(
+		\	 'rg -S --column --line-number --no-heading --color=always --colors=match:fg:221 --colors=path:fg:110 --colors=line:fg:143 --colors=column:fg:109 '.<q-args>, 1,
+		\	 <bang>0 ? fzf#vim#with_preview('up:60%')
+		\					 : fzf#vim#with_preview('right:50%:hidden', '?'),
+		\	 <bang>0)
+		" nnoremap <silent> <expr> <c-p> (expand('%') =~ 'NERD_tree' ?"\<c-w>\<c-w>" : '').":GFiles\<cr>"
+		noremap <leader>/ :Gcd <bar> Rg
+		" Search with rg for the current word your cursor is over (* but rg)
+		noremap <leader>8 :Gcd <bar> Rg <C-R><C-W><CR>
+		vnoremap <Leader>/ y:Rg <C-R>"<CR>
+		noremap <leader>l :BLines<CR>
+		noremap <leader>L :BLines
+		noremap <leader>m :Marks<CR>
+		noremap <leader>h :Helptags<CR>
+		noremap <C-t> :Tags<CR>
+		noremap <C-f> :Gcd <bar> Files<CR>
+		noremap <C-b> :Buffers<CR>
+		let g:fzf_layout = { 'down': '30%' }
+		let g:fzf_history_dir = '~/.local/share/fzf-history'
+		let g:fzf_colors =
+		\{'fg':			['fg', 'Normal'],
+		\ 'bg':			['bg', 'Normal'],
+		\ 'hl':			['fg', 'Comment'],
+		\ 'fg+':		 ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+		\ 'bg+':		 ['bg', 'CursorLine', 'CursorColumn'],
+		\ 'hl+':		 ['fg', 'Statement'],
+		\ 'info':		['fg', 'PreProc'],
+		\ 'border':	['fg', 'Ignore'],
+		\ 'prompt':	['fg', 'Conditional'],
+		\ 'pointer': ['fg', 'Exception'],
+		\ 'marker':	['fg', 'Keyword'],
+		\ 'spinner': ['fg', 'Label'],
+		\ 'header':	['fg', 'Comment'],
+		\}
+		" let g:fzf_launcher = "~/utility/scripts/fzf_iterm_macvim.sh %s " to make iterm fzf faster
 
 
 	" ==============
@@ -182,21 +181,21 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
 	set hidden
 
 	Plug 'qpkorr/vim-bufkill', {'on': 'BD'}
-	function! DeleteHiddenBuffers()
-		let tpbl=tabpagebuflist()
-		for buf in filter(range(1, bufnr('$')), 'bufexists(v:val) && index(tpbl, v:val)==-1 && index(["help", ""], getbufvar(v:val, "&buftype")) != -1')
-			silent execute 'bwipeout' buf
-		endfor
-	endfunction
+		function! DeleteHiddenBuffers()
+			let tpbl=tabpagebuflist()
+			for buf in filter(range(1, bufnr('$')), 'bufexists(v:val) && index(tpbl, v:val)==-1 && index(["help", ""], getbufvar(v:val, "&buftype")) != -1')
+				silent execute 'bwipeout' buf
+			endfor
+		endfunction
 
 	" Pane Management
 	Plug 't9md/vim-choosewin', {'on': '<Plug>(choosewin)'}
-	nmap <leader><tab> <Plug>(choosewin)
-	let g:choosewin_overlay_enable = 1
-	map - 10<C-w>-
-	map _ 10<C-w>+
-	map = 10<C-w><
-	map + 10<C-w>>
+		nmap <leader><tab> <Plug>(choosewin)
+		let g:choosewin_overlay_enable = 1
+		map - 10<C-w>-
+		map _ 10<C-w>+
+		map = 10<C-w><
+		map + 10<C-w>>
 
 	" Buffer Movement
 	nnoremap <leader>bn :bn<CR> " Next buffer
@@ -239,48 +238,48 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
 	" ==============
 	Plug 'vim-airline/vim-airline'
 	Plug 'vim-airline/vim-airline-themes'
-	set laststatus=2 " For airline to always show the status bar
-	if has ('gui_running')
-		set guifont=Meslo\ LG\ M\ Regular\ for\ Powerline:h11
-	endif
-	let g:airline_theme = 'bubblegum'
-	let g:airline_powerline_fonts = 1
-	let g:airline_detect_modified = 1
-	let g:airline#extensions#wordcount#enabled = 0
-	" Airline Buffers
-	let g:airline#extensions#tabline#enabled = 1 " Set Airline to show buffers at the top of the screen
-	let g:airline#extensions#tabline#fnamemod = ':t' "show just the filename
-	let g:airline#extensions#tabline#buffer_nr_show = 1
-	let g:airline#extensions#tabline#buffer_nr_format = '[%s] '
-	let g:airline#extensions#tabline#switch_buffers_and_tabs = 1
-	" Airline Sections
-	function! AirlineInit()
-		call airline#parts#define_minwidth('linenr', 500)
-		call airline#parts#define_minwidth('maxlinenr', 500)
-		" let g:airline_section_a = airline#section#create(['mode'])			 "(mode, crypt, paste, spell, iminsert)
-		let g:airline_section_b = airline#section#create(['branch'])			 "(hunks, branch)
-		let g:airline_section_c = airline#section#create(['path'])			 "(bufferline or filename)
-		" let g:airline_section_gutter	(readonly, csv)
-		let g:airline_section_x = airline#section#create(['filetype'])			 "(tagbar, filetype, virtualenv)
-		let g:airline_section_y = airline#section#create([]) " (fileencoding, fileformat)
-		let g:airline_section_z = airline#section#create(['linenr', 'maxlinenr', '%{col(".")}'])			 "(percentage, line number, column number)
-		let g:airline_section_error = [] " (ycm_error_count, syntastic-err, eclim)
-		let g:airline_section_warning = [] " (ycm_warning_count, syntastic-warn, whitespace)
-	endfunction
-	autocmd User AirlineAfterInit call AirlineInit()
+		set laststatus=2 " For airline to always show the status bar
+		if has ('gui_running')
+			set guifont=Meslo\ LG\ M\ Regular\ for\ Powerline:h11
+		endif
+		let g:airline_theme = 'bubblegum'
+		let g:airline_powerline_fonts = 1
+		let g:airline_detect_modified = 1
+		let g:airline#extensions#wordcount#enabled = 0
+		" Airline Buffers
+		let g:airline#extensions#tabline#enabled = 1 " Set Airline to show buffers at the top of the screen
+		let g:airline#extensions#tabline#fnamemod = ':t' "show just the filename
+		let g:airline#extensions#tabline#buffer_nr_show = 1
+		let g:airline#extensions#tabline#buffer_nr_format = '[%s] '
+		let g:airline#extensions#tabline#switch_buffers_and_tabs = 1
+		" Airline Extensions
+		let g:airline#extensions#branch#displayed_head_limit = 15
+		let g:airline#extensions#tabline#enabled = 1
+		" Airline Sections
+		function! AirlineInit()
+			call airline#parts#define_minwidth('linenr', 500)
+			call airline#parts#define_minwidth('maxlinenr', 500)
+			" let g:airline_section_a = airline#section#create(['mode'])			 "(mode, crypt, paste, spell, iminsert)
+			let g:airline_section_b = airline#section#create(['branch'])			 "(hunks, branch)
+			let g:airline_section_c = airline#section#create(['path'])			 "(bufferline or filename)
+			" let g:airline_section_gutter	(readonly, csv)
+			let g:airline_section_x = airline#section#create(['filetype'])			 "(tagbar, filetype, virtualenv)
+			let g:airline_section_y = airline#section#create([]) " (fileencoding, fileformat)
+			let g:airline_section_z = airline#section#create(['linenr', 'maxlinenr', '%{col(".")}'])			 "(percentage, line number, column number)
+			let g:airline_section_error = [] " (ycm_error_count, syntastic-err, eclim)
+			let g:airline_section_warning = [] " (ycm_warning_count, syntastic-warn, whitespace)
+		endfunction
+		autocmd User AirlineAfterInit call AirlineInit()
 
-	" Airline Extensions
-	let g:airline#extensions#branch#displayed_head_limit = 15
-	let g:airline#extensions#tabline#enabled = 1
 
 
 	" ==============
 	" File Explorer
 	" ==============
 	Plug 'scrooloose/nerdtree'
-	let NERDTreeShowHidden=1
-	let NERDTreeShowLineNumbers=1
-	nmap `` :NERDTreeToggle<CR>
+		let NERDTreeShowHidden=1
+		let NERDTreeShowLineNumbers=1
+		nmap `` :NERDTreeToggle<CR>
 
 	" ==============
 	" Git Stuffs
@@ -291,8 +290,8 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
 
 	" Git commands (G<something>)
 	Plug 'tpope/vim-fugitive'
-	noremap <leader>gs :Gst<CR>
-	noremap <leader>gb :Gbrowse!<CR>
+		noremap <leader>gs :Gst<CR>
+		noremap <leader>gb :Gbrowse!<CR>
 
 	" Git commit browser
 	Plug 'junegunn/gv.vim', {'on': 'GV'}
@@ -306,18 +305,18 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
 	" Movement
 	" ==============
 	Plug 'easymotion/vim-easymotion'
-	map <leader> <Plug>(easymotion-prefix)
-	map f <Plug>(easymotion-fl)
-	map F <Plug>(easymotion-Fl)
-	map t <Plug>(easymotion-tl)
-	map T <Plug>(easymotion-Tl)
-	map yf y<Plug>(easymotion-fl)
-	map yF y<Plug>(easymotion-Fl)
-	map yt y<Plug>(easymotion-tl)
-	map yT y<Plug>(easymotion-Tl)
-	map W <leader>W
-	map B <leader>B
-	map E <leader>E
+		map <leader> <Plug>(easymotion-prefix)
+		map f <Plug>(easymotion-fl)
+		map F <Plug>(easymotion-Fl)
+		map t <Plug>(easymotion-tl)
+		map T <Plug>(easymotion-Tl)
+		map yf y<Plug>(easymotion-fl)
+		map yF y<Plug>(easymotion-Fl)
+		map yt y<Plug>(easymotion-tl)
+		map yT y<Plug>(easymotion-Tl)
+		map W <leader>W
+		map B <leader>B
+		map E <leader>E
 
 
 	" ==============
@@ -343,90 +342,106 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
 	" Snippets
 	Plug 'SirVer/ultisnips'
 	Plug 'honza/vim-snippets' " bring these in one at a time
-	let g:UltiSnipsEditSplit="vertical"
-	let g:UltiSnipsExpandTrigger = "<tab>"
-	let g:UltiSnipsJumpForwardTrigger = "<leader><tab>"
-	let g:UltiSnipsJumpBackwardTrigger = "<leader><s-tab>"
-	let g:UltiSnipsSnippetDir = "~/utility/vim/UltiSnips"
+		let g:UltiSnipsEditSplit="vertical"
+		let g:UltiSnipsExpandTrigger = "<tab>"
+		j"
+		let g:UltiSnipsJumpForwardTrigger = "<leader><tab>"
+		let g:UltiSnipsJumpBackwardTrigger = "<leader><s-tab>"
+		let g:UltiSnipsSnippetDir = "~/utility/vim/UltiSnips"
 
 	" Autocomplete
-	Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
-	" make YCM compatible with UltiSnips (using supertab)
-	let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
-	let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
-	let g:ycm_autoclose_preview_window_after_completion = 1
-	let g:ycm_autoclose_preview_indow_after_insertion = 1
-	let g:ycm_filepath_blacklist = {}
-	let g:SuperTabDefaultCompletionType = '<C-n>'
+	" Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
+		" " make YCM compatible with UltiSnips (using supertab)
+		" let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
+		" let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
+		" let g:ycm_autoclose_preview_window_after_completion = 1
+		" let g:ycm_autoclose_preview_indow_after_insertion = 1
+		" let g:ycm_filepath_blacklist = {}
+		" let g:SuperTabDefaultCompletionType = '<C-n>'
 
 	" Tab Completion
 	Plug 'ervandew/supertab'
 
 	" Autocomplete Parens
 	Plug 'jiangmiao/auto-pairs'
-	" unmatched close jumps to next close, <c-v>} will avoid
-	let g:AutoPairsFlyMode = 0 " this works when you don't want it to
-	" let g:AutoPairsShortcutBackInsert = '<M-b>' "this doesn't work in macVim,
-	" need to remap
-	" Default: {'(':')', '[':']', '{':'}',"'":"'",'"':'"', '`':'`'}
-	let g:AutoPairs ={
-		\ '(':')',
-		\ '[':']',
-		\ '{':'}',
-		\ "'":"'",
-		\ '"':'"',
-	\}
-	let g:AutoPairsCenterLine = 0
+		" unmatched close jumps to next close, <c-v>} will avoid
+		let g:AutoPairsFlyMode = 0 " this works when you don't want it to
+		" let g:AutoPairsShortcutBackInsert = '<M-b>' "this doesn't work in macVim,
+		" need to remap
+		" Default: {'(':')', '[':']', '{':'}',"'":"'",'"':'"', '`':'`'}
+		let g:AutoPairs ={
+			\ '(':')',
+			\ '[':']',
+			\ '{':'}',
+			\ "'":"'",
+			\ '"':'"',
+			\ '<':'>'
+		\}
+		let g:AutoPairsCenterLine = 0
 
 
 	" =======
 	" Linting
 	" =======
 	Plug 'dense-analysis/ale'
-	" \	'javascript': ['eslint', 'flow'],
-	let g:ale_linters = {
-	\	'typescript': ['prettier', 'tslint', 'tsserver', 'typecheck'],
-	\}
-	let g:ale_lint_delay = 1000 "delay 1s after text change before lintng
-	let g:ale_lint_on_insert_leave = 1
-	let g:ale_sign_error = 'E' " could use emoji
-	let g:ale_sign_warning = 'W' " could use emoji
-	let g:ale_statusline_format = ['X %d', '? %d', '']
-	" %linter% is the name of the linter that provided the message
-	" %s is the error or warning message
-	let g:ale_echo_msg_format = '%linter% says %s'
-	let g:ale_keep_list_window_open = 0
-	let g:ale_set_loclist = 0
-	let g:ale_set_quickfix = 1
-	" Map keys to navigate between lines with errors and warnings.
-	nnoremap <leader>an :ALENextWrap<cr>
-	nnoremap <leader>ap :ALEPreviousWrap<cr>
-	let g:ale_sign_column_always=1
-	let g:ale_set_balloons = 1
-	let g:ale_open_list = 1
+		" \	'javascript': ['eslint', 'flow'],
+		let g:ale_linters = {
+		\	'typescript': ['prettier', 'tslint', 'tsserver', 'typecheck'],
+		\}
+		let g:ale_lint_delay = 1000 "delay 1s after text change before lintng
+		let g:ale_lint_on_insert_leave = 1
+		let g:ale_sign_error = 'E' " could use emoji
+		let g:ale_sign_warning = 'W' " could use emoji
+		let g:ale_statusline_format = ['X %d', '? %d', '']
+		" %linter% is the name of the linter that provided the message
+		" %s is the error or warning message
+		let g:ale_echo_msg_format = '%linter% says %s'
+		let g:ale_open_lists = 0
+		let g:ale_keep_list_window_open = 0
+		let g:ale_set_loclist = 0
+		let g:ale_set_quickfix = 0
+		" Map keys to navigate between lines with errors and warnings.
+		nnoremap <leader>an :ALENextWrap<cr>
+		nnoremap <leader>ap :ALEPreviousWrap<cr>
+		let g:ale_sign_column_always=1
+		let g:ale_set_balloons = 1
+		let g:ale_open_list = 1
+	
+	" ======================
+	" Language Server Plugin
+	" ======================
+	
+	Plug 'neoclide/coc.nvim'
+		" Add `:Format` command to format current buffer.
+		command! -nargs=0 Format :call CocAction('format')
+		" Autoformat on save
+		au BufWrite * :Format
 
-	" ===============================
-	" Languages & Syntax Highlighting
-	" ===============================
-	" Autoformat
-	Plug 'chiel92/vim-autoformat'
-	let g:autoformat_autoindent = 0
-	let g:autoformat_retab = 0
-	let g:autoformat_remove_trailing_spaces = 0
-	au BufWrite * :Autoformat
+		" GoTo code navigation.
+		nmap <silent> gd <Plug>(coc-definition)
+		nmap <silent> gt <Plug>(coc-type-definition)
+		nmap <silent> gi <Plug>(coc-implementation)
+		nmap <silent> gr <Plug>(coc-references)
+
+	
+	" ===================
+   	" Syntax Highlighting
+	" ===================
 
 	" Markdown
 	Plug 'shime/vim-livedown', { 'for': 'markdown' }
-	let g:livedown_browser = "google chrome"
-
-	" XML
+		let g:livedown_browser = "google chrome"
+"
+"	" XML
 	Plug 'othree/xml.vim', { 'for': 'xml' }
-
-	" CSS
+"
+"	" CSS
 	Plug 'ap/vim-css-color', { 'for': 'css' }
-
-	" Go Development
+"
+"	" Go Development
 	Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries', 'for': 'go' }
+
+
 
 	" Typescript Development
 	Plug 'leafgarland/typescript-vim', { 'for': 'typescript' }
@@ -435,7 +450,9 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
 	Plug 'burnettk/vim-angular', { 'for': 'javascript' }
 
 	" React Development
-	Plug 'mxw/vim-jsx', { 'for': 'javascript' }
+	Plug 'yuezk/vim-js'
+	Plug 'maxmellon/vim-jsx-pretty'
+		let g:vim_jsx_pretty_highlight_close_tag = 1
 
 	" Hack Development
 	Plug 'hhvm/vim-hack', { 'for': 'php' }
@@ -443,7 +460,9 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
 	" Nginx Development
 	Plug 'chr4/nginx.vim', { 'for': 'nginx' }
 
-	"ColorSchemes
+	" ============
+	" ColorSchemes
+	" ============
 	command! Colorscheme colorscheme
 	nnoremap <leader>C :Colorscheme <CR> :Colors<CR>
 	" Plug 'chriskempson/base16-vim', { 'on': 'Colorscheme' }

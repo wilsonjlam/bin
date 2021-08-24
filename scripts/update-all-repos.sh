@@ -1,7 +1,7 @@
 #!/bin/bash
 set -euo pipefail
 
-if [ ! -n "$WORKSPACE" ]; then
+if [ -n "$WORKSPACE" ]; then
 	echo "Please set the $WORKSPACE enviornment variable"
 fi
 
@@ -15,7 +15,7 @@ trap handleFailure ERR
 
 dryrun=""
 
-if [[ $dryrun ]]; then
+if [[ "$dryrun" ]]; then
 	echo "Test catching failure y/n?"
 	read -r testFailure
 	failCode=11
@@ -48,7 +48,7 @@ function updateRepo () {
 	echo -e "On branch ${current_branch}\\n"
 	if [  -n "$(git status --short -uno 2> /dev/null | tail -n1)" ]; then
 		dirty=1
-		if [ $dryrun ]; then
+		if [ "$dryrun" ]; then
 			echo "Branch is dirty"
 			echo "git stash"
 			testFail
@@ -60,7 +60,7 @@ function updateRepo () {
 
 	#TODO: stop looping if checking out master or pulling fails
 	if [ "$(git symbolic-ref --short HEAD)" != "master" ]; then
-		if [ $dryrun ]; then
+		if [ "$dryrun" ]; then
 			echo "git checkout master && git pull"
 			echo "git checkout $current_branch"
 			testFail
@@ -73,7 +73,7 @@ function updateRepo () {
 			git checkout "$current_branch"
 		fi
 	else
-		if [ $dryrun ]; then
+		if [ "$dryrun" ]; then
 			echo "git pull"
 			testFail
 		else
@@ -83,7 +83,7 @@ function updateRepo () {
 	fi
 
 	if [ $dirty -ne 0 ]; then
-		if [ $dryrun ]; then
+		if [ "$dryrun" ]; then
 			echo "Dirty is ${dirty}"
 			echo "git stash apply"
 			testFail

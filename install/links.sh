@@ -11,35 +11,39 @@ set -eu
 echo ''
 
 info () {
-	printf "	[ \033[00;34m..\033[0m ] $1"
+	printf "	[ \033[00;34m..\033[0m ] %s" "$1"
 }
 
 user () {
-	printf "\r	[ \033[0;33m?\033[0m ] $1 "
+	printf "\r	[ \033[0;33m?\033[0m ] %s" "$1"
 }
 
 success () {
-	printf "\r\033[2K	[ \033[00;32mOK\033[0m ] $1\n"
+	printf "\r\033[2K	[ \033[00;32mOK\033[0m ] %s\n" "$1"
 }
 
 fail () {
-	printf "\r\033[2K	[\033[0;31mFAIL\033[0m] $1\n"
+	printf "\r\033[2K	[\033[0;31mFAIL\033[0m] %s\n" "$1"
 	echo ''
 	exit
 }
 
 link_file () {
-	local src=$1 dst=$2
+	local src=$1
+	local action backup dst overwrite skip
+	action=
+	backup=
+	overwrite=
+	skip=
+	dst="$HOME/.$(basename "$1" ".symlink")"
 
-	local overwrite= backup= skip=
-	local action=
-
-	if [ -f "$dst" -o -d "$dst" -o -L "$dst" ]
+	if [ -f "$dst" ] || [ -d "$dst" ] || [ -L "$dst" ]
 	then
 
 		if [ "$overwrite_all" == "false" ] && [ "$backup_all" == "false" ] && [ "$skip_all" == "false" ]
 		then
-			local currentSrc="$(readlink $dst)"
+			local currentSrc
+			currentSrc="$(readlink "$dst")"
 
 			if [ "$currentSrc" == "$src" ]
 			then
@@ -47,7 +51,7 @@ link_file () {
 			else
 				user "File already exists: $dst ($(basename "$src")), what do you want to do?\n\
 				[s]kip, [S]kip all, [o]verwrite, [O]verwrite all, [b]ackup, [B]ackup all?"
-				read -n 1 action
+				read -rn 1 action
 
 				case "$action" in
 					o )
@@ -92,8 +96,8 @@ link_file () {
 
 	if [ "$skip" != "true" ]	# "false" or empty
 	then
-		ln -s "$1" "$2"
-		success "linked $1 to $2"
+		ln -s "$src" "$dst"
+		success "linked $src to $dst"
 	fi
 }
 
@@ -102,10 +106,11 @@ install_dotfiles () {
 
 	local overwrite_all=false backup_all=false skip_all=false
 
+	# export -f link_file user success fail;
+	# find "$DOTFILES_ROOT" -maxdepth 2 -name '*.symlink' -exec bash -ci 'link_file "$0"' {} \;
 	for src in $(find "$DOTFILES_ROOT" -maxdepth 2 -name '*.symlink')
 	do
-		dst="$HOME/.$(basename "${src%.*}")"
-		link_file "$src" "$dst"
+		link_file "$src"
 	done
 }
 
