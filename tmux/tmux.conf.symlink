@@ -54,7 +54,7 @@ setw -g window-status-format "#[fg=colour245,bg=colour236] #I #[fg=colour245,bg=
 setw -g window-status-current-format "#[fg=colour236,bg=colour240,nobold,nounderscore,noitalics]#[fg=colour231,bg=colour240] #I #[fg=colour231,bg=colour240]#{?window_zoomed_flag,#[fg=green][],}#W #[fg=colour240,bg=colour236,nobold,nounderscore,noitalics]"
 
 set -g window-style 'fg=colour244,bg=colour238'
-set -g window-active-style 'fg=colour250,bg=colour235'
+set -g window-active-style 'fg=colour250,bg=colour0'
 
 ########################################################
 
