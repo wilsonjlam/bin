@@ -11,7 +11,7 @@ let mapleader=' '
 command! Src source ~/.vimrc
 " Dot Files
 let HOME = expand('~')
-noremap <leader>. :Files ~/utility<CR>
+noremap <leader>. :Files $HOME/utility<CR>
 
 noremap <C-\> =
 
@@ -344,16 +344,15 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
 	Plug 'honza/vim-snippets' " bring these in one at a time
 		let g:UltiSnipsEditSplit="vertical"
 		let g:UltiSnipsExpandTrigger = "<tab>"
-		j"
-		let g:UltiSnipsJumpForwardTrigger = "<leader><tab>"
-		let g:UltiSnipsJumpBackwardTrigger = "<leader><s-tab>"
-		let g:UltiSnipsSnippetDir = "~/utility/vim/UltiSnips"
+		let g:UltiSnipsJumpForwardTrigger = "<tab>"
+		let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
+		let g:UltiSnipsSnippetDir = "$HOME/utility/vim/UltiSnips"
 
 	" Autocomplete
 	" Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
 		" " make YCM compatible with UltiSnips (using supertab)
-		" let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
-		" let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
+		let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
+		let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
 		" let g:ycm_autoclose_preview_window_after_completion = 1
 		" let g:ycm_autoclose_preview_indow_after_insertion = 1
 		" let g:ycm_filepath_blacklist = {}
@@ -361,11 +360,13 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
 
 	" Tab Completion
 	Plug 'ervandew/supertab'
+		let g:SuperTabDefaultCompletionType = "<C-n>"
 
 	" Autocomplete Parens
 	Plug 'jiangmiao/auto-pairs'
 		" unmatched close jumps to next close, <c-v>} will avoid
 		let g:AutoPairsFlyMode = 0 " this works when you don't want it to
+		
 		" let g:AutoPairsShortcutBackInsert = '<M-b>' "this doesn't work in macVim,
 		" need to remap
 		" Default: {'(':')', '[':']', '{':'}',"'":"'",'"':'"', '`':'`'}
@@ -422,7 +423,20 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
 		nmap <silent> gt <Plug>(coc-type-definition)
 		nmap <silent> gi <Plug>(coc-implementation)
 		nmap <silent> gr <Plug>(coc-references)
+		nnoremap <silent> K :call <SID>show_documentation()<CR>
 
+		" inoremap <expr> <tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+		" inoremap <expr> <s-tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+		inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+		function! s:show_documentation()
+			if (index(['vim','help'], &filetype) >= 0)
+				execute 'h '.expand('<cword>')
+			elseif (coc#rpc#ready())
+				call CocActionAsync('doHover')
+			else
+				execute '!' . &keywordprg . " " . expand('<cword>')
+			endif
+		endfunction
 	
 	" ===================
    	" Syntax Highlighting
