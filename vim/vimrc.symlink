@@ -306,10 +306,10 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
 	" ==============
 	Plug 'easymotion/vim-easymotion'
 		map <leader> <Plug>(easymotion-prefix)
-		map f <Plug>(easymotion-fl)
-		map F <Plug>(easymotion-Fl)
-		map t <Plug>(easymotion-tl)
-		map T <Plug>(easymotion-Tl)
+		map f <Plug>(easymotion-f)
+		map F <Plug>(easymotion-F)
+		map t <Plug>(easymotion-t)
+		map T <Plug>(easymotion-T)
 		map yf y<Plug>(easymotion-fl)
 		map yF y<Plug>(easymotion-Fl)
 		map yt y<Plug>(easymotion-tl)
@@ -415,6 +415,10 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
 	Plug 'neoclide/coc.nvim', {'branch': 'release'}
 		" Add `:Format` command to format current buffer.
 		command! -nargs=0 Format :call CocAction('format')
+		" :CocInstall coc-java coc-json
+		" TODO: update utility/vim/coc.config to piont to a valid java
+		" runtime and actually update java to 11
+		" 
 		" Autoformat on save
 		au BufWrite * :Format
 
@@ -423,7 +427,7 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
 		nmap <silent> gt <Plug>(coc-type-definition)
 		nmap <silent> gi <Plug>(coc-implementation)
 		nmap <silent> gr <Plug>(coc-references)
-		nnoremap <silent> K :call <SID>show_documentation()<CR>
+		nnoremap <silent> H :call <SID>show_documentation()<CR>
 
 		" inoremap <expr> <tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 		" inoremap <expr> <s-tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
