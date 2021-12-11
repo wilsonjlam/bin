@@ -290,7 +290,7 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
 
 	" Git commands (G<something>)
 	Plug 'tpope/vim-fugitive'
-		noremap <leader>gs :Gst<CR>
+		noremap <leader>gs :Git<CR>
 		noremap <leader>gb :Gbrowse!<CR>
 
 	" Git commit browser
@@ -413,6 +413,7 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
 	" ======================
 	
 	Plug 'neoclide/coc.nvim', {'branch': 'release'}
+		let g:coc_config_home = "$HOME/utility/vim"
 		" Add `:Format` command to format current buffer.
 		command! -nargs=0 Format :call CocAction('format')
 		" :CocInstall coc-java coc-json
