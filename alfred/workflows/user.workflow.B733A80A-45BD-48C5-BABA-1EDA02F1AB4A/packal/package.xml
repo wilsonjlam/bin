@@ -1,8 +1,0 @@
-<?xml version='1.0' encoding='UTF-8' ?>
-<workflow>
-  <name>Toggl</name>
-  <version>2.11.0</version>
-  <bundle>com.jason0x43.alfred-toggl</bundle>
-  <updated>1501210096</updated>
-  <file>alfred-toggl.alfredworkflow</file>
-</workflow>

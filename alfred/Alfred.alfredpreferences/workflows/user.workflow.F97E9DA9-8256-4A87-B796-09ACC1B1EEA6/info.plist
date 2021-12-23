@@ -8,7 +8,7 @@
 	<string>Productivity</string>
 	<key>connections</key>
 	<dict>
-		<key>4DAC0280-12D9-4F87-BE88-28416F84BA04</key>
+		<key>660C13F4-B83C-4929-9DD0-735D2BAA2F07</key>
 		<array>
 			<dict>
 				<key>destinationuid</key>
@@ -38,7 +38,7 @@
 		<array>
 			<dict>
 				<key>destinationuid</key>
-				<string>4DAC0280-12D9-4F87-BE88-28416F84BA04</string>
+				<string>660C13F4-B83C-4929-9DD0-735D2BAA2F07</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
@@ -71,6 +71,50 @@
 	<string>DenteAzul</string>
 	<key>objects</key>
 	<array>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>concurrently</key>
+				<false/>
+				<key>escaping</key>
+				<integer>68</integer>
+				<key>script</key>
+				<string>function run(argv) {
+	const system_preferences = Application('System Preferences')
+	const system_events = Application('System Events')
+	const prefs_running = system_preferences.running()
+
+	system_preferences.panes.byId('com.apple.preferences.Bluetooth').reveal()
+
+	delay(2) // Give the pane time to load
+
+	const bluetooth_window = system_events.processes.byName('System Preferences').windows.byName('Bluetooth')
+	const toggle_button = bluetooth_window.checkboxes.byName('Show Bluetooth in menu bar')
+
+	if (argv[0] === 'on') {
+		bluetooth_window.buttons.byName('Turn Bluetooth On').click()
+		if (!toggle_button.value()) toggle_button.click()
+	} else {
+		bluetooth_window.buttons.byName('Turn Bluetooth Off').click()
+		if (toggle_button.value()) toggle_button.click()
+	}
+
+	if (!prefs_running) system_preferences.quit()
+}</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>type</key>
+				<integer>7</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>660C13F4-B83C-4929-9DD0-735D2BAA2F07</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
 		<dict>
 			<key>config</key>
 			<dict>
@@ -138,29 +182,6 @@ puts({ items: script_filter_items }.to_json)</string>
 			<string>75C921E4-2503-460C-A531-3D3F4EC85976</string>
 			<key>version</key>
 			<integer>3</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>concurrently</key>
-				<false/>
-				<key>escaping</key>
-				<integer>68</integer>
-				<key>script</key>
-				<string>on switchBluetooth(setState)	tell application "System Preferences"		reveal pane id "com.apple.preferences.Bluetooth"		tell application "System Events" to tell process "System Preferences"			set boxToggle to checkbox "Show Bluetooth in menu bar" of window "Bluetooth"						if setState is "on" then				click button "Turn Bluetooth On" of window "Bluetooth"				tell boxToggle to if not (its value as boolean) then click boxToggle			else				click button "Turn Bluetooth Off" of window "Bluetooth"				tell boxToggle to if (its value as boolean) then click boxToggle			end if		end tell	end tell	tell application "System Preferences" to quitend switchBluetoothswitchBluetooth("{query}")</string>
-				<key>scriptargtype</key>
-				<integer>0</integer>
-				<key>scriptfile</key>
-				<string></string>
-				<key>type</key>
-				<integer>6</integer>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.action.script</string>
-			<key>uid</key>
-			<string>4DAC0280-12D9-4F87-BE88-28416F84BA04</string>
-			<key>version</key>
-			<integer>2</integer>
 		</dict>
 		<dict>
 			<key>config</key>
@@ -328,7 +349,7 @@ if script_filter_items.empty?
   exit 0
 end
 
-puts({ items: script_filter_items }.to_json)</string>
+puts({ rerun: 2, items: script_filter_items }.to_json)</string>
 				<key>scriptargtype</key>
 				<integer>1</integer>
 				<key>scriptfile</key>
@@ -371,7 +392,7 @@ puts({ items: script_filter_items }.to_json)</string>
 			<key>ypos</key>
 			<integer>25</integer>
 		</dict>
-		<key>4DAC0280-12D9-4F87-BE88-28416F84BA04</key>
+		<key>660C13F4-B83C-4929-9DD0-735D2BAA2F07</key>
 		<dict>
 			<key>xpos</key>
 			<integer>265</integer>
@@ -405,7 +426,7 @@ puts({ items: script_filter_items }.to_json)</string>
 		</dict>
 	</dict>
 	<key>version</key>
-	<string>21.5</string>
+	<string>21.11</string>
 	<key>webaddress</key>
 	<string>http://vitorgalvao.com/</string>
 </dict>
