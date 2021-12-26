@@ -11,7 +11,6 @@ let mapleader=' '
 command! Src source ~/.vimrc
 " Dot Files
 let HOME = expand('~')
-noremap <leader>. :Files $HOME/utility<CR>
 
 noremap <C-\> =
 
@@ -140,17 +139,17 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
 		\					 : fzf#vim#with_preview('right:50%:hidden', '?'),
 		\	 <bang>0)
 		" nnoremap <silent> <expr> <c-p> (expand('%') =~ 'NERD_tree' ?"\<c-w>\<c-w>" : '').":GFiles\<cr>"
-		noremap <leader>/ :Gcd <bar> Rg
+		noremap <leader>/ :Gcd <bar> Rg 
 		" Search with rg for the current word your cursor is over (* but rg)
 		noremap <leader>8 :Gcd <bar> Rg <C-R><C-W><CR>
-		vnoremap <Leader>/ y:Rg <C-R>"<CR>
+		vnoremap <leader>/ y:Rg <C-R>"<CR>
 		noremap <leader>l :BLines<CR>
 		noremap <leader>L :BLines
 		noremap <leader>m :Marks<CR>
 		noremap <leader>h :Helptags<CR>
-		noremap <C-t> :Tags<CR>
 		noremap <C-f> :Gcd <bar> Files<CR>
 		noremap <C-b> :Buffers<CR>
+		noremap <leader>` :Files $HOME/utility<CR>
 		let g:fzf_layout = { 'down': '30%' }
 		let g:fzf_history_dir = '~/.local/share/fzf-history'
 		let g:fzf_colors =
@@ -305,7 +304,8 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
 	" Movement
 	" ==============
 	Plug 'easymotion/vim-easymotion'
-		map <leader> <Plug>(easymotion-prefix)
+		map <leader>j <Plug>(easymotion-j)
+		map <leader>k <Plug>(easymotion-k)
 		map f <Plug>(easymotion-f)
 		map F <Plug>(easymotion-F)
 		map t <Plug>(easymotion-t)
@@ -314,9 +314,9 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
 		map yF y<Plug>(easymotion-Fl)
 		map yt y<Plug>(easymotion-tl)
 		map yT y<Plug>(easymotion-Tl)
-		map W <leader>W
-		map B <leader>B
-		map E <leader>E
+		map <leader>W <Plug>(easymotion-w)
+		map <leader>B <Plug>(easymotion-b)
+		map <leader>E <Plug>(easymotion-e)
 
 
 	" ==============
@@ -414,12 +414,19 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
 	
 	Plug 'neoclide/coc.nvim', {'branch': 'release'}
 		let g:coc_config_home = "$HOME/utility/vim"
+
+		" CoC will automatically pick up these extensions and install
+		" them as needed
+		let g:coc_global_extensions = ['coc-json', 'coc-git', 'coc-sh',
+		\'coc-html', 'coc-css', 'coc-tsserver', 'coc-java', 'coc-graphql',
+		\'coc-eslint', 'coc-prettier', 'coc-markdownlint', 'coc-markdown-preview-enhanced', 'coc-webview']
+
+		" Coc utility comands to use and understand coc itself
+		nnoremap <leader>. :CocCommand <cr>
+		
 		" Add `:Format` command to format current buffer.
 		command! -nargs=0 Format :call CocAction('format')
-		" :CocInstall coc-java coc-json
-		" TODO: update utility/vim/coc.config to piont to a valid java
-		" runtime and actually update java to 11
-		" 
+
 		" Autoformat on save
 		au BufWrite * :Format
 

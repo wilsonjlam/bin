@@ -1,3 +1,9 @@
 {
-	"coc.preferences.jumpCommand": "vsplit"
+	"coc.preferences.jumpCommand": "vsplit",
+	"prettier": {
+		"printWidth": 120,
+		"useTabs": true,
+		"singleQuote": true
+	},
+	"markdown-preview-enhanced.liveUpdate": true
 }
