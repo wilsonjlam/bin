@@ -2,13 +2,20 @@
 
 #cd using fzf
 fd() {
-	local search_term ALL
+	local search_term 
+	local find_options=('--type=d' '--absolute-path' '--follow' '.')
 	while [[ $# -gt 0	]]; do
 		key="$1"
 		case $key in
 			-a|--all) #-a or --all to search for hidden directories as well
 				shift
-				ALL=true
+				find_options=("${find_options[@]}" '--hidden' '--no-ignore')
+				;;
+			-d|--depth) # depth of traversal
+				shift
+				key="$1"
+				shift
+				find_options=("${find_options[@]}" "-d $key")
 				;;
 			*)
 				search_term=$key
@@ -17,20 +24,15 @@ fd() {
 		esac
 	done
 
+	if [ -z "$search_term" ]; then
+		echo "No search term provided"
+		return 1
+	fi
+
 	local dir
-	local find_options=('--type=d' '--absolute-path' '--follow' '.')
 	local fzf_options=('+m' '--algo=v1' '-1')
 
-	if [ -z $search_term ]; then
-		dir=$(ls $HOME/workspace | fzf-tmux ${fzf_options[*]})
-		dir=${dir:+$HOME/workspace/$dir}
-	elif [ $ALL ]; then
-		# dir=$(find "$search_term" -type d 2> /dev/null | fzf +m --algo=v1)
-		dir=$(fnd ${find_options[*]} --hidden --no-ignore "$search_term" | fzf-tmux ${fzf_options[*]})
-	else
-		# dir=$(find "$search_term" -path '*/\.*' -prune -o -type d -print 2> /dev/null | fzf +m --algo=v1)
-		dir=$(fnd ${find_options[*]} "$search_term" | fzf-tmux ${fzf_options[*]})
-	fi
+	dir=$(fnd ${find_options[*]} "$search_term" | fzf-tmux ${fzf_options[*]})
 
 	if [ -n "$dir" ]; then
 		cd -P "$dir"

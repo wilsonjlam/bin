@@ -23,7 +23,7 @@ export PERSONAL="$HOME/personal"
 alias interview="cd $PERSONAL/interview"
 alias personal="cd $PERSONAL"
 alias utility="cd $HOME/utility"
-alias wk="cd $WORKSPACE"
+alias wk="fd -d 1 $WORKSPACE"
 alias work="cd $HOME/utility/work"
 
 #Commands
