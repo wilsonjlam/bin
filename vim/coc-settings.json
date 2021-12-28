@@ -5,5 +5,12 @@
 		"useTabs": true,
 		"singleQuote": true
 	},
-	"markdown-preview-enhanced.liveUpdate": true
+	"markdown-preview-enhanced.liveUpdate": true,
+	"python.formatting.provider": "black",
+	"java.configuration.runtimes": [
+		{
+			"name": "JavaSE-1.11",
+			"path": "/path/to/jdk-11"
+		}
+	]
 }
