@@ -149,7 +149,7 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
 		noremap <leader>h :Helptags<CR>
 		noremap <C-f> :Gcd <bar> Files<CR>
 		noremap <C-b> :Buffers<CR>
-		noremap <leader>` :Files $HOME/utility<CR>
+		noremap <leader>~ :Files $HOME/utility<CR>
 		let g:fzf_layout = { 'down': '30%' }
 		let g:fzf_history_dir = '~/.local/share/fzf-history'
 		let g:fzf_colors =
@@ -289,7 +289,7 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
 
 	" Git commands (G<something>)
 	Plug 'tpope/vim-fugitive'
-		noremap <leader>gs :Git<CR>
+		noremap <leader>gs :vertical Git<CR>
 		noremap <leader>gb :Gbrowse!<CR>
 
 	" Git commit browser
@@ -417,12 +417,16 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
 
 		" CoC will automatically pick up these extensions and install
 		" them as needed
-		let g:coc_global_extensions = ['coc-json', 'coc-git', 'coc-sh',
-		\'coc-html', 'coc-css', 'coc-tsserver', 'coc-java', 'coc-graphql',
-		\'coc-eslint', 'coc-prettier', 'coc-markdownlint', 'coc-markdown-preview-enhanced', 'coc-webview']
+		let g:coc_global_extensions = [
+			\'coc-fzf-preview',
+			\'coc-json', 'coc-git', 'coc-sh',
+			\'coc-html', 'coc-css', 'coc-tsserver', 'coc-eslint', 'coc-prettier',
+			\'coc-java',
+			\'coc-markdownlint', 'coc-markdown-preview-enhanced', 'coc-webview']
 
 		" Coc utility comands to use and understand coc itself
-		nnoremap <leader>. :CocCommand <cr>
+		nmap <leader>. <Plug>(coc-codeaction-line)
+		nmap <leader>c :CocCommand <cr>
 		
 		" Add `:Format` command to format current buffer.
 		command! -nargs=0 Format :call CocAction('format')
@@ -457,17 +461,15 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
 	" Markdown
 	Plug 'shime/vim-livedown', { 'for': 'markdown' }
 		let g:livedown_browser = "google chrome"
-"
+
 "	" XML
 	Plug 'othree/xml.vim', { 'for': 'xml' }
-"
+
 "	" CSS
 	Plug 'ap/vim-css-color', { 'for': 'css' }
-"
+
 "	" Go Development
 	Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries', 'for': 'go' }
-
-
 
 	" Typescript Development
 	Plug 'leafgarland/typescript-vim', { 'for': 'typescript' }
