@@ -19,6 +19,7 @@
 	co = checkout
 	br = branch
 	st = status
+	sh = show --stat
 	cc = commit
 	ca = commit --amend
 	rb = rebase
