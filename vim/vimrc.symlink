@@ -2,6 +2,7 @@ filetype plugin indent on
 set foldmethod=indent
 set nofoldenable " optionally you can set foldlevel=x where it'll fold everything fold-level above x
 set ff=unix
+set term=xterm-256color
 
 set clipboard=unnamed
 
@@ -129,7 +130,7 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
 	" ==============
 	" fzf
 	" ==============
-	set rtp+=/usr/local/opt/fzf
+	set rtp+=/opt/homebrew/opt/fzf
 	Plug 'junegunn/fzf.vim'
 		" Rg search the repo (takes in options like cli rg)
 		command! -bang -nargs=* Rgcli
