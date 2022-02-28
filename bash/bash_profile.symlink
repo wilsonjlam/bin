@@ -120,3 +120,5 @@ if [[ -f $HOME/.fbcheff/evnvironment ]]; then
 	. ~/.fbchef/environment
 fi
 # END: Block added by chef
+export PATH="/opt/homebrew/bin:$PATH"
+export PATH="/opt/homebrew/sbin:$PATH"
