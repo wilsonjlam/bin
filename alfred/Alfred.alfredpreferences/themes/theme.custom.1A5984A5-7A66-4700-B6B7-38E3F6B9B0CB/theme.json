@@ -22,12 +22,13 @@
         "color" : "#000000E5"
       },
       "iconPaddingHorizontal" : 6,
+      "roundness" : 0,
       "paddingVertical" : 3,
       "iconSize" : 40
     },
     "search" : {
-      "paddingVertical" : 0,
-      "background" : "#FEFFFFFF",
+      "backgroundSelected" : "#B2D7FFFF",
+      "paddingHorizontal" : 8,
       "spacing" : 0,
       "text" : {
         "size" : 34,
@@ -35,7 +36,9 @@
         "font" : "System Light",
         "color" : "#000000FF"
       },
-      "backgroundSelected" : "#B2D7FFFF"
+      "background" : "#FEFFFFFF",
+      "roundness" : 0,
+      "paddingVertical" : 0
     },
     "window" : {
       "color" : "#FEFFFFFF",
