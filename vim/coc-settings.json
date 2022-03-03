@@ -5,7 +5,13 @@
 		"useTabs": true,
 		"singleQuote": true
 	},
+	"diagnostic.displayByAle": true,
 	"markdown-preview-enhanced.liveUpdate": true,
+	"typescript.suggest.autoImports": true,
+	"tsserver": {
+		"log": "verbose",
+		"npm": "/usr/local/bin/npm"
+	}
 	"python.formatting.provider": "black",
 	"java.configuration.runtimes": [
 		{
