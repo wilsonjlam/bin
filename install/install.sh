@@ -26,6 +26,16 @@ if [ ! -d "$HOME/tmp" ]; then
 	mkdir ~/tmp
 fi
 
+if [ ! -d "$HOME/.config" ]; then
+	echo "mkdir ~/.config"
+	mkdir ~/.config
+	if [ ! -d "$HOME/.config/alacritty" ]; then
+		echo "mkdir ~/.config/alarcitty"
+		mkdir ~/.config/alacritty
+		ln -s ~/utility/terminal/alacritty_macos.yml ~/.config/alacritty/alacritty.yml
+	fi
+fi
+
 #brew installations
 if [ -z "$(which brew)" ]; then
 	echo "Installing brew"
@@ -37,7 +47,7 @@ echo "Installing Brew formulae"
 brew install $(trim_output brew_formulae)
 echo "Installing Brew casks"
 # shellcheck disable=SC2046 # Intended splitting of brew formulae
-brew install --cask $(trim_output brew_casks)
+# brew install --cask $(trim_output brew_casks)
 
 echo "Installing NPM packages"
 # shellcheck disable=SC2046 # Intended splitting of brew formulae
