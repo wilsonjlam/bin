@@ -121,7 +121,7 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
 	" ==============
 	" fzf
 	" ==============
-	set rtp+=/opt/homebrew/opt/fzf
+	set rtp+=$HOME/homebrew/opt/fzf
 	Plug 'junegunn/fzf.vim'
 		" Rg search the repo (takes in options like cli rg)
 		command! -bang -nargs=* Rgcli
@@ -159,7 +159,6 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
 		\ 'spinner': ['fg', 'Label'],
 		\ 'header':	['fg', 'Comment'],
 		\}
-		" let g:fzf_launcher = "~/utility/scripts/fzf_iterm_macvim.sh %s " to make iterm fzf faster
 
 
 	" ==============
