@@ -22,7 +22,7 @@
 		<key>3ED999C9-FCF1-4A83-A2C7-3CA9010D847C</key>
 		<dict>
 			<key>enabled</key>
-			<false/>
+			<true/>
 			<key>keyword</key>
 			<string>b</string>
 			<key>text</key>
@@ -122,6 +122,19 @@
 			<string>SoundCloud</string>
 			<key>url</key>
 			<string>https://soundcloud.com/search?q={query}</string>
+			<key>utf8</key>
+			<true/>
+		</dict>
+		<key>CA65FF11-153C-4EC4-88CA-012AE6F98409</key>
+		<dict>
+			<key>enabled</key>
+			<true/>
+			<key>keyword</key>
+			<string>cs</string>
+			<key>text</key>
+			<string>code search</string>
+			<key>url</key>
+			<string>https://www.internalfb.com/code/search?q={query}</string>
 			<key>utf8</key>
 			<true/>
 		</dict>
