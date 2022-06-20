@@ -141,7 +141,7 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
 		noremap <leader>h :Helptags<CR>
 		noremap <C-f> :Gcd <bar> Files<CR>
 		noremap <C-b> :Buffers<CR>
-		noremap <leader>~ :Files $HOME/utility<CR>
+		noremap <leader>` :Files $HOME/utility<CR>
 		let g:fzf_layout = { 'down': '30%' }
 		let g:fzf_history_dir = '~/.local/share/fzf-history'
 		let g:fzf_colors =
@@ -192,8 +192,7 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
 	nnoremap <leader>bp :bp<CR> " Previous buffer
 	nnoremap <leader>bv :vert sb
 	nnoremap <leader>bx :sb
-	nnoremap <leader>bs :sb
-	nnoremap <leader>b :b
+	nnoremap <leader>bb :Buffers<CR>
 	" Move this buffer into a split right but keep focus on your original pane
 	nnoremap <C-w><C-l> :bp +vert\ sbn\ +TmuxNavigateLeft<CR>
 	" Move this buffer into a split left but keep focus on your original pane
@@ -412,8 +411,8 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
 			\'coc-fzf-preview',
 			\'coc-json', 'coc-git', 'coc-sh',
 			\'coc-html', 'coc-css', 'coc-tsserver', 'coc-eslint', 'coc-prettier',
-			\'coc-java',
-			\'coc-markdownlint', 'coc-markdown-preview-enhanced', 'coc-webview']
+			\'coc-java',]
+			" \'coc-markdownlint', 'coc-markdown-preview-enhanced', 'coc-webview']
 
 		" Coc utility comands to use and understand coc itself
 		nmap <leader>. <Plug>(coc-codeaction-line)
