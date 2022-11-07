@@ -5,7 +5,7 @@ if [[ -f $HOME/.work_profile ]]; then
 	source "$HOME/.work_profile"
 fi
 
-export PATH=/usr/local/bin:/usr/local/sbin:$PATH #homebrew
+export PATH=/usr/local/bin:/usr/local/sbin:/$HOME/homebrew/bin:$PATH #homebrew
 
 
 # More sensical CLI word-based movements/editing
