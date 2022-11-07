@@ -1,0 +1,8 @@
+{
+  "alfredsnippet" : {
+    "snippet" : "# Week of {date:short}\n\n---\n\n**Top of Mind:**\n\n---\n\n## This Week:\n* \n\n---\n\n## Last Week:\n* ",
+    "uid" : "222C3A41-DC25-44BB-AD75-F9D29FDC7A8D",
+    "name" : "weekly update",
+    "keyword" : "weekly"
+  }
+}

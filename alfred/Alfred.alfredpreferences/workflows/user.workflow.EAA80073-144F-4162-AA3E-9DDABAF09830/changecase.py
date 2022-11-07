@@ -1,7 +1,9 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-import re, sys
+from __future__ import print_function
+import re
+import sys
 from xml.sax.saxutils import escape
 from titlecase import titlecase
 
@@ -10,10 +12,12 @@ if len(sys.argv) > 1 and len(sys.argv[1].strip()):
 else:
     text = sys.stdin.read()
 
+if len(text.strip()) == 0:
+    sys.exit(0)
 
-always_uppercase = r"""\bXML|HTML|CSS|JSON|FYI|AOL|ATM|BBC|CD|FAQ|GAIM|GNU|GTK|HIRD|HIV
-  |HURD|IEEE|IOU|IRA|IUPAC|JPEG|LCD|NAACP|NAC|NATO|NCAA|NOAD|OEM|PHP|ROM|SAT|SFMOMA|SQL|USA|VHDL|VHSIC|W3C
-  |LOL|WTF\b"""
+always_uppercase = r'''\b(?:XML|HTML|CSS|JSON|FYI|AOL|ATM|BBC|CD|FAQ|GAIM|GNU|GTK|HIRD|HIV
+	|HURD|IEEE|IOU|IRA|IUPAC|JPEG|LCD|NAACP|NAC|NATO|NCAA|NOAD|OEM|PHP|ROM|SAT|SFMOMA|SQL|USA|VHDL|VHSIC|W3C
+	|LOL|WTF)\b'''
 always_uppercase_re = re.compile(always_uppercase, re.I | re.X)
 
 
@@ -26,56 +30,50 @@ def titlecase_plus(text):
 
     def upcase(m):
         return m.group().upper()
-
     return always_uppercase_re.sub(upcase, text)
 
 
-def camelcase_plus(text):
-    text = titlecase_plus(text)
-    return text[:1].lower() + text[1:]
-
-
 variations = {
-    "lower": escape(text.lower(), {'"': "&quot;", "\n": "&#10;"}),
-    "upper": escape(text.upper(), {'"': "&quot;", "\n": "&#10;"}),
-    "title": escape(titlecase_plus(text), {'"': "&quot;", "\n": "&#10;"}),
-    "camel": escape(camelcase_plus(text.replace("_", " ").replace("-", " ")), {'"': "&quot;", "\n": "&#10;"},).replace(" ", ""),
-    "kebab": escape(text.lower(), {'"': "&quot;", "\n": "&#10;"}).replace(" ", "-").replace("_", "-"),
-    "snake": escape(text.lower(), {'"': "&quot;", "\n": "&#10;"}).replace(" ", "_").replace("-", "_"),
+    'lower': escape(text.lower(), {'"': '&quot;', '\n': '&#10;'}),
+    'upper': escape(text.upper(), {'"': '&quot;', '\n': '&#10;'}),
+    'title': escape(titlecase_plus(text), {'"': '&quot;', '\n': '&#10;'}),
+    'camel': escape(text.title(), {'"': '&quot;', '\n': '&#10;'}).replace(' ', ''),
+    'kebab': escape(text.lower(), {'"': '&quot;', '\n': '&#10;'}).replace(' ', '-').replace('_', '-'),
+    'snake': escape(text.lower(), {'"': '&quot;', '\n': '&#10;'}).replace(' ', '_').replace('-', '_')
+
 }
 
-
-print """<?xml version="1.0"?>
+print("""<?xml version="1.0"?>
 <items>
   <item arg="%(lower)s">
-    <title>"%(lower)s"</title>
+    <title>%(lower)s</title>
     <subtitle>Transform text to `lowercase`</subtitle>
     <icon>lowercase.png</icon>
   </item>
   <item arg="%(upper)s">
-    <title>"%(upper)s"</title>
+    <title>%(upper)s</title>
     <subtitle>Transform text to `UPPERCASE`</subtitle>
     <icon>uppercase.png</icon>
   </item>
   <item arg="%(title)s">
-    <title>"%(title)s"</title>
+    <title>%(title)s</title>
     <subtitle>Transform text to `Title Case`</subtitle>
     <icon>titlecase.png</icon>
   </item>
   <item arg="%(camel)s">
-    <title>"%(camel)s"</title>
+    <title>%(camel)s</title>
     <subtitle>Transform text to `CamelCase`</subtitle>
     <icon>camelcase.png</icon>
   </item>
   <item arg="%(kebab)s">
-    <title>"%(kebab)s"</title>
+    <title>%(kebab)s</title>
     <subtitle>Transform text to hyphenated `kebab-case`</subtitle>
     <icon>kebabcase.png</icon>
   </item>
   <item arg="%(snake)s">
-    <title>"%(snake)s"</title>
+    <title>%(snake)s</title>
     <subtitle>Transform text to `snake_case`</subtitle>
     <icon>snakecase.png</icon>
   </item>
 
-</items>""" % variations
+</items>""" % variations)
