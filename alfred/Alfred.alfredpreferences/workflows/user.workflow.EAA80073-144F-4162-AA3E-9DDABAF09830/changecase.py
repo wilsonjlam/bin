@@ -40,8 +40,8 @@ variations = {
     'upper': escape(text.upper(), {'"': '&quot;', '\n': '&#10;'}),
     'title': escape(titlecase_plus(text), {'"': '&quot;', '\n': '&#10;'}),
     'camel': escape(text.title(), {'"': '&quot;', '\n': '&#10;'}).replace(' ', ''),
-    'kebab': escape(preprocess(text).lower(), {'"': '&quot;', '\n': '&#10;'}).replace(' ', '-').replace('_', '-'),
-    'snake': escape(preprocess(text).lower(), {'"': '&quot;', '\n': '&#10;'}).replace(' ', '_').replace('-', '_')
+    'kebab': escape(preprocess(text), {'"': '&quot;', '\n': '&#10;'}).replace(' ', '-').replace('_', '-'),
+    'snake': escape(preprocess(text), {'"': '&quot;', '\n': '&#10;'}).replace(' ', '_').replace('-', '_')
 
 }
 
