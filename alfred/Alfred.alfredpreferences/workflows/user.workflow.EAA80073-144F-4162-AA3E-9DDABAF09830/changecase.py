@@ -32,14 +32,16 @@ def titlecase_plus(text):
         return m.group().upper()
     return always_uppercase_re.sub(upcase, text)
 
+def preprocess(text):
+    return re.sub(r'(?<!^)(?=[A-Z])', ' ', text)
 
 variations = {
     'lower': escape(text.lower(), {'"': '&quot;', '\n': '&#10;'}),
     'upper': escape(text.upper(), {'"': '&quot;', '\n': '&#10;'}),
     'title': escape(titlecase_plus(text), {'"': '&quot;', '\n': '&#10;'}),
     'camel': escape(text.title(), {'"': '&quot;', '\n': '&#10;'}).replace(' ', ''),
-    'kebab': escape(text.lower(), {'"': '&quot;', '\n': '&#10;'}).replace(' ', '-').replace('_', '-'),
-    'snake': escape(text.lower(), {'"': '&quot;', '\n': '&#10;'}).replace(' ', '_').replace('-', '_')
+    'kebab': escape(preprocess(text).lower(), {'"': '&quot;', '\n': '&#10;'}).replace(' ', '-').replace('_', '-'),
+    'snake': escape(preprocess(text).lower(), {'"': '&quot;', '\n': '&#10;'}).replace(' ', '_').replace('-', '_')
 
 }
 
