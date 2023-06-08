@@ -1,10 +1,6 @@
 export BASH_CONF="bashrc"
 
-if [[ -f /usr/local/bin/vim ]]; then
-	export EDITOR=/usr/local/bin/vim
-elif [[ -f "$HOME/homebrew/bin/vim" ]]; then
-	export EDITOR="$HOME/homebrew/bin/vim"
-fi
+export EDITOR=vim
 
 #####################################################
 #General#############################################
@@ -33,7 +29,7 @@ alias work="cd $HOME/utility/work"
 
 #Commands
 alias dc="docker-compose"
-# alias fnd="$(which fd)"
+alias fnd="$(which fd)"
 alias freshinstall="rm -rf node_modules bower_components; nvm use; yarn; bower install"
 alias repos="~/utility/scripts/update-all-repos.sh"
 alias rg="rg -S --column --line-number --color=always --colors=match:fg:yellow --colors=path:fg:blue --colors=line:fg:green --colors=column:fg:cyan"

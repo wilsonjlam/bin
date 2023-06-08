@@ -26,7 +26,6 @@ export PATH=/usr/local/bin:/usr/local/sbin:/$HOME/homebrew/bin:$PATH #homebrew
 	if [[ -f $HOME/utility/bash/fzf.sh ]]; then
 		# shellcheck source=utility/bash/fzf.sh
 		source "$HOME/utility/bash/fzf.sh"
-		export FZF_DEFAULT_COMMAND="fd -H -E *.git*"
 		export FZF_DEFAULT_OPTS="--ansi --preview='head -$LINES {}' --preview-window=right:50%:hidden --bind=?:toggle-preview"
 	fi
 

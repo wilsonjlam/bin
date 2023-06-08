@@ -1,5 +1,7 @@
 {
 	"coc.preferences.jumpCommand": "vsplit",
+	"coc.preferences.formatOnSave": true,
+	"coc.preferences.formatOnSaveFiletypes": ["*"],
 	"prettier": {
 		"printWidth": 120,
 		"useTabs": true,
@@ -11,7 +13,7 @@
 	"tsserver": {
 		"log": "verbose",
 		"npm": "/usr/local/bin/npm"
-	}
+	},
 	"python.formatting.provider": "black",
 	"java.configuration.runtimes": [
 		{
