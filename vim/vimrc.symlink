@@ -378,6 +378,7 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
 		" \	'javascript': ['eslint', 'flow'],
 		let g:ale_linters = {
 		\	'typescript': ['prettier', 'tslint', 'tsserver', 'typecheck'],
+		\	'shell': [],
 		\}
 		let g:ale_lint_delay = 1000 "delay 1s after text change before lintng
 		let g:ale_lint_on_insert_leave = 1
@@ -411,7 +412,7 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
 			\'coc-fzf-preview',
 			\'coc-json', 'coc-git', 'coc-sh',
 			\'coc-html', 'coc-css', 'coc-tsserver', 'coc-eslint', 'coc-prettier',
-			\'coc-java',]
+			\'coc-java']
 			" \'coc-markdownlint', 'coc-markdown-preview-enhanced', 'coc-webview']
 
 		" Coc utility comands to use and understand coc itself
