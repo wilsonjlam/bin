@@ -5,7 +5,8 @@
 	"prettier": {
 		"printWidth": 120,
 		"useTabs": true,
-		"singleQuote": true
+		"singleQuote": true,
+		"disableLanguages": ["markdown"]
 	},
 	"diagnostic.displayByAle": true,
 	"markdown-preview-enhanced.liveUpdate": true,

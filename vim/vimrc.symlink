@@ -412,8 +412,8 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
 			\'coc-fzf-preview',
 			\'coc-json', 'coc-git', 'coc-sh',
 			\'coc-html', 'coc-css', 'coc-tsserver', 'coc-eslint', 'coc-prettier',
-			\'coc-java']
-			" \'coc-markdownlint', 'coc-markdown-preview-enhanced', 'coc-webview']
+			\'coc-java',
+			\'coc-markdownlint', 'coc-markdown-preview-enhanced', 'coc-webview']
 
 		" Coc utility comands to use and understand coc itself
 		nmap <leader>. <Plug>(coc-codeaction-line)
@@ -453,8 +453,7 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
 	" ===================
 
 	" Markdown
-	Plug 'shime/vim-livedown', { 'for': 'markdown' }
-		let g:livedown_browser = "google chrome"
+	Plug 'preservim/vim-markdown', {'for': 'markdown'}
 
 "	" XML
 	Plug 'othree/xml.vim', { 'for': 'xml' }
@@ -515,7 +514,8 @@ endif
 " #################################################################################################
 
 try
-	colorscheme gruvbox-material
+	" colorscheme gruvbox-material
+	colorscheme miramare
 catch
 	colorscheme slate
 endtry
