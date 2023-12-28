@@ -33,7 +33,7 @@ alias work="cd $HOME/utility/work"
 
 #Commands
 alias dc="docker-compose"
-# alias fnd="$(which fd)"
+alias fnd="$(which fd)"
 alias freshinstall="rm -rf node_modules bower_components; nvm use; yarn; bower install"
 alias repos="~/utility/scripts/update-all-repos.sh"
 alias rg="rg -S --column --line-number --color=always --colors=match:fg:yellow --colors=path:fg:blue --colors=line:fg:green --colors=column:fg:cyan"
@@ -65,5 +65,5 @@ clone() {
 
 # Node Versioning
 export NVM_DIR="$HOME/.nvm"
-  [ -s "$HOME/homebrew/opt/nvm/nvm.sh"  ] && \. "$HOME/homebrew/opt/nvm/nvm.sh"  # This loads nvm
-    [ -s "$HOME/homebrew/opt/nvm/etc/bash_completion.d/nvm"  ] && \. "$HOME/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+	[ -s "$NVM_DIR/nvm.sh"  ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+	[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
