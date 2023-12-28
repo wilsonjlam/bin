@@ -1,10 +1,6 @@
 export BASH_CONF="bashrc"
 
-if [[ -f /usr/local/bin/vim ]]; then
-	export EDITOR=/usr/local/bin/vim
-elif [[ -f "$HOME/homebrew/bin/vim" ]]; then
-	export EDITOR="$HOME/homebrew/bin/vim"
-fi
+export EDITOR=vim
 
 #####################################################
 #General#############################################

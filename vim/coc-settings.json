@@ -1,9 +1,12 @@
 {
 	"coc.preferences.jumpCommand": "vsplit",
+	"coc.preferences.formatOnSave": true,
+	"coc.preferences.formatOnSaveFiletypes": ["*"],
 	"prettier": {
 		"printWidth": 120,
 		"useTabs": true,
-		"singleQuote": true
+		"singleQuote": true,
+		"disableLanguages": ["markdown"]
 	},
 	"diagnostic.displayByAle": true,
 	"markdown-preview-enhanced.liveUpdate": true,
@@ -11,7 +14,7 @@
 	"tsserver": {
 		"log": "verbose",
 		"npm": "/usr/local/bin/npm"
-	}
+	},
 	"python.formatting.provider": "black",
 	"java.configuration.runtimes": [
 		{

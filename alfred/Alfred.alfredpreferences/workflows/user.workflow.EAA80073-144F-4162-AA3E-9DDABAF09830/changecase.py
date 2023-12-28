@@ -38,8 +38,9 @@ def preprocess(text):
 variations = {
     'lower': escape(text.lower(), {'"': '&quot;', '\n': '&#10;'}),
     'upper': escape(text.upper(), {'"': '&quot;', '\n': '&#10;'}),
-    'title': escape(titlecase_plus(text), {'"': '&quot;', '\n': '&#10;'}),
-    'camel': escape(text.title(), {'"': '&quot;', '\n': '&#10;'}).replace(' ', ''),
+    #  'title': escape(titlecase_plus(text), {'"': '&quot;', '\n': '&#10;'}), # not sure why this is needed
+    'title': escape(text.title(), {'"': '&quot;', '\n': '&#10;'}),
+    'camel': escape(text.title(), {'"': '&quot;', '\n': '&#10;'}).replace(' ', '').replace('_', ''),
     'kebab': escape(preprocess(text), {'"': '&quot;', '\n': '&#10;'}).replace(' ', '-').replace('_', '-'),
     'snake': escape(preprocess(text), {'"': '&quot;', '\n': '&#10;'}).replace(' ', '_').replace('-', '_')
 
