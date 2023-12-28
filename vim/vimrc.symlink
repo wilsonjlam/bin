@@ -121,7 +121,8 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
 	" ==============
 	" fzf
 	" ==============
-	set rtp+=$HOME/homebrew/opt/fzf
+	set rtp+=$HOMEBREW_PREFIX/Cellar/fzf
+	Plug 'junegunn/fzf'
 	Plug 'junegunn/fzf.vim'
 		" Rg search the repo (takes in options like cli rg)
 		command! -bang -nargs=* Rgcli
@@ -192,7 +193,6 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
 	nnoremap <leader>bp :bp<CR> " Previous buffer
 	nnoremap <leader>bv :vert sb
 	nnoremap <leader>bx :sb
-	nnoremap <leader>bb :Buffers<CR>
 	" Move this buffer into a split right but keep focus on your original pane
 	nnoremap <C-w><C-l> :bp +vert\ sbn\ +TmuxNavigateLeft<CR>
 	" Move this buffer into a split left but keep focus on your original pane
@@ -425,7 +425,7 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
 		endfunction
 
 		" Autoformat on save
-		au BufWrite * :call AutoFormat()
+		au BufWrite * :try|call AutoFormat()| catch | | endtry
 
 		" GoTo code navigation.
 		nmap <silent> gd <Plug>(coc-definition)
