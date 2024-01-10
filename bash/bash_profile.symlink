@@ -1,8 +1,10 @@
 # shellcheck source=.bashrc
 source "$HOME/.bashrc"
+export HOMEBREW_PREFIX="/usr/local/"
 if [[ -f $HOME/.work_profile ]]; then
 	# shellcheck source=$HOME/.work_profile
 	source "$HOME/.work_profile"
+	export HOMEBREW_PREFIX="/usr/local/"
 fi
 
 export PATH=/usr/local/bin:/usr/local/sbin:/$HOME/homebrew/bin:$PATH #homebrew
