@@ -37,14 +37,13 @@ def preprocess(text):
     return re.sub(r'(?<!^)(?=[A-Z])', ' ', text)
 
 variations = {
+    'snake': escape(text.lower(), {'"': '&quot;', '\n': '&#10;'}).replace(' ', '_').replace('-', '_')
     'lower': escape(text.lower(), {'"': '&quot;', '\n': '&#10;'}),
     'upper': escape(text.upper(), {'"': '&quot;', '\n': '&#10;'}),
     #  'title': escape(titlecase_plus(text), {'"': '&quot;', '\n': '&#10;'}), # not sure why this is needed
     'title': escape(text.title(), {'"': '&quot;', '\n': '&#10;'}),
     'camel': escape(text.title(), {'"': '&quot;', '\n': '&#10;'}).replace(' ', '').replace('_', ''),
     'kebab': escape(text, {'"': '&quot;', '\n': '&#10;'}).replace(' ', '-').replace('_', '-'),
-    'snake': escape(text, {'"': '&quot;', '\n': '&#10;'}).replace(' ', '_').replace('-', '_')
-
 }
 
 print("""<?xml version="1.0"?>
