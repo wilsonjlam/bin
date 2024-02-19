@@ -42,7 +42,7 @@ set shiftwidth=4
 set tabstop=4 " Number of spaces to use when tabbing
 set softtabstop=4
 set shiftround " Use a multiple of shiftwidth when indenting with < and >
-set noexpandtab " Don't expand tabs into spaces
+set expandtab " Don't expand tabs into spaces
 
 " smartcase searching
 set ignorecase
@@ -51,7 +51,7 @@ set incsearch
 set hlsearch " makes highlight show up on search
 
 set list
-set listchars=tab:·\ ,trail:«"makes tabs show as "·		"
+set listchars=tab:·\ ,trail:«,multispace:·\ \ \ "how to display list :help listchars
 
 syntax on
 set relativenumber
