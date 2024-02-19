@@ -13,6 +13,9 @@ command! Src source ~/.vimrc
 " Dot Files
 let HOME = expand('~')
 
+" put filename into paste buffer
+nmap <leader>' :let @+ = expand("%:t")<cr>
+
 noremap <C-\> =
 
 set clipboard=unnamed " Use system clipboard, CHANGE TO unnamedplus FOR LINUX
@@ -193,13 +196,13 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
 	nnoremap <leader>bp :bp<CR> " Previous buffer
 	nnoremap <leader>bv :vert sb
 	nnoremap <leader>bx :sb
-	" Move this buffer into a split right but keep focus on your original pane
-	nnoremap <C-w><C-l> :bp +vert\ sbn\ +TmuxNavigateLeft<CR>
-	" Move this buffer into a split left but keep focus on your original pane
-	nnoremap <C-w><C-h> :vert sb +bp<CR>
-	" Move this buffer into a split below but keep focus on your original pane
-	nnoremap <C-w><C-j> :bp +sbn\ +TmuxNavigateUp<CR>
-	" Move this buffer into a split above but keep focus on your original pane
+	" Move this buffer into a split right (keep focus on your original pane +TmuxNavigateLeft)
+	nnoremap <C-w><C-l> :bp +vert\ sbn\ <CR>
+	" Move this buffer into a split left (keep focus on your original pane +bp)
+	nnoremap <C-w><C-h> :vert sb <CR>
+	" Move this buffer into a split below
+	nnoremap <C-w><C-j> :bp \
+	" Move this buffer into a split above
 	nnoremap <C-w><C-k> :sb +bp<CR>
 
 	" Tab Movement
