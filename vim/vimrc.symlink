@@ -51,7 +51,11 @@ set incsearch
 set hlsearch " makes highlight show up on search
 
 set list
-set listchars=tab:·\ ,trail:«,multispace:·\ \ \ "how to display list :help listchars
+if v:version < 900
+    set listchars=tab:·\ ,trail:«,"how to display list :help listchars
+else
+    set listchars=tab:·\ ,trail:«,multispace:·\ \ \ "how to display list :help listchars
+endif
 
 syntax on
 set relativenumber
@@ -369,7 +373,6 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
 			\ '{':'}',
 			\ "'":"'",
 			\ '"':'"',
-			\ '<':'>'
 		\}
 		let g:AutoPairsCenterLine = 0
 
