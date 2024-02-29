@@ -1,7 +1,6 @@
 {
 	"coc.preferences.jumpCommand": "vsplit",
 	"coc.preferences.formatOnSave": true,
-	"coc.preferences.formatOnSaveFiletypes": ["*"],
 	"prettier": {
 		"printWidth": 120,
 		"useTabs": true,
@@ -18,7 +17,7 @@
 	"python.formatting.provider": "black",
 	"java.configuration.runtimes": [
 		{
-			"name": "JavaSE-1.11",
+			"name": "JavaSE-11",
 			"path": "/path/to/jdk-11"
 		}
 	]

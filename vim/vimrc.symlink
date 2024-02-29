@@ -340,9 +340,9 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
 	Plug 'SirVer/ultisnips'
 	Plug 'honza/vim-snippets' " bring these in one at a time
 		let g:UltiSnipsEditSplit="vertical"
-		let g:UltiSnipsExpandTrigger = "<tab>"
-		let g:UltiSnipsJumpForwardTrigger = "<tab>"
-		let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
+		let g:UltiSnipsExpandTrigger = "<TAB>"
+		let g:UltiSnipsJumpForwardTrigger = "<TAB>"
+		let g:UltiSnipsJumpBackwardTrigger = "<s-TAB>"
 		let g:UltiSnipsSnippetDir = "$HOME/utility/vim/UltiSnips"
 
 	" Autocomplete
@@ -356,8 +356,8 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
 		" let g:SuperTabDefaultCompletionType = '<C-n>'
 
 	" Tab Completion
-	Plug 'ervandew/supertab'
-		let g:SuperTabDefaultCompletionType = "<C-n>"
+	" Plug 'ervandew/supertab'
+		" let g:SuperTabDefaultCompletionType = "<C-n>"
 
 	" Autocomplete Parens
 	Plug 'jiangmiao/auto-pairs'
@@ -442,9 +442,10 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
 		nmap <silent> gr <Plug>(coc-references)
 		nnoremap <silent> H :call <SID>show_documentation()<CR>
 
-		" inoremap <expr> <tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-		" inoremap <expr> <s-tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-		inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+		" Tab completion
+		inoremap <expr> <C-j> coc#pum#next(1)
+		inoremap <expr> <C-k> coc#pum#prev(1)
+		inoremap <silent><expr> <Tab> coc#pum#visible() ? coc#_select_confirm() : "<Tab>"
 		function! s:show_documentation()
 			if (index(['vim','help'], &filetype) >= 0)
 				execute 'h '.expand('<cword>')
@@ -465,7 +466,6 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
 	let g:vim_markdown_json_frontmatter = 1
 	let g:vim_markdown_new_list_item_indent = 0
 	let g:vim_markdown_auto_insert_bullets = 1
-
 
 "	" XML
 	Plug 'othree/xml.vim', { 'for': 'xml' }
