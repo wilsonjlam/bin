@@ -529,5 +529,5 @@ try
 	" colorscheme gruvbox-material
 	colorscheme miramare
 catch
-	colorscheme slate
+	colorscheme ron "slate
 endtry
