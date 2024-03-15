@@ -43,6 +43,7 @@ set tabstop=4 " Number of spaces to use when tabbing
 set softtabstop=4
 set shiftround " Use a multiple of shiftwidth when indenting with < and >
 set expandtab " Don't expand tabs into spaces
+set smarttab
 
 " smartcase searching
 set ignorecase
