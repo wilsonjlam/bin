@@ -1,0 +1,434 @@
+```
+" ============================================================================
+" BASIC SETTINGS {{{
+" ============================================================================
+syntax on
+set smartindent
+set cindent
+set smarttab
+set number
+set showcmd
+set list
+set listchars=tab:\|\ ,trail:«
+set showmatch
+set backspace=eol,start,indent
+set hlsearch
+set hidden
+set modeline
+set splitright
+set relativenumber
+
+" ============================================================================
+" }}} BASIC SETTINGS END
+" ============================================================================
+
+" To copy/paste in vim
+" set clipboard=unnamed
+" set shiftwidth=4 tabstop=4 noexpandtab
+
+" ============================================================================
+" AUTOCMD {{{
+" ============================================================================
+augroup vimrc
+	autocmd!
+	autocmd BufNewFile,BufRead *.html set filetype=html
+	autocmd BufNewFile,BufRead *.json set filetype=js
+	autocmd BufNewFile,BufRead *.eyaml set filetype=yaml
+	autocmd BufNewFile,BufRead *.pp set filetype=sh
+	autocmd BufNewFile,BufRead Vagrantfile set filetype=vagrant
+	"au FileType javascript,python,html,css,sh,js,yaml setl sw=4 ts=2 noexpandtab
+	au FileType html,css,vagrant,yaml setl sw=2 ts=2 expandtab
+	au FileType js setl sw=2 ts=2 expandtab path=.,src,client,node_modules suffixesadd=.js,.jsx,.ts,.tsx
+	au FileType javascript.jsx setl sw=2 ts=2 expandtab
+	au FileType sh setl sw=4 ts=4 expandtab
+	autocmd FileType javascriptreact,typescriptreact set sw=2 ts=2 expandtab path=.,src,client,node_modules suffixesadd=.js,.jsx,.ts,.tsx
+	autocmd FileType set sw=2 ts=2 expandtab path=.,src,client,node_modules suffixesadd=.js,.jsx,.ts,.tsx
+	"au FileType cpp setl sw=4 ts=4 noexpandtab
+	au BufNewFile,BufRead *.py setl
+				\ tabstop=4
+				\ softtabstop=4
+				\ shiftwidth=4
+				\ textwidth=79
+				\ expandtab
+				\ autoindent
+				\ fileformat=unix
+				\ colorcolumn=110
+				"\ foldmethod=indent
+				\ foldlevel=99
+
+
+	"" Reload .vimrc after editing and saving
+	autocmd BufWritePost .vimrc source $MYVIMRC
+augroup END
+
+" }}} AUTOCMD END
+
+" Install Vim-Plug
+" if empty(glob('~/.vim/autoload/plug.vim'))
+" 	silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+" 				\ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+" 	autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+" endif
+
+function! BuildYCM(info)
+	" info is a dictionary with 3 fields  
+	" - name:   name of the plugin  
+	" - status: 'installed', 'updated', or 'unchanged'  
+	" - force:  set on PlugInstall! or PlugUpdate!  
+	if a:info.status == 'installed' || a:info.force
+		!/usr/bin/python3 install.py --gocode-completer --ts-completer
+	endif
+endfunction
+" ============================================================================
+" Vim-Plug {{{
+" ============================================================================
+set nocompatible              " be iMproved, requmred
+
+" set the runtime path to include Vundle and initialize
+call plug#begin('~/.vim/plugged')
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
+Plug 'junegunn/gv.vim'
+Plug 'junegunn/goyo.vim'
+Plug 'junegunn/limelight.vim'
+Plug 'junegunn/vim-peekaboo'
+Plug 'scrooloose/nerdtree'
+Plug 'scrooloose/nerdcommenter'
+Plug 'christoomey/vim-tmux-navigator'
+Plug 'vim-scripts/surround.vim'
+Plug 'pangloss/vim-javascript'
+Plug 'leafgarland/typescript-vim' "TypeScript syntax
+Plug 'maxmellon/vim-jsx-pretty'   "JS and JSX syntax
+Plug 'elzr/vim-json'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'vim-test/vim-test'
+Plug 'airblade/vim-gitgutter'
+"Plug 'ycm-core/YouCompleteMe', { 'do': function('BuildYCM') }
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'scalameta/coc-metals', {'do': 'yarn install --frozen-lockfile'}
+Plug 'derekwyatt/vim-scala'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-repeat' "Use Tpope's goodies and repeat
+Plug 'vim-scripts/vimux'
+Plug 'shumphrey/fugitive-gitlab.vim'
+Plug 'fatih/vim-go'
+Plug 'junegunn/seoul256.vim'
+Plug 'junegunn/vim-slash'
+Plug 'dense-analysis/ale', { 'on':  'ALEToggle' }
+Plug 'tmux-plugins/vim-tmux-focus-events'
+Plug 'vim-scripts/unimpaired.vim'
+Plug 'vim-scripts/pydoc.vim'
+Plug 'vim-scripts/virtualenv.vim'
+Plug 'vim-scripts/SimpylFold'
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
+Plug 'vim-scripts/vimlatex'
+Plug 'vim-scripts/Puppet-Syntax-Highlighting'
+"Plug 'vim-scripts/Tabular'
+"Plug 'ervandew/supertab'
+Plug 'kchmck/vim-coffee-script'
+Plug 'qpkorr/vim-bufkill'
+Plug 'vitalk/vim-simple-todo'
+
+"Sourcegraph
+Plug 'sourcegraph/sg.nvim', { 'do': 'nvim -l build/init.lua' }
+" Required for various utilities
+Plug 'nvim-lua/plenary.nvim'
+" Required if you want to use some of the search functionality
+Plug 'nvim-telescope/telescope.nvim'
+
+call plug#end()
+" }}} Vim-Plug END
+
+" NerdTree Config
+map <C-n> :NERDTreeToggle<CR>
+map <C-g> :NERDTreeFind<CR>
+nnoremap <silent> <Leader>e        :call SyncNetrw()<CR>
+let g:NERDTreeHijackNetrw=1
+let g:NERDTreeMinimalUI=1
+let g:NERDTreeShowLineNumbers=1
+let g:NERDTreeWinSize=60
+
+" NerdCommenter
+let g:NERDSpaceDelims = 1
+
+function! SyncNetrw()
+  if &modifiable && strlen(expand('%')) > 0 && !&diff
+    let l:fileName = expand('%:t')
+    let l:fileDir = expand('%:h')
+    execute 'edit' fileDir
+    execute "normal /".fileName."\<CR>"
+  endif
+endfunction
+
+" Tmux config
+let g:tmux_navigator_no_mappings = 1
+nnoremap <silent> <c-j> :TmuxNavigateDown<cr>
+nnoremap <silent> <c-h> :TmuxNavigateLeft<cr>
+nnoremap <silent> <c-k> :TmuxNavigateUp<cr>
+nnoremap <silent> <c-l> :TmuxNavigateRight<cr>
+nnoremap <silent> <c-\> :TmuxNavigatePrevious<cr>
+let g:tmux_navigator_save_on_switch = 1
+
+" Buffer Navigation
+nnoremap <silent> [b :bp<cr>
+nnoremap <silent> ]b :bn<cr>
+nnoremap <leader>bd :BD<CR> "Delete the current buffer without closing out the pane
+
+" Location Navigation
+nnoremap <silent> [l :lprev<cr>
+nnoremap <silent> ]l :lnext<cr>
+
+"  Add today's time stamp!
+nmap <leader>td "=strftime('%a %d %b %Y')<C-M>p
+imap <leader>td <C-R>=strftime('%a %d %b %Y')<C-M>
+
+" Python
+let python_highlight_all = 1
+" Python with virtualenv support
+"py << EOF
+"import os
+"import sys
+"if 'VIRTUAL_ENV' in os.environ:
+	"project_base_dir = os.environ['VIRTUAL_ENV']
+	"activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
+	"execfile(activate_this, dict(__file__=activate_this))
+"EOF
+
+"" Airline
+" uses powerline font
+let g:airline_powerline_fonts = 1
+
+let g:airline_extensions = ['tabline']
+" use tab extension
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#tab_nr_type = 1
+let g:airline#extensions#tabline#fnamemod = ':t'
+let g:airline#extensions#tabline#show_tabs = 0
+let g:airline#extensions#tabline#show_close_button = 0
+let g:airline#extensions#tabline#show_splits = 0
+let g:airline#extensions#tabline#show_buffers = 1
+set laststatus=2
+
+let g:airline#extensions#ale#enabled = 1
+let g:airline_highlighting_cache = 1
+
+" Vimux
+map <leader>vp :VimuxPromptCommand<CR>
+map <leader>vl :VimuxRunLastCommand<CR>
+
+" SimpyIFold
+let g:SimpylFold_docstring_preview = 1
+
+" Markdown
+let g:markdown_enable_folding = 0
+let g:markdown_enable_spell_checking = 0
+
+" Fugitive
+let g:fugitive_gitlab_domains = ['https://gitlab-app.eng.qops.net']
+
+nnoremap <leader>gs  :Git<CR>
+function! s:close_gstatus()
+	for l:winnr in range(1, winnr('$'))
+		if !empty(getwinvar(l:winnr, 'fugitive_status'))
+			execute l:winnr.'close'
+		endif
+	endfor
+endfunction
+command! GstatusClose call s:close_gstatus()
+nnoremap <leader>gq  :GstatusClose<CR>
+
+" Vim command mode
+set wildmode=longest,list,full
+set wildmenu
+
+" Pydoc
+let g:pydoc_cmd = 'python3 -m pydoc'
+
+
+if has('gui_running')
+	set guifont=Menlo:h14 columns=80 lines=40
+	silent! colo seoul256-light
+else
+	silent! colo seoul256
+endif
+
+let g:seoul256_background = 238
+let g:seoul256_srgb = 1
+colorscheme seoul256
+
+" ----------------------------------------------------------------------------
+" ALE
+" ----------------------------------------------------------------------------
+let g:ale_linters = {'python': ['pylint', 'flake8'],
+			\ 'yaml': ['yamllint'],
+			\ 'scala':['metals'],
+			\ 'markdown': ['remark_lint', 'alex'],
+			\}
+			"\ 'javascript': ['eslint' ], "coc-eslint now
+			"\  'typescript': ['prettier', 'tslint', 'tsserver', 'typecheck'],
+"let g:ale_javascript_eslint_executable='yarn run eslint:client'
+"let g:ale_javascript_eslint_options='--config .eslintrc.client.statsiq.json src/client/statsiq'
+"let g:ale_fixers = {'ruby': ['rubocop']}
+let g:ale_lint_delay = 1000
+let g:ale_cache_executable_check_failures = 1
+"let g:ale_python_pylint_auto_pipenv = 1
+" With statwing-etl/venv, these are set to be some odd venv settings like
+" VIRTUAL_ENV='home/default/src', so stepping through local venv with venv-osx
+let g:ale_python_pylint_use_global = 0
+let g:ale_virtualenv_dir_names = ['venv-osx']
+
+nmap ]a <Plug>(ale_next_wrap)
+nmap [a <Plug>(ale_previous_wrap)
+
+" ----------------------------------------------------------------------------
+" ULTISNIPS
+" ----------------------------------------------------------------------------
+
+" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
+"let g:UltiSnipsExpandTrigger="<tab>"
+"let g:UltiSnipsJumpForwardTrigger="<c-.>"
+"let g:UltiSnipsJumpBackwardTrigger="<c-,>"
+
+" If you want :UltiSnipsEdit to split your window.
+let g:UltiSnipsEditSplit="vertical"
+"let g:ultisnips_python_style='numpy' #Don't need this, right?
+let g:UltiSnipsSnippetDirectories=[$HOME.'/dotfiles/snippets']
+nnoremap <Leader>ue :UltiSnipsEdit<cr>
+
+"COC
+" Use `[g` and `]g` to navigate diagnostics
+" Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+" GoTo code navigation.
+nmap <silent> <leader>gd <Plug>(coc-definition)
+nmap <silent> <leader>gy <Plug>(coc-type-definition)
+nmap <silent> <leader>gi <Plug>(coc-implementation)
+nmap <silent> <leader>gr <Plug>(coc-references)
+nmap <silent> <leader>gR <Plug>(coc-rename)
+
+" Use K to show documentation in preview window.
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+
+" TODO: YCM delete
+let g:ycm_show_diagnostics_ui = 1
+let g:ycm_enable_diagnostic_signs = 0 
+let g:ycm_enable_diagnostic_highlighting = 0
+let g:ycm_max_diagnostics_to_display = 10 "let g:ycm_autoclose_preview_window_after_completion=1
+let g:ycm_autoclose_preview_window_after_insertion=1
+let g:ycm_server_python_interpreter = "/usr/bin/python3"
+
+"" YCM PYTHON
+let g:ycm_python_binary_path = '/usr/bin/python3'
+
+" SuperTab
+let g:SuperTabDefaultCompletionType = "<C-n>"
+
+" make YCM compatible with UltiSnips (using supertab)
+ let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
+ let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
+" let g:SuperTabDefaultCompletionType = '<C-n>'
+"
+" " better key bindings for UltiSnipsExpandTrigger
+let g:UltiSnipsExpandTrigger = "<TAB>"
+let g:UltiSnipsJumpForwardTrigger = "<TAB>"
+let g:UltiSnipsJumpBackwardTrigger = "<s-TAB>"
+
+" Goyo
+function! s:goyo_enter()
+  if has('gui_running')
+    set fullscreen
+    set background=light
+    set linespace=7
+  elseif exists('$TMUX')
+    silent !tmux set status off
+  endif
+  Limelight
+  let &l:statusline = '%M'
+  hi StatusLine ctermfg=red guifg=red cterm=NONE gui=NONE
+endfunction
+
+function! s:goyo_leave()
+  if has('gui_running')
+    set nofullscreen
+    set background=dark
+    set linespace=0
+  elseif exists('$TMUX')
+    silent !tmux set status on
+  endif
+  Limelight!
+endfunction
+
+autocmd! User GoyoEnter nested call <SID>goyo_enter()
+autocmd! User GoyoLeave nested call <SID>goyo_leave()
+
+nnoremap <Leader>G :Goyo<CR>
+
+" Profiling
+nnoremap <silent> <leader>PS :exe ":profile start profile.log"<cr>:exe ":profile func *"<cr>:exe ":profile file *"<cr>
+nnoremap <silent> <leader>PP :exe ":profile pause"<cr>
+nnoremap <silent> <leader>PC :exe ":profile continue"<cr>
+nnoremap <silent> <leader>PQ :exe ":profile pause"<cr>:noautocmd qall!<cr>
+let g:vim_json_syntax_conceal = 0
+
+"" FZF quickaction
+command! -bang -nargs=? -complete=dir GFiles
+  \ call fzf#vim#gitfiles(<q-args>, fzf#vim#with_preview(), <bang>0)
+
+nnoremap <silent> <expr> <c-p> (expand('%') =~ 'NERD_tree' ?"\<c-w>\<c-w>" : '').":GFiles\<cr>"
+nnoremap <silent> <Leader><Leader>  :Buffers<CR>
+nnoremap <Leader>rg :Rg<Space>
+nnoremap <silent> <Leader>RG       :Rg <C-R><C-A><CR>
+nnoremap <silent> <Leader>rg       :Rg <C-R><C-W><CR>
+vnoremap <silent> <Leader>rg       y:Rg <C-R>"<CR>
+nnoremap <silent> <Leader>L        :Lines<CR>
+nnoremap <silent> <Leader>`        :Marks<CR>
+
+" look for this word in visual mode
+vnoremap // y/<C-R>"<CR>
+
+" Help!
+nnoremap <Leader>ht :Helptags<CR>
+
+" Always paste with set nopaste in insert mode from system clipboard
+" https://coderwall.com/p/if9mda/automatically-set-paste-mode-in-vim-when-pasting-in-insert-mode
+function! WrapForTmux(s)
+  if !exists('$TMUX')
+          return a:s
+  endif
+
+  let tmux_start = "\<Esc>Ptmux;"
+  let tmux_end = "\<Esc>\\"
+
+  return tmux_start . substitute(a:s, "\<Esc>", "\<Esc>\<Esc>", 'g') . tmux_end
+endfunction
+
+let &t_SI .= "\<Esc>[?2004h"
+let &t_EI .= "\<Esc>[?2004l"
+
+inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()
+
+function! XTermPasteBegin()
+  set pastetoggle=<Esc>[201~
+  set paste
+  return ""
+endfunction
+
+" ----------------------------------------------------------------------------
+" :Root | Change directory to the root of the Git repository
+" ----------------------------------------------------------------------------
+function! s:root()
+  let root = systemlist('git rev-parse --show-toplevel')[0]
+  if v:shell_error
+    echo 'Not in git repo'
+  else
+    execute 'lcd' root
+    echo 'Changed directory to: '.root
+  endif
+endfunction
+command! Root call s:root()
+```
