@@ -37,7 +37,7 @@ def preprocess(text):
     return re.sub(r'(?<!^)(?=[A-Z])', ' ', text)
 
 variations = {
-    'snake': escape(text.lower(), {'"': '&quot;', '\n': '&#10;'}).replace(' ', '_').replace('-', '_'),
+    'snake': escape(preprocess(text).lower(), {'"': '&quot;', '\n': '&#10;'}).replace(' ', '_').replace('-', '_'),
     'lower': escape(text.lower(), {'"': '&quot;', '\n': '&#10;'}),
     'upper': escape(text.upper(), {'"': '&quot;', '\n': '&#10;'}),
     #  'title': escape(titlecase_plus(text), {'"': '&quot;', '\n': '&#10;'}), # not sure why this is needed
