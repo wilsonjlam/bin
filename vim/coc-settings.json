@@ -18,7 +18,11 @@
 	"java.configuration.runtimes": [
 		{
 			"name": "JavaSE-11",
-			"path": "/path/to/jdk-11"
+			"path": "/Library/Java/JavaVirtualMachines/adoptopenjdk-11.jdk"
+		},
+		{
+			"name": "JavaSE-1.8",
+			"path": "/Library/Java/JavaVirtualMachines/jdk1.8.0_181.jdk"
 		}
 	]
 }

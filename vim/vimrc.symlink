@@ -357,8 +357,8 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
 		" let g:SuperTabDefaultCompletionType = '<C-n>'
 
 	" Tab Completion
-	" Plug 'ervandew/supertab'
-		" let g:SuperTabDefaultCompletionType = "<C-n>"
+	Plug 'ervandew/supertab'
+		let g:SuperTabDefaultCompletionType = "<C-n>"
 
 	" Autocomplete Parens
 	Plug 'jiangmiao/auto-pairs'
@@ -528,7 +528,8 @@ endif
 
 try
 	" colorscheme gruvbox-material
-	colorscheme miramare
+	" colorscheme miramare
+	colorscheme seoul256
 catch
-	colorscheme ron "slate
+	colorscheme desert
 endtry
