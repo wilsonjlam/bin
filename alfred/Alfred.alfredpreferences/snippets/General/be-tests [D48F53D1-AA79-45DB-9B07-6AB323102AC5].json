@@ -1,0 +1,8 @@
+{
+  "alfredsnippet" : {
+    "snippet" : "#accep2ship\n#testing\n#msgr-be\n#faster-tests\n#non-diff-eligible-tests\n#mc_be_code_modernization\n#mc_be_build_time_improvements\n#mc_be_h1_2025",
+    "uid" : "D48F53D1-AA79-45DB-9B07-6AB323102AC5",
+    "name" : "be-tests",
+    "keyword" : "be-tests"
+  }
+}

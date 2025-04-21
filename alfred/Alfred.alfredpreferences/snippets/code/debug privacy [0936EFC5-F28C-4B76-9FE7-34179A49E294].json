@@ -1,0 +1,8 @@
+{
+  "alfredsnippet" : {
+    "snippet" : "$debug_evaluator = DebugPrivacyPolicyEvaluator::getStaticEvaluator_FOR_TEST_ONLY();\nPrivacyPolicyBaseBase::setOverrideEvaluator($debug_evaluator);\nPrivacyPolicyWithCache::disableCache();",
+    "uid" : "0936EFC5-F28C-4B76-9FE7-34179A49E294",
+    "name" : "debug privacy",
+    "keyword" : "debug privacy"
+  }
+}
