@@ -1,0 +1,52 @@
+#!/bin/bash
+# Inspired by https://fb.workplace.com/groups/hack.of.the.day/permalink/2568736739841592
+
+log() {
+    echo "===== $1";
+}
+
+HOME_DIR="/home/wilsonlam";
+REPOS=${REPOS:-"$HOME_DIR/www"};
+
+export PATH=$PATH:/usr/local/bin
+
+set -euo pipefail
+
+echo "$(date)"
+log "DAILY SYNC START";
+
+for repo in $REPOS; do
+    echo;
+    log "$repo";
+    pushd "$repo";
+    hg pull;
+
+    DIRTY=0;
+    if hg identify --id | grep --quiet '+'; then
+        DIRTY=1;
+        log "DIRTY, SHELVING";
+        hg shelve;
+    fi
+
+    log "RUNNING ARC FIX";
+    arc fix
+    log "RUNNING ARC CLEANUP";
+    arc cleanup-features --force
+
+    log "REBASING ON remote/master";
+    hg log -r "draft() & age('<14d') - children(draft() & age('<14d'))" -T "{node}\n" | xargs -L1 -Ix hg rebase -s x -d remote/master --noconflict
+
+    if [ $DIRTY -gt 0 ]; then
+        hg unshelve;
+    fi
+
+    popd;
+done
+
+echo;
+log "RUN DISC CLEANUP";
+/usr/lib/devservers/clean-disk-space
+
+echo "$(date)"
+log "DAILY SYNC END";
+

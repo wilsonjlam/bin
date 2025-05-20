@@ -1,0 +1,18 @@
+// join request
+sabercli --tier="saber.query.groups.prod" \
+    --output Pretty \
+    --time_granularity=DAY \
+    --constraints="GROUPS_GROUP_ID == 1416443705084440" \
+    --group_by_columns="GROUPS_GROUP_ID,GROUPS_GROUPS_EVENT_TIME_DATE_ID" \
+    --metric_columns="GROUPS_METRIC_GROUP_POST_COUNT" \
+    --order_by="GROUPS_GROUPS_EVENT_TIME_DATE_ID"
+
+
+// post reactions
+ sabercli --tier="saber.query.groups.prod" \
+    --output Pretty \
+    --time_granularity=DAY \
+    --constraints="GROUPS_GROUPS_POST_ID == 5236072316454874" \
+    --group_by_columns="GROUPS_GROUPS_POST_ID,GROUPS_GROUPS_EVENT_TIME_DATE_ID" \
+    --metric_columns="GROUPS_METRIC_GROUP_POST_ANGRY_REACTION_COUNT,GROUPS_METRIC_GROUP_POST_HAHA_REACTION_COUNT,GROUPS_METRIC_GROUP_POST_LIKE_REACTION_COUNT,GROUPS_METRIC_GROUP_POST_LOVE_REACTION_COUNT,GROUPS_METRIC_GROUP_POST AD__SAD_REACTION_COUNT,GROUPS_METRIC_GROUP_POST_WOW_REACTION_COUNT" \
+    --order_by="GROUPS_GROUPS_EVENT_TIME_DATE_ID"

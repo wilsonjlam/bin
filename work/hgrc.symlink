@@ -1,0 +1,20 @@
+[ui]
+username = Wilson Lam <wilsonlam@fb.com>
+
+[alias]
+s = sl
+ls = sl
+sh = show --stat
+show = show --noprefix -X "re:.*_generated_.*"
+diff = diff --noprefix -X "re:.*_generated_.*"
+jfdiff = diff --since-last-submit
+rb = rebase
+rbs = rebase -d www/stable
+prs = pull --rebase -d www/stable
+slt = sl -T "{label('diff.hunk', node|short)} {label('shelve.name', phabdiff)} {label('diff.file_a',bookmarks)} {date(date)} \n {truncate(truncatelonglines(desc, 80, '...'), 1)}\n"
+
+[hint]
+ack = sl-short-headers
+
+[experimental]
+graph.renderer = lines-curved

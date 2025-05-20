@@ -1,0 +1,101 @@
+export LOCAL_ADMIN_SCRIPTS=/usr/facebook/ops/rc
+if [ -f "$LOCAL_ADMIN_SCRIPTS"/master.bashrc ]; then
+	source "$LOCAL_ADMIN_SCRIPTS"/master.bashrc
+fi
+PATH=$PATH:/opt/android_sdk/platform-tools
+
+if [ -f "$HOME/.work_scripts" ]; then
+	source "HOME/.work_scripts"
+fi
+
+
+#Aliases
+alias \@od="dev connect -e -- tmux"
+alias \@sb="mosh wilsonlam.sb"
+alias jfprep="jf submit --prepare"
+alias jfamend="hg amend && jf submit"
+alias jfrestack="jf submit -r .::"
+alias irelay="relay build --project intern"
+alias frelay="relay build --project facebook"
+alias rbc="hg resolve --all && hg rebase --continue"
+alias gettests="hg sh | grep -E '__tests__|Test' | sed -n 's/.*__tests__\/\(.*\)\.php.*/\1/p' | tr '\n' ' '"
+alias vulture="phps VultureScript check -p 'community_messaging'"
+alias preparer="phps DataReadyWWWTestScript UPDATE_PREPARER"
+
+if [ -f /opt/facebook/share/bash_completion ]; then
+  source /opt/facebook/share/bash_completion
+fi
+
+rbs() {
+    hg rebase -d www/stable -s "$1"
+    hg go "successors($1)"
+}
+
+_hg_rebasetostable(){
+    local cur
+    COMPREPLY=()
+    cur="${COMP_WORDS[COMP_CWORD]}"
+    _hg_hashes
+    _hg_bookmarks
+    _hg_remotebookmarks
+    return 0
+}
+complete -F _hg_rebasetostable rbs
+
+function connect() {
+	printf "$1" | /opt/cisco/anyconnect/bin/vpn -s connect 'Americas East'
+	dev connect -m --type www --yubi "$2" -- tmux
+}
+
+function @odn() {
+	dev connect -e -t www -y "$1" -- tmux
+}
+
+function mkat() {
+	meerkat && (pingme 'meerkat is finished' &)
+}
+
+# Saber things
+# https://www.internalfb.com/phabricator/paste/view/P60056321
+alias ts='date +%s'
+# alias tid='expr $(ts) / 86400'
+
+function to_tid() {
+	if [ -z "$1" ];then
+		echo $(expr $(ts) / 86400)
+	else
+		echo $(expr "$1" / 86400)
+	fi
+}
+
+function from_tid() {
+	ts=$(expr "$1" \* 86400)
+	echo "timestamp $ts"
+	echo "date $(date -r "$ts")"
+}
+
+function jfget() {
+	hg pull
+	hg co www/stable
+	jf get "$1"
+	hg rebase -b "$1" -d www/stable
+	hg co "$1"
+}
+
+function findFiles() {
+    tbgs -l "$1" | sed -n 's/.*\/\(.*\)/\1/p'
+}
+
+
+function rmUnusedClassSafe() {
+	phps CodemodConfigRunner \
+		--mode local \
+		--files=$(tbgr -l 'cm_signals_www' --exclude 'generated|\.js' -s | tr '\n' ',' | sed -e 's/,$//') \
+		CodemodConfigRemoveUnusedClassMembersSafe
+}
+function rmUnusedClass() {
+	phps CodemodConfigRunner \
+		--mode local \
+		--files=$(tbgr -l 'community_subspace|community_subgroups' --exclude 'generated|\.js' -s | tr '\n' ',' | sed -e 's/,$//') \
+		CodemodConfigUnusedClassMembers
+}
