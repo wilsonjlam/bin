@@ -434,7 +434,7 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
 		endfunction
 
 		" Autoformat on save
-		au BufWrite * :try|call AutoFormat()| catch | | endtry
+		" au BufWrite * try|call AutoFormat()| catch | | endtry
 
 		" GoTo code navigation.
 		nmap <silent> gd <Plug>(coc-definition)
