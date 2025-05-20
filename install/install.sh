@@ -53,6 +53,11 @@ echo "Installing NPM packages"
 # shellcheck disable=SC2046 # Intended splitting of brew formulae
 npm install -g $(trim_output npm_packages)
 
+if [ -f "$HOME/.gitconfig" ]
+then
+	git config --global --add include.path ~/utility/git/gitconfig.symlink
+fi
+
 #dot files
 echo "Linking Dotfiles"
 ./"$INSTALL_DIR"/links.sh
