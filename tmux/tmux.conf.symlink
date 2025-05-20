@@ -35,6 +35,9 @@ color_window_off_indicator="colour088"
 color_window_off_status_bg="$color_red"
 color_window_off_status_current_bg="white" #"colour254"
 
+# set default shell
+set-option -g default-shell /bin/bash
+
 # vim compatibility
 set-option -ga terminal-overrides ",xterm-256color:Tc"
 set -g default-terminal "xterm-256color"
