@@ -27,8 +27,25 @@ if [ -f /opt/facebook/share/bash_completion ]; then
 fi
 
 rbs() {
-    hg rebase -d www/stable -s "$1"
-    hg go "successors($1)"
+	while [[ $# -gt 0	]]; do
+		local key
+		key="$1"
+		case $key in
+			-p|--pull)
+				shift
+				pull=true
+				;;
+            *)
+                hash=$key
+                shift
+                ;;
+		esac
+	done
+	if [[ $pull ]]; then
+		hg pull
+	fi
+    hg rebase -d www/stable -s "$hash"
+    hg go "successors($hash)"
 }
 
 _hg_rebasetostable(){
