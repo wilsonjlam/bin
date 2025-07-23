@@ -1,0 +1,3 @@
+# Replace all camelcase with snake case
+%s/[a-z]\@<=[A-Z]/_\l\0/g
+
