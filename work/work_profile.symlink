@@ -3,6 +3,11 @@ if [ -f "$LOCAL_ADMIN_SCRIPTS"/master.bashrc ]; then
 	source "$LOCAL_ADMIN_SCRIPTS"/master.bashrc
 fi
 PATH=$PATH:/opt/android_sdk/platform-tools
+export ANDROID_SDK=/opt/android_sdk
+export ANDROID_NDK_REPOSITORY=/opt/android_ndk
+export ANDROID_HOME=${ANDROID_SDK}
+export ANDROID_SDK_ROOT=${ANDROID_HOME}
+export PATH=${PATH}:${ANDROID_SDK}/tools:${ANDROID_SDK}/platform-tools
 
 if [ -f "$HOME/.work_scripts" ]; then
 	source "HOME/.work_scripts"
@@ -19,7 +24,7 @@ alias irelay="relay build --project intern"
 alias frelay="relay build --project facebook"
 alias rbc="hg resolve --all && hg rebase --continue"
 alias gettests="hg sh | grep -E '__tests__|Test' | sed -n 's/.*__tests__\/\(.*\)\.php.*/\1/p' | tr '\n' ' '"
-alias vulture="phps VultureScript check -p 'community_messaging'"
+alias vulture="phps VultureScript -p 'community_messaging'"
 alias preparer="phps DataReadyWWWTestScript UPDATE_PREPARER"
 
 if [ -f /opt/facebook/share/bash_completion ]; then
