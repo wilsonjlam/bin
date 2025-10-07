@@ -24,12 +24,15 @@ alias irelay="relay build --project intern"
 alias frelay="relay build --project facebook"
 alias rbc="hg resolve --all && hg rebase --continue"
 alias gettests="hg sh | grep -E '__tests__|Test' | sed -n 's/.*__tests__\/\(.*\)\.php.*/\1/p' | tr '\n' ' '"
-alias vulture="phps VultureScript -p 'community_messaging'"
 alias preparer="phps DataReadyWWWTestScript UPDATE_PREPARER"
 
 if [ -f /opt/facebook/share/bash_completion ]; then
   source /opt/facebook/share/bash_completion
 fi
+
+function vulture() {
+    phps VultureScript "$@" -p 'community_messaging'
+}
 
 rbs() {
 	while [[ $# -gt 0	]]; do
