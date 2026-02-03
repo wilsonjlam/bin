@@ -14,7 +14,7 @@
         "font" : "Geneva",
         "color" : "#480069FF"
       },
-      "backgroundSelected" : "#5DA8D7D9",
+      "backgroundSelected" : "#528BE4D9",
       "text" : {
         "size" : 15,
         "colorSelected" : "#FFFFFFFF",
@@ -38,19 +38,20 @@
       },
       "background" : "#FEFFFFFF",
       "roundness" : 0,
-      "paddingVertical" : 0
+      "paddingVertical" : 2
     },
     "window" : {
       "color" : "#FEFFFFFF",
-      "paddingHorizontal" : 0,
+      "paddingHorizontal" : 4,
       "width" : 559,
       "borderPadding" : 0,
       "borderColor" : "#000000FF",
-      "blur" : 40,
-      "roundness" : 3,
-      "paddingVertical" : 5
+      "blur" : 0,
+      "roundness" : 7,
+      "paddingVertical" : 4
     },
     "credit" : "wilsonjlam",
+    "visualEffectMode" : 1,
     "separator" : {
       "color" : "#CBCBCBF3",
       "thickness" : 0

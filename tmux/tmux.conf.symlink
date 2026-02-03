@@ -39,8 +39,8 @@ color_window_off_status_current_bg="white" #"colour254"
 set-option -g default-shell /bin/bash
 
 # vim compatibility
-set-option -ga terminal-overrides ",xterm-256color:Tc"
-set -g default-terminal "xterm-256color"
+set -g default-terminal "tmux-256color"
+set-option -ga terminal-features ",tmux-256color:RGB"
 
 # This tmux statusbar config was created by tmuxline.vim
 # on Wed, 25 Nov 2015
