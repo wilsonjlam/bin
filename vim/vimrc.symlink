@@ -201,7 +201,7 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
 	nnoremap <leader>bp :bp<CR> " Previous buffer
 	nnoremap <leader>bv :vert sb
 	nnoremap <leader>bx :sb
-	" Move this buffer into a split right (keep focus on your original pane +TmuxNavigateLeft)
+	" Move this buffer into a split right (keep focus on your original pane)
 	nnoremap <C-w><C-l> :bp +vert\ sbn\ <CR>
 	" Move this buffer into a split left (keep focus on your original pane +bp)
 	nnoremap <C-w><C-h> :vert sb <CR>
@@ -228,7 +228,6 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
 	" Tmux
 	" ==============
 	Plug 'christoomey/vim-tmux-navigator'
-
 
 	" ==============
 	" Airline
