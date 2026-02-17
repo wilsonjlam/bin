@@ -15,7 +15,7 @@ fi
 
 
 #Aliases
-alias \@od="dev connect -e -- tmux"
+alias \@cc="claude --dangerously-skip-permissions"
 alias \@sb="mosh wilsonlam.sb"
 alias jfprep="jf submit --prepare"
 alias jfamend="hg amend && jf submit"
@@ -23,6 +23,7 @@ alias jfrestack="jf submit -r .::"
 alias irelay="relay build --project intern"
 alias frelay="relay build --project facebook"
 alias rbc="hg resolve --all && hg rebase --continue"
+alias tests="t $(gettests)"
 alias gettests="hg sh | grep -E '__tests__|Test' | sed -n 's/.*__tests__\/\(.*\)\.php.*/\1/p' | tr '\n' ' '"
 alias preparer="phps DataReadyWWWTestScript UPDATE_PREPARER"
 
@@ -35,6 +36,10 @@ fi
 
 function vulture() {
     phps VultureScript "$@" -p 'community_messaging'
+}
+
+function @od() {
+    dev connect -e -y "$1" -- tmux
 }
 
 rbs() {
