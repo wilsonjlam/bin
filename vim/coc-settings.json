@@ -25,5 +25,13 @@
 			"name": "JavaSE-1.8",
 			"path": "/Library/Java/JavaVirtualMachines/jdk1.8.0_181.jdk"
 		}
-	]
+	],
+	"languageserver": {
+		"swift": {
+			"command": "xcrun",
+			"args": ["sourcekit-lsp"],
+			"filetypes": ["swift"],
+			"rootPatterns": ["Package.swift", ".git", "*.xcodeproj", "*.xcworkspace"]
+		}
+	}
 }
