@@ -87,7 +87,7 @@ fvim() {
 #fuzzy branch finding
 fbr() {
 	local branches branch
-	branches=$(git branch --all | grep -v HEAD)
+	branches=$(git branch --no-merged | grep -v HEAD)
 	branch=$(echo "$branches" | fzf-tmux -d $(( 2 + $(wc -l <<< "$branches") )) +m)
 	git checkout $(echo "$branch" | sed "s/.* //" | sed "s#remotes/[^/]*/##")
 }

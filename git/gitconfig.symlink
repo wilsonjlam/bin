@@ -17,7 +17,7 @@
 
 [alias]
 	co = checkout
-	br = branch
+	br = branch --no-merged
 	st = status
 	sh = show --stat
 	cc = commit
