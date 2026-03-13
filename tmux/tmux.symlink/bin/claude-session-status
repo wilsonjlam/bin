@@ -1,0 +1,141 @@
+#!/usr/bin/env bash
+# claude-session-status: Polls all Claude windows and updates their names
+# with status indicators. Called by tmux every N seconds via status-interval.
+#
+# Window names become:  ● task1  ? task2  ✓ task3  ○ task4
+# This leverages tmux's native window list rendering — no extra status-right needed.
+#
+# Also outputs a compact summary for status-right (counts by state).
+
+STATE_DIR="$HOME/.claude-sessions"
+mkdir -p "$STATE_DIR"
+
+ACTIVE_THRESHOLD=5
+CURRENT_WINDOW=$(tmux display-message -p '#{window_index}' 2>/dev/null)
+
+# Find all windows whose pane is running "claude" command
+# Use TAB as delimiter so window names with spaces parse correctly
+# Format: session:window_index \t pane_id \t window_name \t pane_pid
+claude_windows=$(tmux list-panes -a -F '#{session_name}:#{window_index}	#{pane_id}	#{window_name}	#{pane_pid}	#{pane_current_command}' 2>/dev/null \
+    | grep '	claude$')
+
+if [[ -z "$claude_windows" ]]; then
+    # No claude windows — nothing to render
+    exit 0
+fi
+
+count_working=0
+count_input=0
+count_finished=0
+count_stopped=0
+
+while IFS=$'\t' read -r session_window pane_id window_name pane_pid _command; do
+    # Extract the base name (strip any existing status prefix)
+    # Window names look like "claude:taskname" or "● taskname" or "? taskname"
+    base_name="$window_name"
+    # Strip status prefixes if present (●/✓/?/○ followed by space), possibly chained
+    base_name=$(echo "$base_name" | sed 's/^[●✓?○ ]*//')
+    # Strip "claude:" prefix if present
+    base_name="${base_name#claude:}"
+    # If base_name is empty, fall back to "claude"
+    [[ -z "$base_name" ]] && base_name="claude"
+
+    # --- State detection ---
+
+    # 1. Read hook-provided state from per-pane state file
+    state_file="$STATE_DIR/${pane_id}.state"
+    input_type=""
+    [[ -f "$state_file" ]] && input_type=$(cat "$state_file" 2>/dev/null)
+
+    # 2. Hash-based activity detection
+    hash_file="$STATE_DIR/${pane_id}.hash"
+    time_file="$STATE_DIR/${pane_id}.last_active"
+
+    pane_content=$(tmux capture-pane -t "$pane_id" -p 2>/dev/null) || {
+        # Pane gone — mark stopped and clean up
+        new_name="○ ${base_name}"
+        tmux rename-window -t "$session_window" "$new_name" 2>/dev/null
+        ((count_stopped++))
+        continue
+    }
+
+    current_hash=$(printf '%s' "$pane_content" | cksum | cut -d' ' -f1)
+    prev_hash=""
+    [[ -f "$hash_file" ]] && prev_hash=$(cat "$hash_file")
+
+    content_changed=false
+    if [[ "$current_hash" != "$prev_hash" ]]; then
+        content_changed=true
+        printf '%s' "$current_hash" > "$hash_file"
+        date +%s > "$time_file"
+    fi
+
+    is_active=false
+    if [[ "$content_changed" == true ]]; then
+        is_active=true
+    elif [[ -f "$time_file" ]]; then
+        last_active=$(cat "$time_file")
+        now=$(date +%s)
+        if (( now - last_active < ACTIVE_THRESHOLD )); then
+            is_active=true
+        fi
+    fi
+
+    # 3. Merge hook + hash (same EffectiveStatus logic)
+    state="finished"
+    case "$input_type" in
+        question)
+            state="input" ;;
+        tool_approval)
+            if [[ "$is_active" == true ]]; then
+                state="working"
+            else
+                state="input"
+            fi ;;
+        finished)
+            if [[ "$is_active" == true ]]; then
+                # Stale finished — clear it
+                rm -f "$state_file"
+                state="working"
+            else
+                state="finished"
+            fi ;;
+        processing)
+            state="working" ;;
+        *)
+            if [[ "$is_active" == true ]]; then
+                state="working"
+            else
+                state="finished"
+            fi ;;
+    esac
+
+    # 4. Update window name with status indicator
+    case "$state" in
+        input)    prefix="?"; ((count_input++)) ;;
+        working)  prefix="●"; ((count_working++)) ;;
+        finished) prefix="✓"; ((count_finished++)) ;;
+        stopped)  prefix="○"; ((count_stopped++)) ;;
+    esac
+
+    new_name="${prefix} ${base_name}"
+    # Only rename if changed (avoid tmux flicker)
+    if [[ "$window_name" != "$new_name" ]]; then
+        tmux rename-window -t "$session_window" "$new_name" 2>/dev/null
+    fi
+
+done <<< "$claude_windows"
+
+# Output compact summary for status-right
+# Colors chosen to be readable on colour236 bg without being harsh:
+#   colour167 = muted red/salmon (input needed)
+#   colour108 = muted sage green (working)
+#   colour109 = muted teal (finished)
+summary=""
+(( count_input > 0 ))    && summary+="#[fg=colour167,bold]${count_input}? "
+(( count_working > 0 ))  && summary+="#[fg=colour108]${count_working}● "
+(( count_finished > 0 )) && summary+="#[fg=colour109]${count_finished}✓ "
+
+if [[ -n "$summary" ]]; then
+    echo -n "#[fg=colour240,bg=colour236]│#[bg=colour234] ${summary}"
+fi

@@ -1,0 +1,49 @@
+#!/usr/bin/env bash
+# claude-session-menu: fzf-powered window switcher for Claude tmux windows
+# Shows status indicators and allows quick switching
+
+STATE_DIR="$HOME/.claude-sessions"
+
+# Find all panes running "claude" command
+# Format: session:window.pane pane_id window_name pane_current_command
+claude_panes=$(tmux list-panes -a \
+    -F '#{session_name}:#{window_index} #{pane_id} #{window_name} #{pane_current_command}' 2>/dev/null \
+    | grep ' claude$')
+
+if [[ -z "$claude_panes" ]]; then
+    echo "No Claude windows found. Use prefix+C-n to create one."
+    exit 0
+fi
+
+entries=""
+while IFS= read -r line; do
+    session_window=$(echo "$line" | awk '{print $1}')
+    pane_id=$(echo "$line" | awk '{print $2}')
+    window_name=$(echo "$line" | awk '{print $3}')
+
+    # Read state from per-pane file
+    input_type=""
+    state_file="$STATE_DIR/${pane_id}.state"
+    [[ -f "$state_file" ]] && input_type=$(cat "$state_file" 2>/dev/null)
+
+    case "$input_type" in
+        question)       icon="🔴 NEEDS INPUT" ;;
+        tool_approval)  icon="🔴 APPROVE?" ;;
+        finished)       icon="✅ finished" ;;
+        processing)     icon="🟢 working" ;;
+        *)              icon="⚪ idle" ;;
+    esac
+
+    entries+="${icon}  ${window_name}  (${session_window})"$'\n'
+done <<< "$claude_panes"
+
+selected=$(echo -n "$entries" | fzf --height=40% --reverse --ansi \
+    --prompt="Switch to Claude window > " \
+    --header="Enter=switch  Esc=cancel")
+
+if [[ -n "$selected" ]]; then
+    # Extract session:window from between parentheses
+    target=$(echo "$selected" | grep -oP '\([^)]+\)')
+    target="${target:1:-1}"  # strip parens
+    tmux select-window -t "$target"
+fi

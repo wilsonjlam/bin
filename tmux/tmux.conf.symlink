@@ -69,6 +69,9 @@ set -g window-active-style 'fg=colour250,bg=colour235'
 set-option -g prefix C-Space
 bind C-Space send-prefix
 
+# Session switching menu
+# default is w so maybe use that 
+
 # Source Tmux Conf
 bind ` source-file ~/.tmux.conf
 
@@ -93,8 +96,8 @@ setw -g pane-base-index 1
 set -g renumber-windows on
 
 # highlight window when it has new activity
-setw -g monitor-activity on
-set -g visual-activity on
+setw -g monitor-activity off
+set -g visual-activity off
 
 # Show times longer than supposed
 set -g display-panes-time 2000
@@ -181,4 +184,9 @@ bind -T off C-q \
   set -u window-status-current-style \;\
   set -u window-status-current-format \;\
   refresh-client -S
+
+#######################
+# Claude Sessions
+#######################
+source-file ~/.tmux/claude-sessions.tmux.conf
 

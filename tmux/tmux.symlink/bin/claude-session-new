@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+# claude-session-new: Create a new Claude Code window in the current tmux session
+# Usage: claude-session-new [name] [working-directory]
+
+NAME="${1:-$(date +%H%M%S)}"
+WORKDIR="${2:-$(pwd)}"
+
+# Create a new window running claude, with CLAUDE_WINDOW_NAME set
+# so our hooks can identify it and write per-pane state files.
+tmux new-window -n "claude:${NAME}" -c "$WORKDIR" \
+    "CLAUDE_WINDOW_NAME='${NAME}' claude"
+
+# Disable automatic-rename so our status updater controls the name
+tmux set-option -w automatic-rename off

@@ -17,6 +17,7 @@ fi
 #Aliases
 alias \@cc="claude --dangerously-skip-permissions"
 alias \@sb="mosh wilsonlam.sb"
+alias \@od="dev connect -e -- tmux"
 alias jfprep="jf submit --prepare"
 alias jfamend="hg amend && jf submit"
 alias jfrestack="jf submit -r .::"
@@ -38,9 +39,6 @@ function vulture() {
     phps VultureScript "$@" -p 'community_messaging'
 }
 
-function @od() {
-    dev connect -e -y "$1" -- tmux
-}
 
 rbs() {
 	while [[ $# -gt 0	]]; do
@@ -81,7 +79,7 @@ function connect() {
 }
 
 function @odn() {
-	dev connect -e -t www -y "$1" -- tmux
+	dev connect -e -t igwww -y "$1" -- tmux
 }
 
 function mkat() {

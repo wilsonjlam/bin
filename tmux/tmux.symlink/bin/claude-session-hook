@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+# claude-session-hook: Called by Claude Code hooks to write per-pane state
+# Usage: claude-session-hook <state>
+#   state: processing | question | tool_approval | finished | clear
+#
+# Writes state to ~/.claude-sessions/<pane_id>.state
+# TMUX_PANE is set automatically by tmux for every process in a pane.
+
+STATE_DIR="$HOME/.claude-sessions"
+
+# Only run inside tmux
+[[ -n "$TMUX_PANE" ]] || exit 0
+
+state="$1"
+
+if [[ "$state" == "clear" ]]; then
+    rm -f "$STATE_DIR/${TMUX_PANE}.state"
+else
+    mkdir -p "$STATE_DIR"
+    printf '%s' "$state" > "$STATE_DIR/${TMUX_PANE}.state"
+fi
