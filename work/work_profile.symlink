@@ -16,7 +16,7 @@ fi
 
 #Aliases
 alias \@cc="claude --dangerously-skip-permissions"
-alias \@sb="mosh wilsonlam.sb"
+alias \@sb="dev connect -e -n wilsonlam.sb -y"
 alias \@od="dev connect -e -- tmux"
 alias jfprep="jf submit --prepare"
 alias jfamend="hg amend && jf submit"
@@ -79,7 +79,7 @@ function connect() {
 }
 
 function @odn() {
-	dev connect -e -t igwww -y "$1" -- tmux
+	dev connect -e -t instagram_www -y "$1" -- tmux
 }
 
 function mkat() {
