@@ -1,16 +1,21 @@
 #!/usr/bin/env bash
 # claude-session-status: Polls all Claude windows and updates their names
-# with status indicators. Called by tmux every N seconds via status-interval.
+# with status indicators. Called by tmux every 1s via status-interval.
 #
-# Window names become:  ● task1  ? task2  ✓ task3  ○ task4
+# Window names become:  ⠋ task1  ? task2  ✓ task3  ○ task4
 # This leverages tmux's native window list rendering — no extra status-right needed.
 #
 # Also outputs a compact summary for status-right (counts by state).
+#
+# Performance: The expensive work (capture-pane + cksum) only runs every
+# DETECT_INTERVAL seconds. On intermediate ticks, cached state is used
+# and only the spinner frame is updated.
 
 STATE_DIR="$HOME/.claude-sessions"
 mkdir -p "$STATE_DIR"
 
 ACTIVE_THRESHOLD=5
+DETECT_INTERVAL=3
 CURRENT_WINDOW=$(tmux display-message -p '#{window_index}' 2>/dev/null)
 
 # Find all windows whose pane is running "claude" command
@@ -24,6 +29,20 @@ if [[ -z "$claude_windows" ]]; then
     exit 0
 fi
 
+# Decide whether this tick should run expensive state detection
+now=$(date +%s)
+last_detect_file="$STATE_DIR/_last_detect"
+run_detect=false
+if [[ -f "$last_detect_file" ]]; then
+    last_detect=$(cat "$last_detect_file")
+    if (( now - last_detect >= DETECT_INTERVAL )); then
+        run_detect=true
+    fi
+else
+    run_detect=true
+fi
+$run_detect && printf '%s' "$now" > "$last_detect_file"
+
 count_working=0
 count_input=0
 count_finished=0
@@ -31,89 +50,108 @@ count_stopped=0
 
 while IFS=$'\t' read -r session_window pane_id window_name pane_pid _command; do
     # Extract the base name (strip any existing status prefix)
-    # Window names look like "claude:taskname" or "● taskname" or "? taskname"
+    # Window names look like "claude:taskname" or "⠋ taskname" or "? taskname"
     base_name="$window_name"
-    # Strip status prefixes if present (●/✓/?/○ followed by space), possibly chained
-    base_name=$(echo "$base_name" | sed 's/^[●✓?○ ]*//')
+    # Strip status prefixes if present (spinner/✓/?/○ followed by space), possibly chained
+    base_name=$(echo "$base_name" | sed 's/^[●✓?○⠋⠙⠹⠸⠼⠴⠦⠧ ]*//')
     # Strip "claude:" prefix if present
     base_name="${base_name#claude:}"
     # If base_name is empty, fall back to "claude"
     [[ -z "$base_name" ]] && base_name="claude"
 
-    # --- State detection ---
+    # --- State detection (expensive, only every DETECT_INTERVAL seconds) ---
+    cached_state_file="$STATE_DIR/${pane_id}.cached_state"
 
-    # 1. Read hook-provided state from per-pane state file
-    state_file="$STATE_DIR/${pane_id}.state"
-    input_type=""
-    [[ -f "$state_file" ]] && input_type=$(cat "$state_file" 2>/dev/null)
+    if [[ "$run_detect" == true ]]; then
+        # 1. Read hook-provided state from per-pane state file
+        state_file="$STATE_DIR/${pane_id}.state"
+        input_type=""
+        [[ -f "$state_file" ]] && input_type=$(cat "$state_file" 2>/dev/null)
 
-    # 2. Hash-based activity detection
-    hash_file="$STATE_DIR/${pane_id}.hash"
-    time_file="$STATE_DIR/${pane_id}.last_active"
+        # 2. Hash-based activity detection
+        hash_file="$STATE_DIR/${pane_id}.hash"
+        time_file="$STATE_DIR/${pane_id}.last_active"
 
-    pane_content=$(tmux capture-pane -t "$pane_id" -p 2>/dev/null) || {
-        # Pane gone — mark stopped and clean up
-        new_name="○ ${base_name}"
-        tmux rename-window -t "$session_window" "$new_name" 2>/dev/null
-        ((count_stopped++))
-        continue
-    }
+        pane_content=$(tmux capture-pane -t "$pane_id" -p 2>/dev/null) || {
+            # Pane gone — mark stopped and clean up
+            printf '%s' "stopped" > "$cached_state_file"
+            new_name="○ ${base_name}"
+            tmux rename-window -t "$session_window" "$new_name" 2>/dev/null
+            ((count_stopped++))
+            continue
+        }
 
-    current_hash=$(printf '%s' "$pane_content" | cksum | cut -d' ' -f1)
-    prev_hash=""
-    [[ -f "$hash_file" ]] && prev_hash=$(cat "$hash_file")
+        current_hash=$(printf '%s' "$pane_content" | cksum | cut -d' ' -f1)
+        prev_hash=""
+        [[ -f "$hash_file" ]] && prev_hash=$(cat "$hash_file")
 
-    content_changed=false
-    if [[ "$current_hash" != "$prev_hash" ]]; then
-        content_changed=true
-        printf '%s' "$current_hash" > "$hash_file"
-        date +%s > "$time_file"
-    fi
+        content_changed=false
+        if [[ "$current_hash" != "$prev_hash" ]]; then
+            content_changed=true
+            printf '%s' "$current_hash" > "$hash_file"
+            printf '%s' "$now" > "$time_file"
+        fi
 
-    is_active=false
-    if [[ "$content_changed" == true ]]; then
-        is_active=true
-    elif [[ -f "$time_file" ]]; then
-        last_active=$(cat "$time_file")
-        now=$(date +%s)
-        if (( now - last_active < ACTIVE_THRESHOLD )); then
+        is_active=false
+        if [[ "$content_changed" == true ]]; then
             is_active=true
+        elif [[ -f "$time_file" ]]; then
+            last_active=$(cat "$time_file")
+            if (( now - last_active < ACTIVE_THRESHOLD )); then
+                is_active=true
+            fi
+        fi
+
+        # 3. Merge hook + hash (same EffectiveStatus logic)
+        state="finished"
+        case "$input_type" in
+            question)
+                state="input" ;;
+            tool_approval)
+                if [[ "$is_active" == true ]]; then
+                    state="working"
+                else
+                    state="input"
+                fi ;;
+            finished)
+                if [[ "$is_active" == true ]]; then
+                    # Stale finished — clear it
+                    rm -f "$state_file"
+                    state="working"
+                else
+                    state="finished"
+                fi ;;
+            processing)
+                state="working" ;;
+            *)
+                if [[ "$is_active" == true ]]; then
+                    state="working"
+                else
+                    state="finished"
+                fi ;;
+        esac
+
+        # Cache the computed state
+        printf '%s' "$state" > "$cached_state_file"
+    else
+        # Cheap tick — read cached state
+        if [[ -f "$cached_state_file" ]]; then
+            state=$(cat "$cached_state_file")
+        else
+            # No cache yet — skip this pane until next detect tick
+            continue
         fi
     fi
-
-    # 3. Merge hook + hash (same EffectiveStatus logic)
-    state="finished"
-    case "$input_type" in
-        question)
-            state="input" ;;
-        tool_approval)
-            if [[ "$is_active" == true ]]; then
-                state="working"
-            else
-                state="input"
-            fi ;;
-        finished)
-            if [[ "$is_active" == true ]]; then
-                # Stale finished — clear it
-                rm -f "$state_file"
-                state="working"
-            else
-                state="finished"
-            fi ;;
-        processing)
-            state="working" ;;
-        *)
-            if [[ "$is_active" == true ]]; then
-                state="working"
-            else
-                state="finished"
-            fi ;;
-    esac
 
     # 4. Update window name with status indicator
     case "$state" in
         input)    prefix="?"; ((count_input++)) ;;
-        working)  prefix="●"; ((count_working++)) ;;
+        working)
+            # Animated braille spinner — cycles based on current second
+            _spinner_frames=("⠋" "⠙" "⠹" "⠸" "⠼" "⠴" "⠦" "⠧")
+            _frame_idx=$(( $(date +%s) % ${#_spinner_frames[@]} ))
+            prefix="${_spinner_frames[$_frame_idx]}"
+            ((count_working++)) ;;
         finished) prefix="✓"; ((count_finished++)) ;;
         stopped)  prefix="○"; ((count_stopped++)) ;;
     esac
@@ -133,7 +171,11 @@ done <<< "$claude_windows"
 #   colour109 = muted teal (finished)
 summary=""
 (( count_input > 0 ))    && summary+="#[fg=colour167,bold]${count_input}? "
-(( count_working > 0 ))  && summary+="#[fg=colour108]${count_working}● "
+(( count_working > 0 ))  && {
+    _sf=("⠋" "⠙" "⠹" "⠸" "⠼" "⠴" "⠦" "⠧")
+    _fi=$(( $(date +%s) % ${#_sf[@]} ))
+    summary+="#[fg=colour108]${count_working}${_sf[$_fi]} "
+}
 (( count_finished > 0 )) && summary+="#[fg=colour109]${count_finished}✓ "
 
 if [[ -n "$summary" ]]; then
