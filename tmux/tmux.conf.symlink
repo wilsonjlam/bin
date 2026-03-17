@@ -156,6 +156,10 @@ bind-key s split-window -v -c '#{pane_current_path}'
 bind-key | select-layout even-horizontal
 bind-key = select-layout even-vertical
 
+# Pane manipulation menu (defined in ~/.tmux/pane-menu.tmux.conf)
+bind-key -n 'C-/'  source-file ~/.tmux/pane-menu.tmux.conf
+bind-key -n 'C-_'  source-file ~/.tmux/pane-menu.tmux.conf
+
 # Resize panes
 bind-key f resize-pane -Z
 bind-key -r -n M-j resize-pane -D 10
