@@ -70,7 +70,7 @@ set-option -g prefix C-Space
 bind C-Space send-prefix
 
 # Session switching menu
-# default is w so maybe use that 
+bind-key w choose-tree
 
 # Source Tmux Conf
 bind ` source-file ~/.tmux.conf
