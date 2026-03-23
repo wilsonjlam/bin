@@ -8,7 +8,7 @@ WORKDIR="${2:-$(pwd)}"
 # Create a new window running claude, with CLAUDE_WINDOW_NAME set
 # so our hooks can identify it and write per-pane state files.
 tmux new-window -n "claude:${NAME}" -c "$WORKDIR" \
-    "CLAUDE_WINDOW_NAME='${NAME}' claude"
+    "CLAUDE_WINDOW_NAME='${NAME}' claude --dangerously-skip-permissions"
 
 # Disable automatic-rename so our status updater controls the name
 tmux set-option -w automatic-rename off

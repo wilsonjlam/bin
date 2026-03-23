@@ -1,0 +1,11 @@
+# Ghostty Configuration
+# Symlink this to ~/.config/ghostty/config
+
+# TODO(human): Add your Ghostty configuration here.
+# Consider these categories:
+#   - Font: font-family, font-size
+#   - Theme: theme or background/foreground colors
+#   - Window: window-padding-x, window-padding-y, window-decoration
+#   - Shell: command (e.g., /bin/bash or /bin/zsh)
+#   - Keybinds: keybind entries
+#   - Behavior: copy-on-select, confirm-close-surface

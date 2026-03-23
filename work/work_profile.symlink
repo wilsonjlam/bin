@@ -27,6 +27,9 @@ alias rbc="hg resolve --all && hg rebase --continue"
 alias tests="t $(gettests)"
 alias gettests="hg sh | grep -E '__tests__|Test' | sed -n 's/.*__tests__\/\(.*\)\.php.*/\1/p' | tr '\n' ' '"
 alias preparer="phps DataReadyWWWTestScript UPDATE_PREPARER"
+alias igsrv="cd ~/instagram-server"
+alias www="cd ~/www"
+alias pyrefly="(cd ~/instagram-server && arc pyrefly)"
 
 if [ -f /opt/facebook/share/bash_completion ]; then
   source /opt/facebook/share/bash_completion
