@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+# session-line: Renders all tmux sessions for the second status line
+# Active session is highlighted, others are dimmed.
+# Called by tmux via status-format[1] every status-interval.
+
+current_session=$(tmux display-message -p '#S' 2>/dev/null)
+sessions=$(tmux list-sessions -F '#S' 2>/dev/null)
+
+if [[ -z "$sessions" ]]; then
+    exit 0
+fi
+
+output=""
+while IFS= read -r session; do
+    if [[ "$session" == "$current_session" ]]; then
+        # Active: green-ish bg (matching existing colour148 accent), dark text
+        output+="#[fg=colour22,bg=colour148,bold] ■ ${session} #[bg=colour234,nobold] "
+    else
+        # Inactive: dimmed text on dark bg
+        output+="#[fg=colour245,bg=colour234] □ ${session} "
+    fi
+done <<< "$sessions"
+
+echo -n "$output"

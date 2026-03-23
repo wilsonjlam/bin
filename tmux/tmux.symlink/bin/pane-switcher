@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
-# tmux-pane-menu: fzf-powered pane switcher for ALL tmux panes
-# Claude panes get status indicators; other panes show their command.
+# pane-switcher: fzf-powered pane switcher for all tmux panes
+# Panes with hook-provided state get status indicators.
 
-STATE_DIR="$HOME/.claude-sessions"
+STATE_DIR="$HOME/.tmux/state"
 
 # List ALL panes across all sessions
 # Include pane_index so we can target the exact pane
 panes=$(tmux list-panes -a \
-    -F '#{session_name}:#{window_index}.#{pane_index}	#{pane_id}	#{window_name}	#{pane_current_command}	#{pane_current_path}	#{pane_title}' 2>/dev/null)
+    -F '#{session_name}:#{window_index}.#{pane_index}	#{pane_id}	#{window_name}	#{pane_title}	#{pane_current_command}	#{pane_current_path}' 2>/dev/null)
 
 if [[ -z "$panes" ]]; then
     echo "No panes found."
@@ -20,7 +20,7 @@ current_pane=$(tmux display-message -p '#{session_name}:#{window_index}.#{pane_i
 _hostname=$(hostname -s 2>/dev/null)
 
 entries=""
-while IFS=$'\t' read -r target pane_id window_name command path pane_title; do
+while IFS=$'\t' read -r target pane_id window_name pane_title command path; do
     # Shorten home directory in path
     short_path="${path/#$HOME/\~}"
     # Truncate long paths to last 2 components
@@ -32,30 +32,27 @@ while IFS=$'\t' read -r target pane_id window_name command path pane_title; do
     marker="  "
     [[ "$target" == "$current_pane" ]] && marker="► "
 
-    # Use pane_title if user has set one (ignore default hostname)
+    # Display pane title if set, otherwise fall back to window name
     display_name="$window_name"
     if [[ -n "$pane_title" && "$pane_title" != "$_hostname" && "$pane_title" != "$HOSTNAME" ]]; then
-        display_name="${window_name}:${pane_title}"
+        display_name="${pane_title}"
     fi
 
-    if [[ "$command" == "claude" ]]; then
-        # Claude pane: show status from state file
-        input_type=""
-        state_file="$STATE_DIR/${pane_id}.state"
-        [[ -f "$state_file" ]] && input_type=$(cat "$state_file" 2>/dev/null)
-
+    # Show status indicator if hook-provided state exists
+    icon="  "
+    state_file="$STATE_DIR/${pane_id}.state"
+    if [[ -f "$state_file" ]]; then
+        input_type=$(cat "$state_file" 2>/dev/null)
         case "$input_type" in
-            question)       icon="🔴 INPUT" ;;
-            tool_approval)  icon="🔴 APPROVE" ;;
-            finished)       icon="✅ done" ;;
-            processing)     icon="🟢 working" ;;
-            *)              icon="⚪ idle" ;;
+            question)       icon="🔴" ;;
+            tool_approval)  icon="🔴" ;;
+            finished)       icon="✅" ;;
+            processing)     icon="🟢" ;;
+            *)              icon="⚪" ;;
         esac
-        entries+="${marker}${icon}  ${display_name}  ${short_path}  (${target})"$'\n'
-    else
-        # Non-Claude pane: show command
-        entries+="${marker}   ${display_name}  [${command}]  ${short_path}  (${target})"$'\n'
     fi
+
+    entries+="${marker}${icon} ${display_name}  ${short_path}  (${target})"$'\n'
 done <<< "$panes"
 
 selected=$(echo -n "$entries" | fzf --height=40% --reverse --ansi \

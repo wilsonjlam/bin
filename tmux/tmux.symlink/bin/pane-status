@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
-# claude-session-status: Polls all Claude windows and updates their names
+# pane-status: Polls panes with hook-provided state and updates window names
 # with status indicators. Called by tmux every 1s via status-interval.
 #
 # Window names become:  ⠋ task1  ? task2  ✓ task3  ○ task4
-# This leverages tmux's native window list rendering — no extra status-right needed.
+# This leverages tmux's native window list rendering.
 #
 # Also outputs a compact summary for status-right (counts by state).
 #
@@ -11,21 +11,19 @@
 # DETECT_INTERVAL seconds. On intermediate ticks, cached state is used
 # and only the spinner frame is updated.
 
-STATE_DIR="$HOME/.claude-sessions"
+STATE_DIR="$HOME/.tmux/state"
 mkdir -p "$STATE_DIR"
 
 ACTIVE_THRESHOLD=5
 DETECT_INTERVAL=3
 CURRENT_WINDOW=$(tmux display-message -p '#{window_index}' 2>/dev/null)
 
-# Find all windows whose pane is running "claude" command
+# Find panes running claude (the only command that writes hook state)
 # Use TAB as delimiter so window names with spaces parse correctly
-# Format: session:window_index \t pane_id \t window_name \t pane_pid
-claude_windows=$(tmux list-panes -a -F '#{session_name}:#{window_index}	#{pane_id}	#{window_name}	#{pane_pid}	#{pane_current_command}' 2>/dev/null \
+tracked_panes=$(tmux list-panes -a -F '#{session_name}:#{window_index}	#{pane_id}	#{window_name}	#{pane_pid}	#{pane_current_command}' 2>/dev/null \
     | grep '	claude$')
 
-if [[ -z "$claude_windows" ]]; then
-    # No claude windows — nothing to render
+if [[ -z "$tracked_panes" ]]; then
     exit 0
 fi
 
@@ -50,14 +48,13 @@ count_stopped=0
 
 while IFS=$'\t' read -r session_window pane_id window_name pane_pid _command; do
     # Extract the base name (strip any existing status prefix)
-    # Window names look like "claude:taskname" or "⠋ taskname" or "? taskname"
     base_name="$window_name"
     # Strip status prefixes if present (spinner/✓/?/○ followed by space), possibly chained
     base_name=$(echo "$base_name" | sed 's/^[●✓?○⠋⠙⠹⠸⠼⠴⠦⠧ ]*//')
     # Strip "claude:" prefix if present
     base_name="${base_name#claude:}"
-    # If base_name is empty, fall back to "claude"
-    [[ -z "$base_name" ]] && base_name="claude"
+    # If base_name is empty, fall back to window name
+    [[ -z "$base_name" ]] && base_name="$_command"
 
     # --- State detection (expensive, only every DETECT_INTERVAL seconds) ---
     cached_state_file="$STATE_DIR/${pane_id}.cached_state"
@@ -73,11 +70,8 @@ while IFS=$'\t' read -r session_window pane_id window_name pane_pid _command; do
         time_file="$STATE_DIR/${pane_id}.last_active"
 
         pane_content=$(tmux capture-pane -t "$pane_id" -p 2>/dev/null) || {
-            # Pane gone — mark stopped and clean up
-            printf '%s' "stopped" > "$cached_state_file"
-            new_name="○ ${base_name}"
-            tmux rename-window -t "$session_window" "$new_name" 2>/dev/null
-            ((count_stopped++))
+            # Pane gone — clean up all state files for this pane
+            rm -f "$STATE_DIR/${pane_id}".{state,cached_state,hash,last_active}
             continue
         }
 
@@ -162,7 +156,7 @@ while IFS=$'\t' read -r session_window pane_id window_name pane_pid _command; do
         tmux rename-window -t "$session_window" "$new_name" 2>/dev/null
     fi
 
-done <<< "$claude_windows"
+done <<< "$tracked_panes"
 
 # Output compact summary for status-right
 # Colors chosen to be readable on colour236 bg without being harsh:

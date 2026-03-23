@@ -164,11 +164,14 @@ bind-key | select-layout even-horizontal
 bind-key = select-layout even-vertical
 
 # Pane switcher (fzf picker for all panes)
-bind-key -n 'C-/'  display-popup -w 60% -h 40% -E "~/.tmux/bin/claude-session-menu"
-bind-key -n 'C-_'  display-popup -w 60% -h 40% -E "~/.tmux/bin/claude-session-menu"
+bind-key -n 'C-/'  display-popup -w 60% -h 40% -E "~/.tmux/bin/pane-switcher"
+bind-key -n 'C-_'  display-popup -w 60% -h 40% -E "~/.tmux/bin/pane-switcher"
 
 # Pane manipulation menu (defined in ~/.tmux/pane-menu.tmux.conf)
-bind-key p source-file ~/.tmux/pane-menu.tmux.conf
+bind-key -n "C-'" source-file ~/.tmux/pane-menu.tmux.conf
+
+# Restore default: prefix + p = previous window
+bind-key p previous-window
 
 # Resize panes
 bind-key f resize-pane -Z
@@ -200,7 +203,7 @@ bind -T off C-q \
   refresh-client -S
 
 #######################
-# Claude Sessions
+# Status Bar & Pane Management
 #######################
-source-file ~/.tmux/claude-sessions.tmux.conf
+source-file ~/.tmux/status-bar.tmux.conf
 
