@@ -32,17 +32,27 @@ while IFS=$'\t' read -r target pane_id window_name pane_title command path; do
     marker="  "
     [[ "$target" == "$current_pane" ]] && marker="► "
 
-    # Display pane title if set, otherwise fall back to window name
-    display_name="$window_name"
+    # Extract session name from target (session:window.pane)
+    session_name="${target%%:*}"
+
+    # Strip status prefixes from window name (spinner/✓/?/○)
+    clean_window=$(echo "$window_name" | sed 's/^[●✓?○⠋⠙⠹⠸⠼⠴⠦⠧ ]*//')
+    clean_window="${clean_window#claude:}"
+    [[ -z "$clean_window" ]] && clean_window="$command"
+
+    # Pane name: use pane_title if set, otherwise omit
+    pane_part=""
     if [[ -n "$pane_title" && "$pane_title" != "$_hostname" && "$pane_title" != "$HOSTNAME" ]]; then
-        display_name="${pane_title}"
+        pane_part="${pane_title}"
     fi
 
-    # Show status indicator if hook-provided state exists
+    # Truncate command to 10 chars
+    short_cmd="${command:0:20}"
+
+    # Show status indicator from pane option
     icon="  "
-    state_file="$STATE_DIR/${pane_id}.state"
-    if [[ -f "$state_file" ]]; then
-        input_type=$(cat "$state_file" 2>/dev/null)
+    input_type=$(tmux show-option -pqv -t "$pane_id" @pane_state 2>/dev/null)
+    if [[ -n "$input_type" ]]; then
         case "$input_type" in
             question)       icon="🔴" ;;
             tool_approval)  icon="🔴" ;;
@@ -52,7 +62,7 @@ while IFS=$'\t' read -r target pane_id window_name pane_title command path; do
         esac
     fi
 
-    entries+="${marker}${icon} ${display_name}  ${short_path}  (${target})"$'\n'
+    entries+="${marker}${icon} ${session_name} | ${clean_window} | ${pane_part} ≫ ${short_cmd}  "$'\n'
 done <<< "$panes"
 
 selected=$(echo -n "$entries" | fzf --height=40% --reverse --ansi \
