@@ -78,6 +78,13 @@ bind ` source-file ~/.tmux.conf
 # display commands
 bind ? list-commands
 
+# Rename menu: session, window, or pane
+bind-key , display-menu \
+    -T "#[align=centre]Rename" \
+    "Session"  s "command-prompt -I '#S' -p 'Session name:' 'rename-session \"%%\"'" \
+    "Window"   w "command-prompt -I '#W' -p 'Window name:' 'rename-window \"%%\"'" \
+    "Pane"     p "command-prompt -I '#{pane_title}' -p 'Pane name:' 'select-pane -T \"%%\"'"
+
 # speed up sec
 set -sg escape-time 0
 
@@ -156,9 +163,12 @@ bind-key s split-window -v -c '#{pane_current_path}'
 bind-key | select-layout even-horizontal
 bind-key = select-layout even-vertical
 
+# Pane switcher (fzf picker for all panes)
+bind-key -n 'C-/'  display-popup -w 60% -h 40% -E "~/.tmux/bin/claude-session-menu"
+bind-key -n 'C-_'  display-popup -w 60% -h 40% -E "~/.tmux/bin/claude-session-menu"
+
 # Pane manipulation menu (defined in ~/.tmux/pane-menu.tmux.conf)
-bind-key -n 'C-/'  source-file ~/.tmux/pane-menu.tmux.conf
-bind-key -n 'C-_'  source-file ~/.tmux/pane-menu.tmux.conf
+bind-key p source-file ~/.tmux/pane-menu.tmux.conf
 
 # Resize panes
 bind-key f resize-pane -Z

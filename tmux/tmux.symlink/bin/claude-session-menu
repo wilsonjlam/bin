@@ -7,7 +7,7 @@ STATE_DIR="$HOME/.claude-sessions"
 # List ALL panes across all sessions
 # Include pane_index so we can target the exact pane
 panes=$(tmux list-panes -a \
-    -F '#{session_name}:#{window_index}.#{pane_index}	#{pane_id}	#{window_name}	#{pane_current_command}	#{pane_current_path}' 2>/dev/null)
+    -F '#{session_name}:#{window_index}.#{pane_index}	#{pane_id}	#{window_name}	#{pane_current_command}	#{pane_current_path}	#{pane_title}' 2>/dev/null)
 
 if [[ -z "$panes" ]]; then
     echo "No panes found."
@@ -16,9 +16,11 @@ fi
 
 # Get current pane so we can mark it
 current_pane=$(tmux display-message -p '#{session_name}:#{window_index}.#{pane_index}' 2>/dev/null)
+# Cache hostname for pane_title comparison (default title is the hostname)
+_hostname=$(hostname -s 2>/dev/null)
 
 entries=""
-while IFS=$'\t' read -r target pane_id window_name command path; do
+while IFS=$'\t' read -r target pane_id window_name command path pane_title; do
     # Shorten home directory in path
     short_path="${path/#$HOME/\~}"
     # Truncate long paths to last 2 components
@@ -29,6 +31,12 @@ while IFS=$'\t' read -r target pane_id window_name command path; do
     # Mark current pane
     marker="  "
     [[ "$target" == "$current_pane" ]] && marker="► "
+
+    # Use pane_title if user has set one (ignore default hostname)
+    display_name="$window_name"
+    if [[ -n "$pane_title" && "$pane_title" != "$_hostname" && "$pane_title" != "$HOSTNAME" ]]; then
+        display_name="${window_name}:${pane_title}"
+    fi
 
     if [[ "$command" == "claude" ]]; then
         # Claude pane: show status from state file
@@ -43,10 +51,10 @@ while IFS=$'\t' read -r target pane_id window_name command path; do
             processing)     icon="🟢 working" ;;
             *)              icon="⚪ idle" ;;
         esac
-        entries+="${marker}${icon}  ${window_name}  ${short_path}  (${target})"$'\n'
+        entries+="${marker}${icon}  ${display_name}  ${short_path}  (${target})"$'\n'
     else
         # Non-Claude pane: show command
-        entries+="${marker}   ${window_name}  [${command}]  ${short_path}  (${target})"$'\n'
+        entries+="${marker}   ${display_name}  [${command}]  ${short_path}  (${target})"$'\n'
     fi
 done <<< "$panes"
 
