@@ -100,9 +100,9 @@ while true; do
 
     result=$(echo -n "$_entries" | fzf --height=40% --reverse --ansi \
         --delimiter='\t' --with-nth=1 \
-        --expect=ctrl-x \
+        --expect=ctrl-x,ctrl-n \
         --prompt="Switch to pane > " \
-        --header="$_header  │  Enter=switch  C-x=kill")
+        --header="$_header  │  Enter=switch  C-x=kill  C-n=new session")
 
     # fzf --expect outputs: line 1 = key pressed, line 2 = selected entry
     key=$(echo "$result" | head -1)
@@ -113,7 +113,16 @@ while true; do
 
     target=$(echo "$selected" | cut -f2)
 
-    if [[ "$key" == "ctrl-x" ]]; then
+    if [[ "$key" == "ctrl-n" ]]; then
+        # Prompt for session name using fzf as input
+        name=$(printf '' | fzf --print-query --prompt='New session name: ' --header='Enter=create  Esc=cancel' | head -1)
+        if [[ -n "$name" ]]; then
+            tmux new-session -d -s "$name"
+            tmux switch-client -t "$name"
+            exit 0
+        fi
+        # Empty name or Esc — loop back to menu
+    elif [[ "$key" == "ctrl-x" ]]; then
         # Count panes in this window and windows in this session
         session_part="${target%%:*}"
         window_part="${target%.*}"
