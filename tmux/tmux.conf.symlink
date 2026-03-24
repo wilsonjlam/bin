@@ -163,7 +163,7 @@ bind-key s split-window -v -c '#{pane_current_path}'
 bind-key | select-layout even-horizontal
 bind-key = select-layout even-vertical
 
-# Pane switcher (fzf picker for all panes)
+# Pane / Window / Session switcher (fzf picker for all panes)
 bind-key -n 'C-/'  display-popup -w 60% -h 40% -E "~/.tmux/bin/pane-switcher"
 bind-key -n 'C-_'  display-popup -w 60% -h 40% -E "~/.tmux/bin/pane-switcher"
 

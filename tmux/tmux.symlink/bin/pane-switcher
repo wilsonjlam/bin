@@ -2,88 +2,134 @@
 # pane-switcher: fzf-powered pane switcher for all tmux panes
 # Panes with hook-provided state get status indicators.
 
-STATE_DIR="$HOME/.tmux/state"
-
-# List ALL panes across all sessions
-# Include pane_index so we can target the exact pane
-panes=$(tmux list-panes -a \
-    -F '#{session_name}:#{window_index}.#{pane_index}	#{pane_id}	#{window_name}	#{pane_title}	#{pane_current_command}	#{pane_current_path}' 2>/dev/null)
-
-if [[ -z "$panes" ]]; then
-    echo "No panes found."
-    exit 0
-fi
-
-# Get current pane so we can mark it
-current_pane=$(tmux display-message -p '#{session_name}:#{window_index}.#{pane_index}' 2>/dev/null)
 # Cache hostname for pane_title comparison (default title is the hostname)
 _hostname=$(hostname -s 2>/dev/null)
 
-# First pass: collect data and find max widths
-declare -a rows=()
-max_session=0
-max_window=0
-max_pane=0
-max_cmd=0
+build_entries() {
+    local current_pane
+    current_pane=$(tmux display-message -p '#{session_name}:#{window_index}.#{pane_index}' 2>/dev/null)
 
-while IFS=$'\t' read -r target pane_id window_name pane_title command path; do
-    session_name="${target%%:*}"
+    local panes
+    panes=$(tmux list-panes -a \
+        -F '#{session_name}:#{window_index}.#{pane_index}	#{pane_id}	#{window_name}	#{pane_title}	#{pane_current_command}	#{pane_current_path}' 2>/dev/null)
 
-    # Strip status prefixes from window name
-    clean_window=$(echo "$window_name" | sed 's/^[●✓?○⠋⠙⠹⠸⠼⠴⠦⠧ ]*//')
-    clean_window="${clean_window#claude:}"
-    [[ -z "$clean_window" ]] && clean_window="$command"
-
-    # Pane name
-    pane_part="-"
-    if [[ -n "$pane_title" && "$pane_title" != "$_hostname" && "$pane_title" != "$HOSTNAME" ]]; then
-        pane_part="${pane_title}"
+    if [[ -z "$panes" ]]; then
+        return 1
     fi
 
-    short_cmd="${command:0:10}"
+    # First pass: collect data and find max widths
+    local -a rows=()
+    local max_session=0 max_window=0 max_pane=0 max_cmd=0
 
-    # Marker
-    marker="  "
-    [[ "$target" == "$current_pane" ]] && marker="► "
+    while IFS=$'\t' read -r target pane_id window_name pane_title command path; do
+        local session_name="${target%%:*}"
 
-    # Icon
-    icon="  "
-    input_type=$(tmux show-option -pqv -t "$pane_id" @pane_state 2>/dev/null)
-    if [[ -n "$input_type" ]]; then
-        case "$input_type" in
-            question)       icon="🔴" ;;
-            tool_approval)  icon="🔴" ;;
-            finished)       icon="✅" ;;
-            processing)     icon="🟢" ;;
-            *)              icon="⚪" ;;
-        esac
-    fi
+        # Strip status prefixes from window name
+        local clean_window
+        clean_window=$(echo "$window_name" | sed 's/^[●✓?○⠋⠙⠹⠸⠼⠴⠦⠧ ]*//')
+        clean_window="${clean_window#claude:}"
+        [[ -z "$clean_window" ]] && clean_window="$command"
 
-    # Track max widths
-    (( ${#session_name} > max_session )) && max_session=${#session_name}
-    (( ${#clean_window} > max_window )) && max_window=${#clean_window}
-    (( ${#pane_part} > max_pane )) && max_pane=${#pane_part}
-    (( ${#short_cmd} > max_cmd )) && max_cmd=${#short_cmd}
+        # Pane name
+        local pane_part="-"
+        if [[ -n "$pane_title" && "$pane_title" != "$_hostname" && "$pane_title" != "$HOSTNAME" ]]; then
+            pane_part="${pane_title:0:40}"
+        fi
 
-    rows+=("${marker}|${icon}|${session_name}|${clean_window}|${pane_part}|${short_cmd}|${target}")
-done <<< "$panes"
+        local short_cmd="${command:0:30}"
 
-# Second pass: format with aligned columns
-entries=""
-for row in "${rows[@]}"; do
-    IFS='|' read -r marker icon session_name clean_window pane_part short_cmd target <<< "$row"
-    line=$(printf "%s%s %-${max_session}s │ %-${max_window}s │ %-${max_pane}s ≫ %-${max_cmd}s" \
-        "$marker" "$icon" "$session_name" "$clean_window" "$pane_part" "$short_cmd")
-    entries+="${line}	${target}"$'\n'
-done
+        # Marker
+        local marker="  "
+        [[ "$target" == "$current_pane" ]] && marker="► "
 
-selected=$(echo -n "$entries" | fzf --height=40% --reverse --ansi \
-    --delimiter='\t' --with-nth=1 \
-    --prompt="Switch to pane > " \
-    --header="Enter=switch  Esc=cancel")
+        # Icon
+        local icon="  "
+        local input_type
+        input_type=$(tmux show-option -pqv -t "$pane_id" @pane_state 2>/dev/null)
+        if [[ -n "$input_type" ]]; then
+            case "$input_type" in
+                question)       icon="🔴" ;;
+                tool_approval)  icon="🔴" ;;
+                finished)       icon="✅" ;;
+                processing)     icon="🟢" ;;
+                *)              icon="⚪" ;;
+            esac
+        fi
 
-if [[ -n "$selected" ]]; then
-    # Target is the hidden second tab-separated field
+        # Track max widths
+        (( ${#session_name} > max_session )) && max_session=${#session_name}
+        (( ${#clean_window} > max_window )) && max_window=${#clean_window}
+        (( ${#pane_part} > max_pane )) && max_pane=${#pane_part}
+        (( ${#short_cmd} > max_cmd )) && max_cmd=${#short_cmd}
+
+        rows+=("${marker}|${icon}|${session_name}|${clean_window}|${pane_part}|${short_cmd}|${target}")
+    done <<< "$panes"
+
+    # Compute index width for padding
+    local num_rows=${#rows[@]}
+    local idx_width=${#num_rows}
+
+    # Ensure min widths for header labels
+    (( max_session < 7 )) && max_session=7
+    (( max_window < 6 )) && max_window=6
+    (( max_pane < 4 )) && max_pane=4
+    (( max_cmd < 7 )) && max_cmd=7
+
+    # Build header
+    _header=$(printf "     %${idx_width}s  %-${max_session}s │ %-${max_window}s │ %-${max_pane}s ≫ %-${max_cmd}s" \
+        "#" "SESSION" "WINDOW" "PANE" "COMMAND")
+
+    # Second pass: format with aligned columns
+    _entries=""
+    local idx=1
+    for row in "${rows[@]}"; do
+        IFS='|' read -r marker icon session_name clean_window pane_part short_cmd target <<< "$row"
+        local line
+        line=$(printf "%s%s %${idx_width}d. %-${max_session}s │ %-${max_window}s │ %-${max_pane}s ≫ %-${max_cmd}s" \
+            "$marker" "$icon" "$idx" "$session_name" "$clean_window" "$pane_part" "$short_cmd")
+        _entries+="${line}	${target}"$'\n'
+        ((idx++))
+    done
+}
+
+# Main loop: re-show menu after kills
+while true; do
+    _entries=""
+    _header=""
+    build_entries || { echo "No panes found."; exit 0; }
+
+    result=$(echo -n "$_entries" | fzf --height=40% --reverse --ansi \
+        --delimiter='\t' --with-nth=1 \
+        --expect=ctrl-x \
+        --prompt="Switch to pane > " \
+        --header="$_header  │  Enter=switch  C-x=kill")
+
+    # fzf --expect outputs: line 1 = key pressed, line 2 = selected entry
+    key=$(echo "$result" | head -1)
+    selected=$(echo "$result" | tail -1)
+
+    # Esc or empty selection — exit
+    [[ -z "$selected" ]] && exit 0
+
     target=$(echo "$selected" | cut -f2)
-    tmux switch-client -t "$target"
-fi
+
+    if [[ "$key" == "ctrl-x" ]]; then
+        # Count panes in this window and windows in this session
+        session_part="${target%%:*}"
+        window_part="${target%.*}"
+        pane_count=$(tmux list-panes -t "$window_part" 2>/dev/null | wc -l | tr -d ' ')
+        window_count=$(tmux list-windows -t "$session_part" 2>/dev/null | wc -l | tr -d ' ')
+
+        if (( pane_count > 1 )); then
+            tmux kill-pane -t "$target"
+        elif (( window_count > 1 )); then
+            tmux kill-window -t "$window_part"
+        else
+            tmux kill-session -t "$session_part"
+        fi
+        # Loop back to show updated menu
+    else
+        tmux switch-client -t "$target"
+        exit 0
+    fi
+done
