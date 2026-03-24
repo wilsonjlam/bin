@@ -19,37 +19,34 @@ current_pane=$(tmux display-message -p '#{session_name}:#{window_index}.#{pane_i
 # Cache hostname for pane_title comparison (default title is the hostname)
 _hostname=$(hostname -s 2>/dev/null)
 
-entries=""
+# First pass: collect data and find max widths
+declare -a rows=()
+max_session=0
+max_window=0
+max_pane=0
+max_cmd=0
+
 while IFS=$'\t' read -r target pane_id window_name pane_title command path; do
-    # Shorten home directory in path
-    short_path="${path/#$HOME/\~}"
-    # Truncate long paths to last 2 components
-    if [[ $(echo "$short_path" | tr '/' '\n' | wc -l) -gt 3 ]]; then
-        short_path="…/$(echo "$short_path" | rev | cut -d'/' -f1-2 | rev)"
-    fi
-
-    # Mark current pane
-    marker="  "
-    [[ "$target" == "$current_pane" ]] && marker="► "
-
-    # Extract session name from target (session:window.pane)
     session_name="${target%%:*}"
 
-    # Strip status prefixes from window name (spinner/✓/?/○)
+    # Strip status prefixes from window name
     clean_window=$(echo "$window_name" | sed 's/^[●✓?○⠋⠙⠹⠸⠼⠴⠦⠧ ]*//')
     clean_window="${clean_window#claude:}"
     [[ -z "$clean_window" ]] && clean_window="$command"
 
-    # Pane name: use pane_title if set, otherwise omit
-    pane_part=""
+    # Pane name
+    pane_part="-"
     if [[ -n "$pane_title" && "$pane_title" != "$_hostname" && "$pane_title" != "$HOSTNAME" ]]; then
         pane_part="${pane_title}"
     fi
 
-    # Truncate command to 10 chars
-    short_cmd="${command:0:20}"
+    short_cmd="${command:0:10}"
 
-    # Show status indicator from pane option
+    # Marker
+    marker="  "
+    [[ "$target" == "$current_pane" ]] && marker="► "
+
+    # Icon
     icon="  "
     input_type=$(tmux show-option -pqv -t "$pane_id" @pane_state 2>/dev/null)
     if [[ -n "$input_type" ]]; then
@@ -62,16 +59,31 @@ while IFS=$'\t' read -r target pane_id window_name pane_title command path; do
         esac
     fi
 
-    entries+="${marker}${icon} ${session_name} | ${clean_window} | ${pane_part} ≫ ${short_cmd}  "$'\n'
+    # Track max widths
+    (( ${#session_name} > max_session )) && max_session=${#session_name}
+    (( ${#clean_window} > max_window )) && max_window=${#clean_window}
+    (( ${#pane_part} > max_pane )) && max_pane=${#pane_part}
+    (( ${#short_cmd} > max_cmd )) && max_cmd=${#short_cmd}
+
+    rows+=("${marker}|${icon}|${session_name}|${clean_window}|${pane_part}|${short_cmd}|${target}")
 done <<< "$panes"
 
+# Second pass: format with aligned columns
+entries=""
+for row in "${rows[@]}"; do
+    IFS='|' read -r marker icon session_name clean_window pane_part short_cmd target <<< "$row"
+    line=$(printf "%s%s %-${max_session}s │ %-${max_window}s │ %-${max_pane}s ≫ %-${max_cmd}s" \
+        "$marker" "$icon" "$session_name" "$clean_window" "$pane_part" "$short_cmd")
+    entries+="${line}	${target}"$'\n'
+done
+
 selected=$(echo -n "$entries" | fzf --height=40% --reverse --ansi \
+    --delimiter='\t' --with-nth=1 \
     --prompt="Switch to pane > " \
     --header="Enter=switch  Esc=cancel")
 
 if [[ -n "$selected" ]]; then
-    # Extract session:window.pane from the parenthesized target at end of line
-    target=$(echo "$selected" | sed 's/.*(\([^)]*\)).*/\1/')
-    # switch-client handles both window AND pane selection in one call
+    # Target is the hidden second tab-separated field
+    target=$(echo "$selected" | cut -f2)
     tmux switch-client -t "$target"
 fi
