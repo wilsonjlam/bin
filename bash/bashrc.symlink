@@ -31,6 +31,7 @@ fi
 alias work="cd $HOME/utility/work"
 
 #Commands
+alias \@cc="claude --dangerously-skip-permissions"
 alias dc="docker-compose"
 alias freshinstall="rm -rf node_modules bower_components; nvm use; yarn; bower install"
 alias repos="~/utility/scripts/update-all-repos.sh"

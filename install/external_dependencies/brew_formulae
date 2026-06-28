@@ -4,6 +4,7 @@ fd
 fzf
 htop
 jq
+npm
 ripgrep
 shellcheck
 tmux

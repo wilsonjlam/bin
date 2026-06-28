@@ -15,7 +15,6 @@ fi
 
 
 #Aliases
-alias \@cc="claude --dangerously-skip-permissions"
 alias \@sb="dev connect -e -n wilsonlam.sb -y"
 alias \@od="dev connect -e -- tmux"
 alias jfprep="jf submit --prepare"
@@ -24,8 +23,8 @@ alias jfrestack="jf submit -r .::"
 alias irelay="relay build --project intern"
 alias frelay="relay build --project facebook"
 alias rbc="hg resolve --all && hg rebase --continue"
-alias tests="t $(gettests)"
 alias gettests="hg sh | grep -E '__tests__|Test' | sed -n 's/.*__tests__\/\(.*\)\.php.*/\1/p' | tr '\n' ' '"
+alias tests="t $(gettests)"
 alias preparer="phps DataReadyWWWTestScript UPDATE_PREPARER"
 alias igsrv="cd ~/instagram-server"
 alias www="cd ~/www"
