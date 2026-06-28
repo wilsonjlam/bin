@@ -1,0 +1,168 @@
+#!/usr/bin/env bash
+# Claude Code statusline
+# Displays: host#parent/dir (branch) [✓/✗] | model | context | rate limits
+
+input=$(cat)
+now=$(date +%s)
+
+# ---------------------------------------------------------------------------
+# 0. Prompt components matching your PS1 style
+# ---------------------------------------------------------------------------
+
+# Hostname trimmed to 10 chars (mirrors trim_hostname)
+host_str=$(hostname | awk '{split($0, array, "."); print substr(array[1], 0, 10)}')
+
+# Parent/current directory (mirrors parent_working_directory)
+cwd_raw=$(echo "$input" | jq -r '.workspace.current_dir // .cwd // empty')
+[ -z "$cwd_raw" ] && cwd_raw=$(pwd)
+cwd_str=$(echo "$cwd_raw" | awk '{n = split($0, a, "/"); printf "%s/%s", a[n-1], a[n]}')
+
+# Git branch (mirrors parse_git_branch), run in the reported cwd
+branch_str=""
+if git -C "$cwd_raw" rev-parse --git-dir >/dev/null 2>&1; then
+    branch_str=$(git -C "$cwd_raw" branch 2>/dev/null | grep -e '^\*' | sed -e 's/\* \(.*\)/(\1)/')
+fi
+
+# ---------------------------------------------------------------------------
+# 1. Context usage
+# ---------------------------------------------------------------------------
+used_pct=$(echo "$input" | jq -r '.context_window.used_percentage // empty')
+ctx_size=$(echo "$input" | jq -r '.context_window.context_window_size // 0')
+cur_input=$(echo "$input" | jq -r '.context_window.current_usage.input_tokens // 0')
+cur_cache_read=$(echo "$input" | jq -r '.context_window.current_usage.cache_read_input_tokens // 0')
+cur_cache_create=$(echo "$input" | jq -r '.context_window.current_usage.cache_creation_input_tokens // 0')
+
+if [ -n "$used_pct" ] && [ "$ctx_size" -gt 0 ]; then
+    # Tokens in current context = input_tokens (which already includes cache hits in API response)
+    tokens_used=$((cur_input + cur_cache_read + cur_cache_create))
+    # Format context window size: e.g. 200000 -> 200k, 1000000 -> 1000k
+    ctx_k=$((ctx_size / 1000))
+    tokens_k=$(awk "BEGIN { printf \"%.0f\", $tokens_used / 1000 }")
+    pct_int=$(printf "%.0f" "$used_pct")
+    # Color: green <50%, yellow 50-80%, red >80%
+    if [ "$pct_int" -ge 80 ]; then
+        ctx_color="\e[91m"
+    elif [ "$pct_int" -ge 50 ]; then
+        ctx_color="\e[33m"
+    else
+        ctx_color="\e[32m"
+    fi
+    ctx_str=$(printf "${ctx_color}ctx %d/%dk·%d%%\e[0m" "$tokens_k" "$ctx_k" "$pct_int")
+else
+    ctx_str="ctx --"
+fi
+
+# ---------------------------------------------------------------------------
+# 2. Model display name
+# ---------------------------------------------------------------------------
+model_name=$(echo "$input" | jq -r '.model.display_name // .model.id // "unknown"')
+# Shorten common model names for brevity
+model_short=$(echo "$model_name" | sed \
+    -e 's/Claude //' \
+    -e 's/ Latest//' \
+    -e 's/claude-//')
+# Effort level: not in stdin JSON — read from settings.json with project override
+# Precedence: project .claude/settings.local.json → .claude/settings.json → ~/.claude/settings.json
+effort=""
+for f in \
+    "$cwd_raw/.claude/settings.local.json" \
+    "$cwd_raw/.claude/settings.json" \
+    "$HOME/.claude/settings.json"; do
+    if [ -f "$f" ]; then
+        v=$(jq -r '.effortLevel // empty' "$f" 2>/dev/null)
+        if [ -n "$v" ]; then
+            effort="$v"
+            break
+        fi
+    fi
+done
+if [ -n "$effort" ] && [ "$effort" != "null" ]; then
+    model_str=$(printf "\e[35m%s (%s)\e[0m" "$model_short" "$effort")
+else
+    model_str=$(printf "\e[35m%s\e[0m" "$model_short")
+fi
+
+# ---------------------------------------------------------------------------
+# 3. Helper: format seconds-until as Xh Ym or Ym or "now"
+# ---------------------------------------------------------------------------
+format_countdown() {
+    local resets_at="$1"
+    if [ -z "$resets_at" ] || [ "$resets_at" = "null" ]; then
+        echo "--"
+        return
+    fi
+    local secs=$(( resets_at - now ))
+    if [ "$secs" -le 0 ]; then
+        echo "now"
+        return
+    fi
+    local d=$(( secs / 86400 ))
+    local h=$(( (secs % 86400) / 3600 ))
+    local m=$(( (secs % 3600) / 60 ))
+    if [ "$d" -gt 0 ]; then
+        printf "%dd%dh" "$d" "$h"
+    elif [ "$h" -gt 0 ]; then
+        printf "%dh%dm" "$h" "$m"
+    else
+        printf "%dm" "$m"
+    fi
+}
+
+# ---------------------------------------------------------------------------
+# 4. Daily usage window reset
+#    The API typically returns a daily reset (X-RateLimit-Reset-Requests / tokens).
+#    The stdin JSON does not expose a "daily" bucket directly; the closest available
+#    is rate_limits.seven_day which covers the 7-day rolling window. When a five_hour
+#    window is present we show both. When neither is present we note unavailability.
+# ---------------------------------------------------------------------------
+five_h_pct=$(echo "$input" | jq -r '.rate_limits.five_hour.used_percentage // empty')
+five_h_reset=$(echo "$input" | jq -r '.rate_limits.five_hour.resets_at // empty')
+seven_d_pct=$(echo "$input" | jq -r '.rate_limits.seven_day.used_percentage // empty')
+seven_d_reset=$(echo "$input" | jq -r '.rate_limits.seven_day.resets_at // empty')
+
+rate_parts=()
+
+if [ -n "$five_h_pct" ]; then
+    five_countdown=$(format_countdown "$five_h_reset")
+    pct_5=$(printf "%.0f" "$five_h_pct")
+    if [ "$pct_5" -ge 80 ]; then
+        r_color="\e[91m"
+    elif [ "$pct_5" -ge 50 ]; then
+        r_color="\e[33m"
+    else
+        r_color="\e[92m"
+    fi
+    rate_parts+=("$(printf "${r_color}5h %d%%·%s\e[0m" "$pct_5" "$five_countdown")")
+fi
+
+if [ -n "$seven_d_pct" ]; then
+    seven_countdown=$(format_countdown "$seven_d_reset")
+    pct_7=$(printf "%.0f" "$seven_d_pct")
+    if [ "$pct_7" -ge 80 ]; then
+        r_color="\e[91m"
+    elif [ "$pct_7" -ge 50 ]; then
+        r_color="\e[33m"
+    else
+        r_color="\e[92m"
+    fi
+    rate_parts+=("$(printf "${r_color}7d %d%%·%s\e[0m" "$pct_7" "$seven_countdown")")
+fi
+
+if [ "${#rate_parts[@]}" -eq 0 ]; then
+    rate_str="limits:n/a"
+else
+    # Join with space
+    rate_str=$(IFS=" "; echo "${rate_parts[*]}")
+fi
+
+# ---------------------------------------------------------------------------
+# 5. Assemble output — mirrors your PS1: host#parent/dir (branch) | model | ctx | limits
+# ---------------------------------------------------------------------------
+# blue host, green cwd, light_red branch, model, ctx, rate
+if [ -n "$branch_str" ]; then
+    printf "\e[34m%s\e[0m#\e[32m%s\e[91m%s\e[0m | %s | %s | %s\n" \
+        "$host_str" "$cwd_str" "$branch_str" "$model_str" "$ctx_str" "$rate_str"
+else
+    printf "\e[34m%s\e[0m#\e[32m%s\e[0m | %s | %s | %s\n" \
+        "$host_str" "$cwd_str" "$model_str" "$ctx_str" "$rate_str"
+fi

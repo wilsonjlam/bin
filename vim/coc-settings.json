@@ -9,6 +9,7 @@
 		"disableLanguages": ["markdown"]
 	},
 	"diagnostic.displayByAle": true,
+	"markdownlint.enable": false,
 	"markdown-preview-enhanced.liveUpdate": true,
 	"typescript.suggest.autoImports": true,
 	"tsserver": {
